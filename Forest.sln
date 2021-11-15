@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Forest", "Forest\Forest.pyproj", "{2889B2CD-AD79-4E59-8A88-AF71B149286C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2889B2CD-AD79-4E59-8A88-AF71B149286C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2889B2CD-AD79-4E59-8A88-AF71B149286C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D927F234-E3CF-4A67-B291-269260ECBC47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D927F234-E3CF-4A67-B291-269260ECBC47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DB94BF9C-C9A8-43A7-8728-AA1D52F59582}
+	EndGlobalSection
+EndGlobal
