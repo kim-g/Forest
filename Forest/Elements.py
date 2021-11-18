@@ -15,7 +15,10 @@ class Unit(object):
         return self._position[0]
     @X.setter
     def X(self, value):
-        self._position[0] = value
+        try:
+            self._position[0] = int(value)
+        except:
+            print("Unit.X – введённое значение не является целым числом")
 
     # Свойство Y. Координата по вертикали
     @property

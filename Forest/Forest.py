@@ -1,4 +1,4 @@
 import Elements 
 
 unit1 = Elements.Unit()
-print(unit1.Position)
+print(Elements.Unit.__doc__)
