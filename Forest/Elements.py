@@ -1,4 +1,5 @@
 import random
+from typing import ValuesView
 import numpy as np
 
 class Unit(object):
@@ -100,3 +101,26 @@ class Food(Unit):
             self._isplant = bool(value)
         except:
             print("Food.IsPlant – введённое значение не является переменной типа Bool")
+        self._freshtime = 0
+
+    # Свойство TimeOfEndLife. Определяет время с момента прекращения жизнедеятельности
+    @property
+    def TimeOfEndLife(self):
+        return self._timeofendlife
+    @TimeOfEndLife.setter
+    def TimeOfEndLife(self,value):
+        try:
+            self._timeofendlife=int(value)
+        except:
+            print("Food.TimeofLife не является целым числом")
+
+    # Свойство FreshTime. Определяет время, после которого объект испортится
+    @property 
+    def FreshTime(self): 
+        return self._freshtime
+    @FreshTime.setter
+    def FreshTime(self,value):
+        try:
+            self.freshtime=int(value) 
+        except:
+            print("Food.FreshTime не является целым числом") 
