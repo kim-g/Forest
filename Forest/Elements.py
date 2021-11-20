@@ -70,7 +70,7 @@ class Lifeless (Unit):
 
 
 class Food(Unit):
-    """Неживые биологические объекты. Еда"""
+    """Биологические объекты, являющиеся едой"""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
         self._energy = 0.0
@@ -78,6 +78,29 @@ class Food(Unit):
         self._size = 0
         self._fresh = False
         self._timeofendlife = 0
+        self._freshtime = 0
+
+    # Свойство Energy. Определяет энергетическую ценность объекта
+    @property
+    def Energy(self):
+        return self._energy
+    @Energy.setter
+    def Energy(self, value):
+        try:
+            self._energy = float(value)
+        except:
+            print("Food.Energy – введённое значение не является числом")
+
+    # Свойство IsPlant. Определяет растительная пища или нет
+    @property
+    def IsPlant(self):
+        return self._isplant
+    @IsPlant.setter
+    def IsPlant(self, value):
+        try:
+            self._isplant = bool(value)
+        except:
+            print("Food.IsPlant – введённое значение не является переменной типа Bool")
         self._freshtime = 0
 
     @property
