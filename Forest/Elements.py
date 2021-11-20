@@ -66,3 +66,15 @@ class Lifeless (Unit):
     @JumpOver.setter
     def JumpOver(self, value):
         self._jump_over = value
+
+
+class Food(Unit):
+    """Неживые биологические объекты. Еда"""
+    # Инициализация класса. Создание внутренних переменных
+    def __init__(self):
+        self._energy = 0.0
+        self._isplant = False
+        self._size = 0
+        self._fresh = False
+        self._timeofendlife = 0
+        self._freshtime = 0
