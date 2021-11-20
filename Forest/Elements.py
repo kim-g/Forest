@@ -144,4 +144,30 @@ class Food(Unit):
         try:
             self.freshtime=int(value) 
         except:
-            print("Food.FreshTime не является целым числом") 
+            print("Food.FreshTime не является целым числом")
+
+
+
+    # свойство Size размер еды
+    @property
+    def Size(self):
+        return self._size
+
+    @Size.setter
+    def Size(self, value):
+        try:
+            self._size = int(value)
+        except :
+            print('Food.Size введено не число')
+
+    # свойство Fresh отвечает за свежесть, зависит от FreshTime
+    @property
+    def Fresh(self):
+        return self._fresh
+
+    @Fresh.setter
+    def Fresh(self, value):
+        try:
+            self._fresh = bool(value)
+        except :
+            print('Food.Fresh значение не булевое')
