@@ -103,6 +103,27 @@ class Food(Unit):
             print("Food.IsPlant – введённое значение не является переменной типа Bool")
         self._freshtime = 0
 
+    @property
+    def TimeOfEndLife(self):
+        return self._timeofendlife
+    @TimeOfEndLife.setter
+    def TimeOfEndLife(self,value):
+        try:
+            self._timeofendlife=int(value)
+        except:
+            print("Food.TimeofLife не является целым числом")
+
+    @property 
+    def FreshTime(self): 
+        return self._freshtime
+    @FreshTime.setter
+    def FreshTime(self,value):
+        try:
+            self.freshtime=int(value) 
+        except:
+            print("Food.FreshTime не является целым числом") 
+        self._freshtime = 0
+
     # Свойство TimeOfEndLife. Определяет время с момента прекращения жизнедеятельности
     @property
     def TimeOfEndLife(self):
