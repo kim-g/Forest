@@ -145,3 +145,57 @@ class Food(Unit):
             self.freshtime=int(value) 
         except:
             print("Food.FreshTime не является целым числом") 
+
+
+class Animal(Unit):
+    """Животные"""
+    # Инициализация класса. Создание внутренних переменных
+    def __init__(self):
+        self._foodtype = 0 # 0 - травоядное, 1 - всеядное, 2 - хищное
+        self._foodsize = 0 
+        self._speed = 0
+        self._isdaytime = True
+
+    # Свойство FoodType. Определяет тип пищи, которым объект питается
+    @property
+    def FoodType(self):
+        return self._foodtype
+    @FoodType.setter
+    def FoodType(self,value):
+        if value == 0 or value == 1 or value == 2:
+            self._foodtype = value 
+        else:
+            print("Animal.FoodType не является допустимым значением")
+
+    # Свойство FoodSize. Определяет размер пищи, предпочитаемый объектом
+    @property
+    def FoodSize(self):
+        return self._foodsize
+    @FoodSize.setter
+    def FoodSize(self,value):
+        if value == 0 or value == 1 or value == 2 or value == 3:
+            self._foodsize = value
+        else:
+            print("Animal.FoodSize не является допустимым значением")
+
+    # Свойство Speed. Определяет скорость объекта
+    @property
+    def Speed(self):
+        return self._speed
+    @Speed.setter
+    def Speed(self,value):
+        try:
+            self._foodsize = int(value)
+        except:
+            print("Animal.Speed не является целым числом")
+
+    # Свойство IsDaytime. Определяет дневное животное или нет
+    @property
+    def IsDaytime(self):
+        return self._isdaytime
+    @IsDaytime.setter
+    def Speed(self,value):
+        try:
+            self._isdaytime = bool(value)
+        except:
+            print("Animal.IsDaytime не является переменной типа Bool")
