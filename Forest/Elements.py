@@ -1,5 +1,4 @@
 import random
-from typing import ValuesView
 import numpy as np
 
 class Unit(object):
@@ -173,9 +172,13 @@ class Animal(Food):
         return self._foodsize
     @FoodSize.setter
     def FoodSize(self,value):
-        if value == 0 or value == 1 or value == 2 or value == 3:
-            self._foodsize = value
-        else:
+        try:
+            fs = int(value)
+            if fs >= 0 and fs < 4:
+                self._foodsize = value
+            else:
+                print("Animal.FoodSize не является допустимым значением")
+        except:
             print("Animal.FoodSize не является допустимым значением")
 
     # Свойство Speed. Определяет скорость объекта
@@ -200,20 +203,25 @@ class Animal(Food):
         except:
             print("Animal.IsDaytime не является переменной типа Bool")
 
-class Plants(Unit):
+class Plants(Food):
+    """Базовый класс растений"""
     def _init_(self):
         self._amofchl=0.0
         self._toxicity=False
-        self._flowerspresence=False
+        self._plant_type=0
+
+    # Количество хлорофила 0 - отсутствует, 1 - мало, 2 - среднее, 3 - много
     @property 
-    def AmOfChl(self):
+    def AmountOfChlorophill(self):
         return self._amofchl
-    @AmOfChl.setter
-    def AmOfChl(self,value):
+    @AmountOfChlorophill.setter
+    def AmountOfChlorophill(self,value):
         try:
             self.amofchl=int(value) 
         except:
-            print("Plants.AmOfChl не является целым числом") 
+            print("Plants.AmOfChl не является целым числом"
+                  
+    # Токсичность 0 - нетоксично, 1 - малотоксичный (неприятно), 2 - среднетоксичный (болезнь) 3 - Смертельный 
     @property 
     def Toxicity(self):
         return self._toxicity
@@ -223,13 +231,14 @@ class Plants(Unit):
             self.toxicity=int(value) 
         except:
             print("Plants.Toxicity не является целым числом") 
-
+    
+    # Тип растения. 0 - Водоросль, 1 - Мох, 2 - Папоротник, 3 - Голосеменное, 4 - Цветковое
     @property 
-    def FlowersPresence(self):
-        return self._flowerspresence
-    @FlowersPresence.setter
-    def FlowersPresence(self,value):
+    def PlantType(self):
+        return self._plant_type
+    @PlantType.setter
+    def PlantType(self,value):
         try:
-            self.flowerspresence=int(value) 
+            self._plant_type=int(value) 
         except:
-            print("Plants.FlowersPresence не является целым числом")
+            print("Plants.PlantType не является целым числом")
