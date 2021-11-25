@@ -122,3 +122,40 @@ class Food(Unit):
             self.freshtime=int(value) 
         except:
             print("Food.FreshTime не является целым числом") 
+
+class Plants(Unit):
+    def __init__(self):
+        self._amofchl=0.0
+        self._toxicity=False
+        self._flowerspresence=False
+    @property 
+    def AmOfChl(self):
+        return self._amofchl
+    @AmOfChl.setter
+    def AmOfChl(self,value):
+        try:
+            self.amofchl=int(value) 
+        except:
+            print("Plants.AmOfChl не является целым числом") 
+    @property 
+    def Toxicity(self):
+        return self._toxicity
+    @Toxicity.setter
+    def Toxicity(self,value):
+        try:
+            self.toxicity=int(value) 
+        except:
+            print("Plants.Toxicity не является целым числом") 
+
+    @property 
+    def FlowersPresence(self):
+        return self._flowerspresence
+    @FlowersPresence.setter
+    def FlowersPresence(self,value):
+        try:
+            self.flowerspresence=int(value) 
+        except:
+            print("Plants.FlowersPresence не является целым числом")
+
+
+
