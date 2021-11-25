@@ -147,7 +147,7 @@ class Food(Unit):
             print("Food.FreshTime не является целым числом") 
 
 
-class Animal(Unit):
+class Animal(Food):
     """Животные"""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
@@ -185,7 +185,7 @@ class Animal(Unit):
     @Speed.setter
     def Speed(self,value):
         try:
-            self._foodsize = int(value)
+            self._speed = int(value)
         except:
             print("Animal.Speed не является целым числом")
 
