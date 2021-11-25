@@ -1,5 +1,4 @@
 import random
-from typing import ValuesView
 import numpy as np
 
 class Unit(object):
