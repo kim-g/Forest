@@ -72,6 +72,7 @@ class Food(Unit):
     """Биологические объекты, являющиеся едой"""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
+        super().__init__()
         self._energy = 0.0
         self._isplant = False
         self._size = 0
@@ -121,7 +122,6 @@ class Food(Unit):
             self.freshtime=int(value) 
         except:
             print("Food.FreshTime не является целым числом") 
-        self._freshtime = 0
 
     # Свойство TimeOfEndLife. Определяет время с момента прекращения жизнедеятельности
     @property
@@ -150,6 +150,7 @@ class Animal(Food):
     """Животные. Базовый класс"""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
+        super().__init__()
         self._foodtype = 0 # 0 - травоядное, 1 - всеядное, 2 - хищное
         self._foodsize = 0 
         self._speed = 0
@@ -200,7 +201,7 @@ class Animal(Food):
     @property
     def SleepTime(self):
         return self._isdaytime
-    @SleppTime.setter
+    @SleepTime.setter
     def SleepTime(self,value):
         try:
             st = int(value)
@@ -213,21 +214,22 @@ class Animal(Food):
 
 class Plants(Food):
     """Базовый класс растений"""
-    def _init_(self):
-        self._amofchl=0.0
+    def __init__(self):
+        super().__init__() 
+        self._amountofchllorophill=0.0
         self._toxicity=False
         self._plant_type=0
 
     # Количество хлорофила 0 - отсутствует, 1 - мало, 2 - среднее, 3 - много
     @property 
     def AmountOfChlorophill(self):
-        return self._amofchl
+        return self._amountofchllorophill
     @AmountOfChlorophill.setter
     def AmountOfChlorophill(self,value):
         try:
-            self.amofchl=int(value) 
+            self._amountofchllorophill=int(value) 
         except:
-            print("Plants.AmOfChl не является целым числом"
+            print("Plants.AmOfChl не является целым числом")
                   
     # Токсичность 0 - нетоксично, 1 - малотоксичный (неприятно), 2 - среднетоксичный (болезнь) 3 - Смертельный 
     @property 
@@ -252,39 +254,21 @@ class Plants(Food):
             print("Plants.PlantType не является целым числом")
             print("Food.FreshTime не является целым числом") 
 
-class Plants(Unit):
-    def __init__(self):
-        self._amofchl=0.0
-        self._toxicity=False
-        self._flowerspresence=False
-    @property 
-    def AmOfChl(self):
-        return self._amofchl
-    @AmOfChl.setter
-    def AmOfChl(self,value):
-        try:
-            self.amofchl=int(value) 
-        except:
-            print("Plants.AmOfChl не является целым числом") 
-    @property 
-    def Toxicity(self):
-        return self._toxicity
-    @Toxicity.setter
-    def Toxicity(self,value):
-        try:
-            self.toxicity=int(value) 
-        except:
-            print("Plants.Toxicity не является целым числом") 
-
-    @property 
-    def FlowersPresence(self):
-        return self._flowerspresence
-    @FlowersPresence.setter
-    def FlowersPresence(self,value):
-        try:
-            self.flowerspresence=int(value) 
-        except:
-            print("Plants.FlowersPresence не является целым числом")
-
-
-
+    def photosyntes(self,light):
+        #if not bool(light):
+        #    return
+        K=50
+        E = K*self.AmountOfChlorophill
+        if self._size==0:
+            self.Energy += E* 0.01
+            return
+        if self._size==1:
+            self.Energy += E*1
+            return
+        if self._size==2:
+            self.Energy += E*10
+            return
+        if self._size==3:
+            self.Energy += E*20
+            return
+        print("Error eating")
