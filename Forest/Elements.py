@@ -1,5 +1,4 @@
 import random
-from typing import ValuesView
 import numpy as np
 
 class Unit(object):
@@ -121,6 +120,128 @@ class Food(Unit):
         try:
             self.freshtime=int(value) 
         except:
+            print("Food.FreshTime не является целым числом") 
+        self._freshtime = 0
+
+    # Свойство TimeOfEndLife. Определяет время с момента прекращения жизнедеятельности
+    @property
+    def TimeOfEndLife(self):
+        return self._timeofendlife
+    @TimeOfEndLife.setter
+    def TimeOfEndLife(self,value):
+        try:
+            self._timeofendlife=int(value)
+        except:
+            print("Food.TimeofLife не является целым числом")
+
+    # Свойство FreshTime. Определяет время, после которого объект испортится
+    @property 
+    def FreshTime(self): 
+        return self._freshtime
+    @FreshTime.setter
+    def FreshTime(self,value):
+        try:
+            self.freshtime=int(value) 
+        except:
+            print("Food.FreshTime не является целым числом") 
+
+
+class Animal(Food):
+    """Животные"""
+    # Инициализация класса. Создание внутренних переменных
+    def __init__(self):
+        self._foodtype = 0 # 0 - травоядное, 1 - всеядное, 2 - хищное
+        self._foodsize = 0 
+        self._speed = 0
+        self._isdaytime = True
+
+    # Свойство FoodType. Определяет тип пищи, которым объект питается
+    @property
+    def FoodType(self):
+        return self._foodtype
+    @FoodType.setter
+    def FoodType(self,value):
+        if value == 0 or value == 1 or value == 2:
+            self._foodtype = value 
+        else:
+            print("Animal.FoodType не является допустимым значением")
+
+    # Свойство FoodSize. Определяет размер пищи, предпочитаемый объектом
+    @property
+    def FoodSize(self):
+        return self._foodsize
+    @FoodSize.setter
+    def FoodSize(self,value):
+        try:
+            fs = int(value)
+            if fs >= 0 and fs < 4:
+                self._foodsize = value
+            else:
+                print("Animal.FoodSize не является допустимым значением")
+        except:
+            print("Animal.FoodSize не является допустимым значением")
+
+    # Свойство Speed. Определяет скорость объекта
+    @property
+    def Speed(self):
+        return self._speed
+    @Speed.setter
+    def Speed(self,value):
+        try:
+            self._speed = int(value)
+        except:
+            print("Animal.Speed не является целым числом")
+
+    # Свойство IsDaytime. Определяет дневное животное или нет
+    @property
+    def IsDaytime(self):
+        return self._isdaytime
+    @IsDaytime.setter
+    def Speed(self,value):
+        try:
+            self._isdaytime = bool(value)
+        except:
+            print("Animal.IsDaytime не является переменной типа Bool")
+
+class Plants(Food):
+    """Базовый класс растений"""
+    def _init_(self):
+        self._amofchl=0.0
+        self._toxicity=False
+        self._plant_type=0
+
+    # Количество хлорофила 0 - отсутствует, 1 - мало, 2 - среднее, 3 - много
+    @property 
+    def AmountOfChlorophill(self):
+        return self._amofchl
+    @AmountOfChlorophill.setter
+    def AmountOfChlorophill(self,value):
+        try:
+            self.amofchl=int(value) 
+        except:
+            print("Plants.AmOfChl не является целым числом"
+                  
+    # Токсичность 0 - нетоксично, 1 - малотоксичный (неприятно), 2 - среднетоксичный (болезнь) 3 - Смертельный 
+    @property 
+    def Toxicity(self):
+        return self._toxicity
+    @Toxicity.setter
+    def Toxicity(self,value):
+        try:
+            self.toxicity=int(value) 
+        except:
+            print("Plants.Toxicity не является целым числом") 
+    
+    # Тип растения. 0 - Водоросль, 1 - Мох, 2 - Папоротник, 3 - Голосеменное, 4 - Цветковое
+    @property 
+    def PlantType(self):
+        return self._plant_type
+    @PlantType.setter
+    def PlantType(self,value):
+        try:
+            self._plant_type=int(value) 
+        except:
+            print("Plants.PlantType не является целым числом")
             print("Food.FreshTime не является целым числом") 
 
 class Plants(Unit):
