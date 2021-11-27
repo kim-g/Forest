@@ -147,13 +147,13 @@ class Food(Unit):
 
 
 class Animal(Food):
-    """Животные"""
+    """Животные. Базовый класс"""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
         self._foodtype = 0 # 0 - травоядное, 1 - всеядное, 2 - хищное
         self._foodsize = 0 
         self._speed = 0
-        self._isdaytime = True
+        self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
     @property
@@ -161,9 +161,13 @@ class Animal(Food):
         return self._foodtype
     @FoodType.setter
     def FoodType(self,value):
-        if value == 0 or value == 1 or value == 2:
-            self._foodtype = value 
-        else:
+        try:
+            ft = int(value)
+            if ft >= 0 and ft < 3:
+                self._foodtype = value 
+            else:
+                print("Animal.FoodType не является допустимым значением")
+        except:
             print("Animal.FoodType не является допустимым значением")
 
     # Свойство FoodSize. Определяет размер пищи, предпочитаемый объектом
@@ -192,16 +196,20 @@ class Animal(Food):
         except:
             print("Animal.Speed не является целым числом")
 
-    # Свойство IsDaytime. Определяет дневное животное или нет
+    # Свойство SleepTime. Определяет время, в которое животное спит
     @property
-    def IsDaytime(self):
+    def SleepTime(self):
         return self._isdaytime
-    @IsDaytime.setter
-    def Speed(self,value):
+    @SleppTime.setter
+    def SleepTime(self,value):
         try:
-            self._isdaytime = bool(value)
+            st = int(value)
+            if st >= 0 and st < 3:
+                self._sleeptime = value
+            else:
+                print("Animal.SleepTime не является допустимым значением")
         except:
-            print("Animal.IsDaytime не является переменной типа Bool")
+            print("Animal.SleepTime не является допустимым значением")
 
 class Plants(Food):
     """Базовый класс растений"""
