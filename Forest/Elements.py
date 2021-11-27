@@ -72,6 +72,7 @@ class Food(Unit):
     """Биологические объекты, являющиеся едой"""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
+        super().__init__()
         self._energy = 0.0
         self._isplant = False
         self._size = 0
@@ -103,14 +104,18 @@ class Food(Unit):
         self._freshtime = 0
 
     @property
-    def TimeOfEndLife(self):
-        return self._timeofendlife
-    @TimeOfEndLife.setter
-    def TimeOfEndLife(self,value):
+    def Size(self):
+        return self._size
+    @Size.setter
+    def Size(self,value):
         try:
-            self._timeofendlife=int(value)
+            s = int(value)
+            if s >= 0 and s < 4:
+                self._size = int(value)
+            else:
+                print("Food.Size не является допустимым знаением")
         except:
-            print("Food.TimeofLife не является целым числом")
+            print("Food.Size не является допустимым знаением")
 
     @property 
     def FreshTime(self): 
@@ -150,10 +155,12 @@ class Animal(Food):
     """Животные. Базовый класс"""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
-        self._foodtype = 0 # 0 - травоядное, 1 - всеядное, 2 - хищное
+        super().__init__()
+        self._foodtype = 0 # 0 - травоядное, 1 - хищное , 2 - всеядное
         self._foodsize = 0 
         self._speed = 0
         self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
+        self._animaltype = 0 # 0 - простейшее, 1 - 
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
     @property
@@ -199,8 +206,8 @@ class Animal(Food):
     # Свойство SleepTime. Определяет время, в которое животное спит
     @property
     def SleepTime(self):
-        return self._isdaytime
-    @SleppTime.setter
+        return self._sleeptime
+    @SleepTime.setter
     def SleepTime(self,value):
         try:
             st = int(value)
@@ -211,12 +218,48 @@ class Animal(Food):
         except:
             print("Animal.SleepTime не является допустимым значением")
 
+    # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
+    def Eat(self, food):
+        CanEat = False
+      
+        # Проверка для травоядных
+        if self._foodtype == 0:
+            if food.IsPlant:
+                if food.Size == self._foodsize:
+                    CanEat = True
+                else:
+                    CanEat = False
+            else:
+                CanEat = False
+        
+        # Проверка для хищников
+        if self._foodtype == 1:
+            if food.IsPlant:
+                CanEat = False
+            else:
+                if food.Size == self._foodsize:
+                    CanEat = True
+                else:
+                    CanEat = False
+        
+        # Проверка для всеядных
+        if self._foodtype == 2:
+            if food.Size == self._foodsize:
+                CanEat = True
+            else:
+                CanEat = False
+
+        # Изменение энергии
+        if CanEat:
+            self.Energy += food.Energy
+
 class Plants(Food):
     """Базовый класс растений"""
     def _init_(self):
-        self._amofchl=0.0
-        self._toxicity=False
-        self._plant_type=0
+        super().__init__()
+        self._amofchl = 0.0
+        self._toxicity = False
+        self._plant_type = 0
 
     # Количество хлорофила 0 - отсутствует, 1 - мало, 2 - среднее, 3 - много
     @property 
@@ -227,10 +270,10 @@ class Plants(Food):
         try:
             self.amofchl=int(value) 
         except:
-            print("Plants.AmOfChl не является целым числом"
+            print("Plants.AmOfChl не является целым числом")
                   
     # Токсичность 0 - нетоксично, 1 - малотоксичный (неприятно), 2 - среднетоксичный (болезнь) 3 - Смертельный 
-    @property 
+    @property
     def Toxicity(self):
         return self._toxicity
     @Toxicity.setter
@@ -285,6 +328,3 @@ class Plants(Unit):
             self.flowerspresence=int(value) 
         except:
             print("Plants.FlowersPresence не является целым числом")
-
-
-
