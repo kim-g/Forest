@@ -104,14 +104,18 @@ class Food(Unit):
         self._freshtime = 0
 
     @property
-    def TimeOfEndLife(self):
-        return self._timeofendlife
-    @TimeOfEndLife.setter
-    def TimeOfEndLife(self,value):
+    def Size(self):
+        return self._size
+    @Size.setter
+    def Size(self,value):
         try:
-            self._timeofendlife=int(value)
+            s = int(value)
+            if s >= 0 and s < 4:
+                self._size = int(value)
+            else:
+                print("Food.Size не является допустимым знаением")
         except:
-            print("Food.TimeofLife не является целым числом")
+            print("Food.Size не является допустимым знаением")
 
     @property 
     def FreshTime(self): 
@@ -151,10 +155,15 @@ class Animal(Food):
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
         super().__init__()
+<<<<<<< HEAD
         self._foodtype = 0 # 0 - травоядное, 1 - всеядное, 2 - хищное
+=======
+        self._foodtype = 0 # 0 - травоядное, 1 - хищное , 2 - всеядное
+>>>>>>> origin/Denis
         self._foodsize = 0 
         self._speed = 0
         self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
+        self._animaltype = 0 # 0 - простейшее, 1 - 
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
     @property
@@ -200,7 +209,11 @@ class Animal(Food):
     # Свойство SleepTime. Определяет время, в которое животное спит
     @property
     def SleepTime(self):
+<<<<<<< HEAD
         return self._isdaytime
+=======
+        return self._sleeptime
+>>>>>>> origin/Denis
     @SleepTime.setter
     def SleepTime(self,value):
         try:
@@ -212,13 +225,56 @@ class Animal(Food):
         except:
             print("Animal.SleepTime не является допустимым значением")
 
+    # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
+    def Eat(self, food):
+        CanEat = False
+      
+        # Проверка для травоядных
+        if self._foodtype == 0:
+            if food.IsPlant:
+                if food.Size == self._foodsize:
+                    CanEat = True
+                else:
+                    CanEat = False
+            else:
+                CanEat = False
+        
+        # Проверка для хищников
+        if self._foodtype == 1:
+            if food.IsPlant:
+                CanEat = False
+            else:
+                if food.Size == self._foodsize:
+                    CanEat = True
+                else:
+                    CanEat = False
+        
+        # Проверка для всеядных
+        if self._foodtype == 2:
+            if food.Size == self._foodsize:
+                CanEat = True
+            else:
+                CanEat = False
+
+        # Изменение энергии
+        if CanEat:
+            self.Energy += food.Energy
+
 class Plants(Food):
     """Базовый класс растений"""
+<<<<<<< HEAD
     def __init__(self):
         super().__init__() 
         self._amountofchllorophill=0.0
         self._toxicity=False
         self._plant_type=0
+=======
+    def _init_(self):
+        super().__init__()
+        self._amofchl = 0.0
+        self._toxicity = False
+        self._plant_type = 0
+>>>>>>> origin/Denis
 
     # Количество хлорофила 0 - отсутствует, 1 - мало, 2 - среднее, 3 - много
     @property 
@@ -232,7 +288,7 @@ class Plants(Food):
             print("Plants.AmOfChl не является целым числом")
                   
     # Токсичность 0 - нетоксично, 1 - малотоксичный (неприятно), 2 - среднетоксичный (болезнь) 3 - Смертельный 
-    @property 
+    @property
     def Toxicity(self):
         return self._toxicity
     @Toxicity.setter
@@ -254,6 +310,7 @@ class Plants(Food):
             print("Plants.PlantType не является целым числом")
             print("Food.FreshTime не является целым числом") 
 
+<<<<<<< HEAD
     def photosyntes(self,light):
         #if not bool(light):
         #    return
@@ -272,3 +329,38 @@ class Plants(Food):
             self.Energy += E*20
             return
         print("Error eating")
+=======
+class Plants(Unit):
+    def __init__(self):
+        self._amofchl=0.0
+        self._toxicity=False
+        self._flowerspresence=False
+    @property 
+    def AmOfChl(self):
+        return self._amofchl
+    @AmOfChl.setter
+    def AmOfChl(self,value):
+        try:
+            self.amofchl=int(value) 
+        except:
+            print("Plants.AmOfChl не является целым числом") 
+    @property 
+    def Toxicity(self):
+        return self._toxicity
+    @Toxicity.setter
+    def Toxicity(self,value):
+        try:
+            self.toxicity=int(value) 
+        except:
+            print("Plants.Toxicity не является целым числом") 
+
+    @property 
+    def FlowersPresence(self):
+        return self._flowerspresence
+    @FlowersPresence.setter
+    def FlowersPresence(self,value):
+        try:
+            self.flowerspresence=int(value) 
+        except:
+            print("Plants.FlowersPresence не является целым числом")
+>>>>>>> origin/Denis
