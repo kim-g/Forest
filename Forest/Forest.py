@@ -10,3 +10,4 @@ animal.FoodSize = 3
 food.Size = 2
 animal.Eat(food)
 print(animal.Energy)
+
