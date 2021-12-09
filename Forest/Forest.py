@@ -1,6 +1,6 @@
 import Elements 
 
 unit1 = Elements.Food()
-unit1.Fresh = 0
-print(unit1.Fresh)
+unit1.TimeOfEndLife = "tyuyiiu"
+print(unit1.TimeOfEndLife)
 print(Elements.Unit.__doc__)
