@@ -79,6 +79,7 @@ class Food(Unit):
         self._fresh = False
         self._timeofendlife = 0
         self._freshtime = 0
+        self._parent = none
 
     # Свойство Energy. Определяет энергетическую ценность объекта
     @property
@@ -148,6 +149,13 @@ class Food(Unit):
             self.freshtime=int(value) 
         except:
             print("Food.FreshTime не является целым числом") 
+
+    @property 
+    def Parent(self):
+        pass
+    @Parent.setter
+    def Parent(self, value):
+        pass
 
 
 class Animal(Food):

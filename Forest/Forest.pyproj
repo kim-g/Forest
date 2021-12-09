@@ -24,6 +24,9 @@
     <Compile Include="Elements.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Environment.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Forest.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
