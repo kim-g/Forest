@@ -19,7 +19,7 @@ class Field(object):
         pass
 
     @property 
-    def DayTime(self):
+    def DayTime(self):#изменяет значение дня
         return self._day_time
 
     @DayTime.setter
