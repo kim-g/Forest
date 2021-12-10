@@ -20,9 +20,12 @@ class Field(object):
 
     @property 
     def DayTime(self):
-        pass
+        return self._day_time
 
     @DayTime.setter
     def DayTime(self, value):
-        pass
+        try:
+            self._day_time = bool(value)
+        except:
+            print("Field.Daytime не является булеевым значением")
 
