@@ -79,7 +79,7 @@ class Food(Unit):
         self._fresh = False
         self._timeofendlife = 0
         self._freshtime = 0
-        self._parent = none
+        self._parent = None
 
     # Свойство Energy. Определяет энергетическую ценность объекта
     @property
@@ -149,13 +149,14 @@ class Food(Unit):
             self.freshtime=int(value) 
         except:
             print("Food.FreshTime не является целым числом") 
-
+    
+    # Свойство Parent. Определяет родителей объекта
     @property 
     def Parent(self):
-        pass
+        return self._parent
     @Parent.setter
     def Parent(self, value):
-        pass
+        self._parent = value
 
 
 class Animal(Food):
@@ -167,7 +168,9 @@ class Animal(Food):
         self._foodsize = 0 
         self._speed = 0
         self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
-        self._animaltype = 0 # 0 - простейшее, 1 - 
+        self._animaltype = 0 # 0 - простейшее, 1 - плоские черви, 2 - круглые черви, 3 - кольчатые черви, 4 - кишечнополостные, 5 - членистоногие, 6 - моллюски, 7 - иглокожие, 8 - хордовые 
+        self._rotteneattype = 0 # 0 - не ест гниль, 1 - ест только гниль, 2 - безразлично
+        self._aim = np.zeros(2, int)
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
     @property
@@ -225,6 +228,44 @@ class Animal(Food):
         except:
             print("Animal.SleepTime не является допустимым значением")
 
+    # Свойство AnimalType. Определяет тип животного
+    @property
+    def AnimalType(self):
+        return self._animaltype
+    @AnimalType.setter
+    def AnimalType(self,value):
+        try:
+            at = int(value)
+            if st >= 0 and st < 9:
+                self._animaltype = value
+            else:
+                print("Animal.AnimalType не является допустимым значением")
+        except:
+            print("Animal.AnimalType не является допустимым значением")
+
+    # Свойство RottenEatType. Определяет какие предпочтения в свежести у объекта
+    @property
+    def RottenEatType(self):
+        return self._rotteneattype
+    @RottenEatType.setter
+    def RottenEatType(self,value):
+        try:
+            ret = int(value)
+            if st >= 0 and st < 3:
+                self._sleeptime = value
+            else:
+                print("Animal.RottenEatType не является допустимым значением")
+        except:
+            print("Animal.RottenEatType не является допустимым значением")
+
+    # Свойство Aim. Определяет координаты, на которое животное хочет переместиться животное
+    @property
+    def Aim(self):
+        return self._aim
+    @Aim.setter
+    def Aim(self, value):
+        pass
+
     # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
     def Eat(self, food):
         CanEat = False
@@ -234,10 +275,6 @@ class Animal(Food):
             if food.IsPlant:
                 if food.Size == self._foodsize:
                     CanEat = True
-                else:
-                    CanEat = False
-            else:
-                CanEat = False
         
         # Проверка для хищников
         if self._foodtype == 1:
@@ -246,19 +283,31 @@ class Animal(Food):
             else:
                 if food.Size == self._foodsize:
                     CanEat = True
-                else:
-                    CanEat = False
         
         # Проверка для всеядных
         if self._foodtype == 2:
             if food.Size == self._foodsize:
                 CanEat = True
-            else:
-                CanEat = False
 
         # Изменение энергии
         if CanEat:
             self.Energy += food.Energy
+
+        # Метод Move. Передвижение
+        def Move(self):
+            StartPos = self.Position
+            for i in range(1, self.Speed + 1):
+                V = np.array([self.Position[0] - self.Aim[0], self.Position[1] - self.Aim[1]])
+                x1 = abs(x)
+                y1 = abs(y)
+                M = max(x1, y1)
+                m = min(x1, y1)
+                if M > 1.5 * m:
+                    return
+                else:
+                    return
+            Parent.Ground[StartPos[0], StartPos[1]].remove(self)
+            Parent.Ground[Position[0], Position[1]].append(self)
 
 class Plants(Food):
     """Базовый класс растений"""
