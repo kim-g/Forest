@@ -17,11 +17,14 @@ class Field(object):
         pass
 
     @property 
-    def DayTime(self):
-        pass
+    def DayTime(self):#изменяет значение дня
+        return self._day_time
     @DayTime.setter
     def DayTime(self, value):
-        pass
+        try:
+            self._day_time = bool(value)
+        except:
+            print("Field.Daytime не является булеевым значением")
 
     @property
     def Elements(self):
