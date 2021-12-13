@@ -72,12 +72,14 @@ class Food(Unit):
     """Биологические объекты, являющиеся едой"""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
+        super().__init__()
         self._energy = 0.0
         self._isplant = False
         self._size = 0
         self._fresh = False
         self._timeofendlife = 0
         self._freshtime = 0
+        self._parent = None
 
     # Свойство Energy. Определяет энергетическую ценность объекта
     @property
@@ -103,14 +105,18 @@ class Food(Unit):
         self._freshtime = 0
 
     @property
-    def TimeOfEndLife(self):
-        return self._timeofendlife
-    @TimeOfEndLife.setter
-    def TimeOfEndLife(self,value):
+    def Size(self):
+        return self._size
+    @Size.setter
+    def Size(self,value):
         try:
-            self._timeofendlife=int(value)
+            s = int(value)
+            if s >= 0 and s < 4:
+                self._size = int(value)
+            else:
+                print("Food.Size не является допустимым знаением")
         except:
-            print("Food.TimeofLife не является целым числом")
+            print("Food.Size не является допустимым знаением")
 
     @property 
     def FreshTime(self): 
@@ -121,7 +127,6 @@ class Food(Unit):
             self.freshtime=int(value) 
         except:
             print("Food.FreshTime не является целым числом") 
-        self._freshtime = 0
 
     # Свойство TimeOfEndLife. Определяет время с момента прекращения жизнедеятельности
     @property
@@ -144,16 +149,28 @@ class Food(Unit):
             self.freshtime=int(value) 
         except:
             print("Food.FreshTime не является целым числом") 
+    
+    # Свойство Parent. Определяет родителей объекта
+    @property 
+    def Parent(self):
+        return self._parent
+    @Parent.setter
+    def Parent(self, value):
+        self._parent = value
 
 
 class Animal(Food):
-    """Животные"""
+    """Животные. Базовый класс"""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
-        self._foodtype = 0 # 0 - травоядное, 1 - всеядное, 2 - хищное
+        super().__init__()
+        self._foodtype = 0 # 0 - травоядное, 1 - хищное , 2 - всеядное
         self._foodsize = 0 
         self._speed = 0
-        self._isdaytime = True
+        self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
+        self._animaltype = 0 # 0 - простейшее, 1 - плоские черви, 2 - круглые черви, 3 - кольчатые черви, 4 - кишечнополостные, 5 - членистоногие, 6 - моллюски, 7 - иглокожие, 8 - хордовые 
+        self._rotteneattype = 0 # 0 - не ест гниль, 1 - ест только гниль, 2 - безразлично
+        self._aim = np.zeros(2, int)
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
     @property
@@ -161,9 +178,13 @@ class Animal(Food):
         return self._foodtype
     @FoodType.setter
     def FoodType(self,value):
-        if value == 0 or value == 1 or value == 2:
-            self._foodtype = value 
-        else:
+        try:
+            ft = int(value)
+            if ft >= 0 and ft < 3:
+                self._foodtype = value 
+            else:
+                print("Animal.FoodType не является допустимым значением")
+        except:
             print("Animal.FoodType не является допустимым значением")
 
     # Свойство FoodSize. Определяет размер пищи, предпочитаемый объектом
@@ -192,37 +213,123 @@ class Animal(Food):
         except:
             print("Animal.Speed не является целым числом")
 
-    # Свойство IsDaytime. Определяет дневное животное или нет
+    # Свойство SleepTime. Определяет время, в которое животное спит
     @property
-    def IsDaytime(self):
-        return self._isdaytime
-    @IsDaytime.setter
-    def Speed(self,value):
+    def SleepTime(self):
+        return self._sleeptime
+    @SleepTime.setter
+    def SleepTime(self,value):
         try:
-            self._isdaytime = bool(value)
+            st = int(value)
+            if st >= 0 and st < 3:
+                self._sleeptime = value
+            else:
+                print("Animal.SleepTime не является допустимым значением")
         except:
-            print("Animal.IsDaytime не является переменной типа Bool")
+            print("Animal.SleepTime не является допустимым значением")
+
+    # Свойство AnimalType. Определяет тип животного
+    @property
+    def AnimalType(self):
+        return self._animaltype
+    @AnimalType.setter
+    def AnimalType(self,value):
+        try:
+            at = int(value)
+            if st >= 0 and st < 9:
+                self._animaltype = value
+            else:
+                print("Animal.AnimalType не является допустимым значением")
+        except:
+            print("Animal.AnimalType не является допустимым значением")
+
+    # Свойство RottenEatType. Определяет какие предпочтения в свежести у объекта
+    @property
+    def RottenEatType(self):
+        return self._rotteneattype
+    @RottenEatType.setter
+    def RottenEatType(self,value):
+        try:
+            ret = int(value)
+            if st >= 0 and st < 3:
+                self._sleeptime = value
+            else:
+                print("Animal.RottenEatType не является допустимым значением")
+        except:
+            print("Animal.RottenEatType не является допустимым значением")
+
+    # Свойство Aim. Определяет координаты, на которое животное хочет переместиться животное
+    @property
+    def Aim(self):
+        return self._aim
+    @Aim.setter
+    def Aim(self, value):
+        pass
+
+    # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
+    def Eat(self, food):
+        CanEat = False
+      
+        # Проверка для травоядных
+        if self._foodtype == 0:
+            if food.IsPlant:
+                if food.Size == self._foodsize:
+                    CanEat = True
+        
+        # Проверка для хищников
+        if self._foodtype == 1:
+            if food.IsPlant:
+                CanEat = False
+            else:
+                if food.Size == self._foodsize:
+                    CanEat = True
+        
+        # Проверка для всеядных
+        if self._foodtype == 2:
+            if food.Size == self._foodsize:
+                CanEat = True
+
+        # Изменение энергии
+        if CanEat:
+            self.Energy += food.Energy
+
+        # Метод Move. Передвижение
+        def Move(self):
+            StartPos = self.Position
+            for i in range(1, self.Speed + 1):
+                V = np.array([self.Position[0] - self.Aim[0], self.Position[1] - self.Aim[1]])
+                x1 = abs(x)
+                y1 = abs(y)
+                M = max(x1, y1)
+                m = min(x1, y1)
+                if M > 1.5 * m:
+                    return
+                else:
+                    return
+            Parent.Ground[StartPos[0], StartPos[1]].remove(self)
+            Parent.Ground[Position[0], Position[1]].append(self)
 
 class Plants(Food):
     """Базовый класс растений"""
     def _init_(self):
-        self._amofchl=0.0
-        self._toxicity=False
-        self._plant_type=0
+        super().__init__()
+        self._amofchl = 0.0
+        self._toxicity = False
+        self._plant_type = 0
 
     # Количество хлорофила 0 - отсутствует, 1 - мало, 2 - среднее, 3 - много
     @property 
     def AmountOfChlorophill(self):
-        return self._amofchl
+        return self._amountofchllorophill
     @AmountOfChlorophill.setter
     def AmountOfChlorophill(self,value):
         try:
-            self.amofchl=int(value) 
+            self._amountofchllorophill=int(value) 
         except:
-            print("Plants.AmOfChl не является целым числом"
+            print("Plants.AmOfChl не является целым числом")
                   
     # Токсичность 0 - нетоксично, 1 - малотоксичный (неприятно), 2 - среднетоксичный (болезнь) 3 - Смертельный 
-    @property 
+    @property
     def Toxicity(self):
         return self._toxicity
     @Toxicity.setter
@@ -242,3 +349,23 @@ class Plants(Food):
             self._plant_type=int(value) 
         except:
             print("Plants.PlantType не является целым числом")
+            print("Food.FreshTime не является целым числом") 
+
+    def photosyntes(self,light):
+        #if not bool(light):
+        #    return
+        K=50
+        E = K*self.AmountOfChlorophill
+        if self._size==0:
+            self.Energy += E* 0.01
+            return
+        if self._size==1:
+            self.Energy += E*1
+            return
+        if self._size==2:
+            self.Energy += E*10
+            return
+        if self._size==3:
+            self.Energy += E*20
+            return
+        print("Error eating")
