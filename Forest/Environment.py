@@ -5,6 +5,8 @@ class Field(object):
     def __init__(self):
         self._ground = np.array([1000,1000])
         self._day_time = True
+        self.alive = []
+        self.elements = []
 
     @property
     def Ground(self):
@@ -28,14 +30,19 @@ class Field(object):
 
     @property
     def Elements(self):
-        pass
+        return self.elements
     @Elements.setter
     def Elements(self, value):
-        pass
-
+        try:
+            self.elements.append(value)
+        except:
+            print('невозможно добавить значение в список elements')
     @property
     def Alive(self):
-        pass
+        return self.alive
     @Alive.setter
     def Alive(self, value):
-        pass
+        try:
+            self.alive.append(value)
+        except:
+            print('невозможно добавить значение в список alive')
