@@ -1,13 +1,17 @@
-import Elements 
+import numpy as np
+import Elements
+import Environment
 
+Env = Environment.Field()
 animal = Elements.Animal()
-food = Elements.Food()
-animal.Energy = 4.5
-food.Energy = 120.3
-animal.FoodType = 2
-food.IsPlant = True
-animal.FoodSize = 3
-food.Size = 3
-animal.Eat(food)
-print(animal.Energy)
+animal.Position = np.array([500,500])
+animal.Aim = np.array([505,497])
+animal.Speed = 1
+animal.Parent = Env
+#Env.Ground[500,500].append(animal)
+Env.Elements.append(animal)
+Env.Alive.append(animal)
 
+while input() != "e":
+    for i in range (0, 10):
+        animal.Step()

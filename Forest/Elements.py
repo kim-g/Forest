@@ -158,6 +158,10 @@ class Food(Unit):
     def Parent(self, value):
         self._parent = value
 
+    # Абстрактный метод совершения действия
+    def Step(self):
+        pass
+
 
 class Animal(Food):
     """Животные. Базовый класс"""
@@ -264,7 +268,7 @@ class Animal(Food):
         return self._aim
     @Aim.setter
     def Aim(self, value):
-        pass
+        self._aim = value
 
     # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
     def Eat(self, food):
@@ -293,21 +297,37 @@ class Animal(Food):
         if CanEat:
             self.Energy += food.Energy
 
-        # Метод Move. Передвижение
-        def Move(self):
-            StartPos = self.Position
-            for i in range(1, self.Speed + 1):
-                V = np.array([self.Position[0] - self.Aim[0], self.Position[1] - self.Aim[1]])
-                x1 = abs(x)
-                y1 = abs(y)
-                M = max(x1, y1)
-                m = min(x1, y1)
-                if M > 1.5 * m:
-                    return
+    # Метод Move. Передвижение
+    def Move(self):
+        StartPos = self.Position
+        for i in range(0, self.Speed):
+            V = np.array([self.Position[0] - self.Aim[0], self.Position[1] - self.Aim[1]])
+            x1 = abs(V[0])
+            y1 = abs(V[1])
+            V1 = np.array([0 if V[0] == 0 else V[0] / x1, 0 if V[1] == 0 else V[1] / y1])
+            M = max(x1, y1)
+            m = min(x1, y1)
+            if M > 1.5 * m:
+                if x1 > y1 :
+                    self.Position[0] += V1[0]
                 else:
-                    return
-            Parent.Ground[StartPos[0], StartPos[1]].remove(self)
-            Parent.Ground[Position[0], Position[1]].append(self)
+                    self.Position[1] += V1[1]
+            else:
+                self.Position[0] += V1[0]
+                self.Position[1] += V1[1]
+
+        #Parent.Ground[StartPos[0], StartPos[1]].remove(self)
+        #Parent.Ground[Position[0], Position[1]].append(self)
+
+    # Итерация действия у животного.
+    def Step(self):
+        super().Step()
+
+        if self.Aim[0] == self.Position[0] and self.Aim[1] == self.Position[1]:
+            self.Aim = np.array([random.randint(0, self.Parent.Width), random.randint(0, self.Parent.Height)])
+            print("Я сменил цель на ", self.Aim)
+        self.Move()
+        print ("Ход на ", self.Position)
 
 class Plants(Food):
     """Базовый класс растений"""
