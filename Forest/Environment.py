@@ -14,9 +14,8 @@ class Field(object):
         self._elements = list() 
         self._alive = list() 
 
-    #Elements
-    #Alive
-
+    
+    #Свойство Alive. Определяет список всех живых объектов
     @property 
     def Alive(self):
         return self._alive
@@ -26,7 +25,8 @@ class Field(object):
             self._alive=value
         except:
             pass
-            
+
+    #Свойство Elements. Определяет список абсолютно  всех объектов      
     @property 
     def Elements(self):
         return self._elements

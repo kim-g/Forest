@@ -175,6 +175,7 @@ class Animal(Food):
         self._animaltype = 0 # 0 - простейшее, 1 - плоские черви, 2 - круглые черви, 3 - кольчатые черви, 4 - кишечнополостные, 5 - членистоногие, 6 - моллюски, 7 - иглокожие, 8 - хордовые 
         self._rotteneattype = 0 # 0 - не ест гниль, 1 - ест только гниль, 2 - безразлично
         self._aim = np.zeros(2, int)
+        self._stamina = random.randint(1, 11)
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
     @property
@@ -240,7 +241,7 @@ class Animal(Food):
     def AnimalType(self,value):
         try:
             at = int(value)
-            if st >= 0 and st < 9:
+            if at >= 0 and at < 9:
                 self._animaltype = value
             else:
                 print("Animal.AnimalType не является допустимым значением")
@@ -255,8 +256,8 @@ class Animal(Food):
     def RottenEatType(self,value):
         try:
             ret = int(value)
-            if st >= 0 and st < 3:
-                self._sleeptime = value
+            if ret >= 0 and ret < 3:
+                self._rotteneattype = value
             else:
                 print("Animal.RottenEatType не является допустимым значением")
         except:
@@ -270,6 +271,23 @@ class Animal(Food):
     def Aim(self, value):
         self._aim = value
 
+    # Свойство Stamina. Определяет выносливость объекта
+    @property
+    def Stamina(self):
+        return self._stamina
+    @Stamina.setter
+    def Stamina(self, value):
+        try:
+            if value < 0:
+                self._stamina = 0
+                return
+            if value > 10:
+                self._stamina = 10
+                return
+            self._stamina = int(value)
+        except:
+            print("Animal.Stamina не является числом")
+            
     # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
     def Eat(self, food):
         CanEat = False
@@ -298,9 +316,16 @@ class Animal(Food):
             self.Energy += food.Energy
 
     # Метод Move. Передвижение
-    def Move(self):
+    def Move(self, force):
         StartPos = self.Position
-        for i in range(0, self.Speed):
+        if force == 2 and self.Stamina < 2:
+            force = 1
+        if force == 5 and self.Stamina < 8:
+            if force == 2 and self.Stamina < 2:
+                force = 1
+            else:
+                force = 2
+        for i in range(0, self.Speed * force):
             V = np.array([self.Aim[0] - self.Position[0], self.Aim[1] - self.Position[1]])
             x1 = abs(V[0])
             y1 = abs(V[1])
@@ -315,6 +340,12 @@ class Animal(Food):
             else:
                 self.Position[0] += V1[0]
                 self.Position[1] += V1[1]
+        if force == 1:
+            self.Stamina += 1
+        if force == 2:
+            self.Stamina -= 2
+        if force == 5:
+            self.Stamina -= 8
 
         #Parent.Ground[StartPos[0], StartPos[1]].remove(self)
         #Parent.Ground[Position[0], Position[1]].append(self)
@@ -326,7 +357,7 @@ class Animal(Food):
         if self.Aim[0] == self.Position[0] and self.Aim[1] == self.Position[1]:
             self.Aim = np.array([random.randint(0, self.Parent.Width), random.randint(0, self.Parent.Height)])
             print("Я сменил цель на ", self.Aim)
-        self.Move()
+        self.Move(1)
         print ("Ход на ", self.Position)
 
 class Plants(Food):
