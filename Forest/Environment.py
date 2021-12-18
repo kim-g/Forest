@@ -11,8 +11,8 @@ class Field(object):
         #    for j in range (0, self.Height):
         #        self._ground[i,j] = list()
         self._day_time = True
-        self._elements = list() 
-        self._alive = list() 
+        self._elements = list() #список всех элементов
+        self._alive = list() #список жывых объектов
 
     #Elements
     #Alive
