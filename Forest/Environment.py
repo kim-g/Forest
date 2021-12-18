@@ -3,9 +3,13 @@ import numpy as np
 
 class Field(object):
     """Поле для симуляции"""
-
     def __init__(self):
-        self._ground = np.array([1000,1000])
+        self.Height = 1000
+        self.Width = 1000
+        self._ground = np.zeros([self.Width,self.Height])
+        #for i in range (0, self.Width):
+        #    for j in range (0, self.Height):
+        #        self._ground[i,j] = list()
         self._day_time = True
         self._elements=list 
         self._alive=list 
@@ -32,8 +36,7 @@ class Field(object):
 
     @property
     def Ground(self):
-        pass
-
+        return self._ground
     @Ground.setter
     def Ground (self, value):
         pass
@@ -44,7 +47,6 @@ class Field(object):
     @property 
     def DayTime(self):#изменяет значение дня
         return self._day_time
-
     @DayTime.setter
     def DayTime(self, value):
         try:
@@ -52,3 +54,21 @@ class Field(object):
         except:
             print("Field.Daytime не является булеевым значением")
 
+    @property
+    def Elements(self):
+        return self._elements
+    @Elements.setter
+    def Elements(self, value):
+        try:
+            self._elements = value
+        except:
+            print('невозможно добавить значение в список elements')
+    @property
+    def Alive(self):
+        return self._alive
+    @Alive.setter
+    def Alive(self, value):
+        try:
+            self._alive = value
+        except:
+            print('невозможно добавить значение в список alive')
