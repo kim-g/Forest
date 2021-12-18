@@ -160,7 +160,7 @@ class Animal(Food):
         self._speed = 0
         self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
         self._animaltype = 0 # 0 - простейшее, 1 - 
-
+        self._aim=np.zeros(2,int)
     # Свойство FoodType. Определяет тип пищи, которым объект питается
     @property
     def FoodType(self):
@@ -217,6 +217,16 @@ class Animal(Food):
         except:
             print("Animal.SleepTime не является допустимым значением")
 
+    @property 
+    def Aim(self):
+        return self._aim
+    @Aim.setter
+    def Aim(self,value):
+        try:
+            self._speed = int(value)
+        except:
+            print("Animal.Aim не является целым числом ")
+
     # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
     def Eat(self, food):
         CanEat = False
@@ -252,11 +262,13 @@ class Animal(Food):
         if CanEat:
             self.Energy += food.Energy
 
+    
+
 class Plants(Food):
     """Базовый класс растений"""
     def _init_(self):
         super().__init__()
-        self._amofchl = 0.0
+        self._amountofchlorophill = 0.0
         self._toxicity = False
         self._plant_type = 0
 
