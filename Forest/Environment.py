@@ -11,8 +11,8 @@ class Field(object):
         #    for j in range (0, self.Height):
         #        self._ground[i,j] = list()
         self._day_time = True
-        self._elements=list 
-        self._alive=list 
+        self._elements = list() 
+        self._alive = list() 
 
     #Elements
     #Alive
@@ -23,15 +23,19 @@ class Field(object):
     @Alive.setter
     def alive(self,value):
         try:
-            self._alive=int(value)
+            self._alive=value
+        except:
+            pass
             
     @property 
     def Elements(self):
         return self._elements
     @Elements.setter
-    def elements(self,value) 
-    try:
-        self._elements=int(value) 
+    def elements(self,value): 
+        try:
+            self._elements=value
+        except:
+            pass
 
 
     @property
@@ -45,7 +49,7 @@ class Field(object):
         pass
 
     @property 
-    def DayTime(self):#изменяет значение дня
+    def DayTime(self): #изменяет значение дня
         return self._day_time
     @DayTime.setter
     def DayTime(self, value):

@@ -301,10 +301,10 @@ class Animal(Food):
     def Move(self):
         StartPos = self.Position
         for i in range(0, self.Speed):
-            V = np.array([self.Position[0] - self.Aim[0], self.Position[1] - self.Aim[1]])
+            V = np.array([self.Aim[0] - self.Position[0], self.Aim[1] - self.Position[1]])
             x1 = abs(V[0])
             y1 = abs(V[1])
-            V1 = np.array([0 if V[0] == 0 else V[0] / x1, 0 if V[1] == 0 else V[1] / y1])
+            V1 = np.array([0 if V[0] == 0 else int(V[0] / x1), 0 if V[1] == 0 else int(V[1] / y1)])
             M = max(x1, y1)
             m = min(x1, y1)
             if M > 1.5 * m:
