@@ -1,3 +1,4 @@
+from typing import List
 import numpy as np
 
 class Field(object):
@@ -10,8 +11,28 @@ class Field(object):
         #    for j in range (0, self.Height):
         #        self._ground[i,j] = list()
         self._day_time = True
-        self._alive = []
-        self._elements = []
+        self._elements=list 
+        self._alive=list 
+
+    #Elements
+    #Alive
+
+    @property 
+    def Alive(self):
+        return self._alive
+    @Alive.setter
+    def alive(self,value):
+        try:
+            self._alive=int(value)
+            
+    @property 
+    def Elements(self):
+        return self._elements
+    @Elements.setter
+    def elements(self,value) 
+    try:
+        self._elements=int(value) 
+
 
     @property
     def Ground(self):

@@ -333,7 +333,7 @@ class Plants(Food):
     """Базовый класс растений"""
     def _init_(self):
         super().__init__()
-        self._amofchl = 0.0
+        self._amountofchlorophill = 0.0
         self._toxicity = False
         self._plant_type = 0
 
