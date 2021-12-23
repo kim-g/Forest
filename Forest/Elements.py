@@ -1,13 +1,17 @@
 import random
 import numpy as np
+import pygame
+import os
 
-class Unit(object):
+class Unit(pygame.sprite.Sprite):
     """Элемент на плоскости. Базовый класс."""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
         self._position = np.zeros(2,int)
         self._full = False
         self._name = ""
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((16, 16))
   
     # Свойство X. Координата по горизонтали
     @property 
@@ -57,6 +61,7 @@ class Lifeless (Unit):
     """Неживые объекты на поверхности"""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
+        super().__init__()
         self._jump_over = True
 
     # Свойство JumpOver. Определяет, можно ли перепыгнуть данный объект.
@@ -420,3 +425,34 @@ class Plants(Food):
             self.Energy += E*20
             return
         print("Error eating")
+
+class Beast(Animal):
+    def __init__(self):
+        super().__init__()
+        beast_img = pygame.image.load(os.path.join(os.path.dirname(__file__), "beast.png")).convert_alpha()
+        self.image = beast_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+        self._aim_sprite = Aim()
+
+    def Move(self, force):
+        super().Move(force)
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+    def Step(self):
+        super().Step()
+        self._aim_sprite.Position = self.Aim
+
+    def update(self):
+        self.Step()
+
+class Aim(Lifeless):
+    def __init__(self):
+        super().__init__()
+        aim_img = pygame.image.load(os.path.join(os.path.dirname(__file__), "aim.png")).convert_alpha()
+        self.image = aim_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+    def update(self):
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)

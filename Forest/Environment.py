@@ -4,8 +4,8 @@ import numpy as np
 class Field(object):
     """Поле для симуляции"""
     def __init__(self):
-        self.Height = 1000
-        self.Width = 1000
+        self.Height = 56
+        self.Width = 112
         self._ground = np.zeros([self.Width,self.Height])
         #for i in range (0, self.Width):
         #    for j in range (0, self.Height):
