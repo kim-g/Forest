@@ -182,6 +182,7 @@ class Animal(Food):
         self._aim = np.zeros(2, int)
         self._stamina = random.randint(1, 11)
 
+
     # Свойство FoodType. Определяет тип пищи, которым объект питается
     @property
     def FoodType(self):
@@ -369,7 +370,7 @@ class Plants(Food):
     """Базовый класс растений"""
     def _init_(self):
         super().__init__()
-        self._amountofchlorophill = 0.0
+        self._amountofchllorophill = 0.0
         self._toxicity = False
         self._plant_type = 0
 
@@ -428,6 +429,7 @@ class Plants(Food):
 
 class Beast(Animal):
     def __init__(self):
+
         super().__init__()
         beast_img = pygame.image.load(os.path.join(os.path.dirname(__file__), "beast.png")).convert_alpha()
         self.image = beast_img
@@ -455,4 +457,19 @@ class Aim(Lifeless):
         self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
 
     def update(self):
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+class Grass(Plants):
+    def __init__(self):
+        super()._init_()
+        img = pygame.image.load(os.path.join(os.path.dirname(__file__), "grass.png")).convert_alpha()
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+    def Step(self):
+        self.photosyntes(True)
+
+    def update(self):
+        self.Step()
         self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)

@@ -2,6 +2,7 @@ import pygame
 import numpy as np
 import Elements
 import Environment
+import random
 
 # Функция создания и добавления Зверя
 def CreateBeast(x,y,ax,ay):
@@ -20,6 +21,18 @@ def CreateBeast(x,y,ax,ay):
     all_sprites.add(Beast)
     all_sprites.add(Beast._aim_sprite)
 
+# Функция, создающая траву
+def CreateGrass():
+    Grass = Elements.Grass()
+    Grass.X = random.randint(0, Env.Width - 1)
+    Grass.Y = random.randint(0, Env.Height - 1)
+    Grass.Parent = Env
+    Env.Elements.append(Grass)
+    Env.Alive.append(Grass)
+
+    # Добавление спрайтов в группу
+    all_sprites.add(Grass)
+
 # Визуализация
 FPS = 15
 pygame.init()
@@ -33,7 +46,12 @@ all_sprites = pygame.sprite.Group()
 Env = Environment.Field()
 
 # Создание объектов
-CreateBeast(0,0,10,10)
+for i in range (0, 100):
+    CreateBeast(0,0,10,10)
+
+for i in range (0, 400):
+    CreateGrass()
+
 
 running = True
 while running:
