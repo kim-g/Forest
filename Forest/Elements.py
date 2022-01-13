@@ -174,7 +174,8 @@ class Animal(Food):
         self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
         self._animaltype = 0 # 0 - простейшее, 1 - плоские черви, 2 - круглые черви, 3 - кольчатые черви, 4 - кишечнополостные, 5 - членистоногие, 6 - моллюски, 7 - иглокожие, 8 - хордовые 
         self._rotteneattype = 0 # 0 - не ест гниль, 1 - ест только гниль, 2 - безразлично
-        self._aim = np.zeros(2, int)
+        self._aim = np.zeros(2, int) 
+        self._stamina=random.randint(1,11)
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
     @property
@@ -260,7 +261,19 @@ class Animal(Food):
             else:
                 print("Animal.RottenEatType не является допустимым значением")
         except:
-            print("Animal.RottenEatType не является допустимым значением")
+            print("Animal.RottenEatType не является допустимым значением") 
+
+
+
+    @property 
+    def Stamina(self):
+        return self._stamina
+    @Stamina.setter
+    def Stamina(self,value): 
+        try:
+            self._stamina=int(value)
+            except:
+                pass
 
     # Свойство Aim. Определяет координаты, на которое животное хочет переместиться животное
     @property
