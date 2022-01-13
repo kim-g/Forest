@@ -21,6 +21,21 @@ def CreateBeast(x,y,ax,ay):
     all_sprites.add(Beast)
     all_sprites.add(Beast._aim_sprite)
 
+def CreateFox(x, y, ax, ay):
+    # Создание Зверя
+    Fox = Elements.Fox()
+    Fox.Position = np.array([x, y])
+    Fox.Aim = np.array([ax, ay])
+    Fox.Speed = 2
+    Fox.Parent = Env
+    Fox.Stamina = 20
+    Env.Elements.append(Fox)
+    Env.Alive.append(Fox)
+
+    # Добавление спрайта в группу
+    all_sprites.add(Fox)
+    all_sprites.add(Fox._aim_sprite)
+
 # Функция, создающая траву
 def CreateGrass():
     Grass = Elements.Grass()
@@ -46,10 +61,11 @@ all_sprites = pygame.sprite.Group()
 Env = Environment.Field()
 
 # Создание объектов
-for i in range (0, 100):
-    CreateBeast(0,0,10,10)
+for i in range(0, 100):
+    CreateBeast(0, 0, 10, 10)
+    CreateFox(0, 0, 9, 9)
 
-for i in range (0, 400):
+for i in range(0, 400):
     CreateGrass()
 
 

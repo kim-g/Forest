@@ -12,7 +12,7 @@ class Field(object):
         #        self._ground[i,j] = list()
         self._day_time = True
         self._elements = list() #список всех элементов
-        self._alive = list() #список жывых объектов
+        self._alive = list() #список живых объектов
 
     
     #Свойство Alive. Определяет список всех живых объектов

@@ -379,7 +379,7 @@ class Plants(Food):
     def AmountOfChlorophill(self):
         return self._amountofchllorophill
     @AmountOfChlorophill.setter
-    def AmountOfChlorophill(self,value):
+    def AmountOfChlorophill(self ,value):
         try:
             self._amountofchllorophill=int(value) 
         except:
@@ -433,6 +433,27 @@ class Beast(Animal):
         super().__init__()
         beast_img = pygame.image.load(os.path.join(os.path.dirname(__file__), "beast.png")).convert_alpha()
         self.image = beast_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+        self._aim_sprite = Aim()
+
+    def Move(self, force):
+        super().Move(force)
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+    def Step(self):
+        super().Step()
+        self._aim_sprite.Position = self.Aim
+
+    def update(self):
+        self.Step()
+
+class Fox(Animal):
+    def __init__(self):
+
+        super().__init__()
+        Fox_img = pygame.image.load(os.path.join(os.path.dirname(__file__), "fox16x16.png")).convert_alpha()
+        self.image = Fox_img
         self.rect = self.image.get_rect()
         self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
         self._aim_sprite = Aim()
