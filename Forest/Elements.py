@@ -1,13 +1,17 @@
 import random
 import numpy as np
+import pygame
+import os
 
-class Unit(object):
+class Unit(pygame.sprite.Sprite):
     """Элемент на плоскости. Базовый класс."""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
         self._position = np.zeros(2,int)
         self._full = False
         self._name = ""
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((16, 16))
   
     # Свойство X. Координата по горизонтали
     @property 
@@ -57,6 +61,7 @@ class Lifeless (Unit):
     """Неживые объекты на поверхности"""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
+        super().__init__()
         self._jump_over = True
 
     # Свойство JumpOver. Определяет, можно ли перепыгнуть данный объект.
@@ -174,8 +179,9 @@ class Animal(Food):
         self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
         self._animaltype = 0 # 0 - простейшее, 1 - плоские черви, 2 - круглые черви, 3 - кольчатые черви, 4 - кишечнополостные, 5 - членистоногие, 6 - моллюски, 7 - иглокожие, 8 - хордовые 
         self._rotteneattype = 0 # 0 - не ест гниль, 1 - ест только гниль, 2 - безразлично
-        self._aim = np.zeros(2, int) 
-        self._stamina=random.randint(1,11)
+        self._aim = np.zeros(2, int)
+        self._stamina = random.randint(1, 11)
+
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
     @property
@@ -241,7 +247,7 @@ class Animal(Food):
     def AnimalType(self,value):
         try:
             at = int(value)
-            if st >= 0 and st < 9:
+            if at >= 0 and at < 9:
                 self._animaltype = value
             else:
                 print("Animal.AnimalType не является допустимым значением")
@@ -256,8 +262,8 @@ class Animal(Food):
     def RottenEatType(self,value):
         try:
             ret = int(value)
-            if st >= 0 and st < 3:
-                self._sleeptime = value
+            if ret >= 0 and ret < 3:
+                self._rotteneattype = value
             else:
                 print("Animal.RottenEatType не является допустимым значением")
         except:
@@ -283,6 +289,23 @@ class Animal(Food):
     def Aim(self, value):
         self._aim = value
 
+    # Свойство Stamina. Определяет выносливость объекта
+    @property
+    def Stamina(self):
+        return self._stamina
+    @Stamina.setter
+    def Stamina(self, value):
+        try:
+            if value < 0:
+                self._stamina = 0
+                return
+            if value > 10:
+                self._stamina = 10
+                return
+            self._stamina = int(value)
+        except:
+            print("Animal.Stamina не является числом")
+            
     # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
     def Eat(self, food):
         CanEat = False
@@ -311,9 +334,16 @@ class Animal(Food):
             self.Energy += food.Energy
 
     # Метод Move. Передвижение
-    def Move(self):
+    def Move(self, force):
         StartPos = self.Position
-        for i in range(0, self.Speed):
+        if force == 2 and self.Stamina < 2:
+            force = 1
+        if force == 5 and self.Stamina < 8:
+            if force == 2 and self.Stamina < 2:
+                force = 1
+            else:
+                force = 2
+        for i in range(0, self.Speed * force):
             V = np.array([self.Aim[0] - self.Position[0], self.Aim[1] - self.Position[1]])
             x1 = abs(V[0])
             y1 = abs(V[1])
@@ -328,6 +358,12 @@ class Animal(Food):
             else:
                 self.Position[0] += V1[0]
                 self.Position[1] += V1[1]
+        if force == 1:
+            self.Stamina += 1
+        if force == 2:
+            self.Stamina -= 2
+        if force == 5:
+            self.Stamina -= 8
 
         #Parent.Ground[StartPos[0], StartPos[1]].remove(self)
         #Parent.Ground[Position[0], Position[1]].append(self)
@@ -339,14 +375,14 @@ class Animal(Food):
         if self.Aim[0] == self.Position[0] and self.Aim[1] == self.Position[1]:
             self.Aim = np.array([random.randint(0, self.Parent.Width), random.randint(0, self.Parent.Height)])
             print("Я сменил цель на ", self.Aim)
-        self.Move()
+        self.Move(1)
         print ("Ход на ", self.Position)
 
 class Plants(Food):
     """Базовый класс растений"""
     def _init_(self):
         super().__init__()
-        self._amountofchlorophill = 0.0
+        self._amountofchllorophill = 0.0
         self._toxicity = False
         self._plant_type = 0
 
@@ -355,7 +391,7 @@ class Plants(Food):
     def AmountOfChlorophill(self):
         return self._amountofchllorophill
     @AmountOfChlorophill.setter
-    def AmountOfChlorophill(self,value):
+    def AmountOfChlorophill(self ,value):
         try:
             self._amountofchllorophill=int(value) 
         except:
@@ -402,3 +438,71 @@ class Plants(Food):
             self.Energy += E*20
             return
         print("Error eating")
+
+class Beast(Animal):
+    def __init__(self):
+
+        super().__init__()
+        beast_img = pygame.image.load(os.path.join(os.path.dirname(__file__), "beast.png")).convert_alpha()
+        self.image = beast_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+        self._aim_sprite = Aim()
+
+    def Move(self, force):
+        super().Move(force)
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+    def Step(self):
+        super().Step()
+        self._aim_sprite.Position = self.Aim
+
+    def update(self):
+        self.Step()
+
+class Fox(Animal):
+    def __init__(self):
+
+        super().__init__()
+        Fox_img = pygame.image.load(os.path.join(os.path.dirname(__file__), "fox16x16.png")).convert_alpha()
+        self.image = Fox_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+        self._aim_sprite = Aim()
+
+    def Move(self, force):
+        super().Move(force)
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+    def Step(self):
+        super().Step()
+        self._aim_sprite.Position = self.Aim
+
+    def update(self):
+        self.Step()
+
+class Aim(Lifeless):
+    def __init__(self):
+        super().__init__()
+        aim_img = pygame.image.load(os.path.join(os.path.dirname(__file__), "aim.png")).convert_alpha()
+        self.image = aim_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+    def update(self):
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+class Grass(Plants):
+    def __init__(self):
+        super()._init_()
+        img = pygame.image.load(os.path.join(os.path.dirname(__file__), "grass.png")).convert_alpha()
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+    def Step(self):
+        self.photosyntes(True)
+
+    def update(self):
+        self.Step()
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)

@@ -4,19 +4,18 @@ import numpy as np
 class Field(object):
     """Поле для симуляции"""
     def __init__(self):
-        self.Height = 1000
-        self.Width = 1000
+        self.Height = 56
+        self.Width = 112
         self._ground = np.zeros([self.Width,self.Height])
         #for i in range (0, self.Width):
         #    for j in range (0, self.Height):
         #        self._ground[i,j] = list()
         self._day_time = True
-        self._elements = list() 
-        self._alive = list() 
+        self._elements = list() #список всех элементов
+        self._alive = list() #список живых объектов
 
-    #Elements
-    #Alive
-
+    
+    #Свойство Alive. Определяет список всех живых объектов
     @property 
     def Alive(self):
         return self._alive
@@ -26,7 +25,8 @@ class Field(object):
             self._alive=value
         except:
             pass
-            
+
+    #Свойство Elements. Определяет список абсолютно  всех объектов      
     @property 
     def Elements(self):
         return self._elements
