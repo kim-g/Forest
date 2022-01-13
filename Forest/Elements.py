@@ -278,8 +278,8 @@ class Animal(Food):
     def Stamina(self,value): 
         try:
             self._stamina=int(value)
-            except:
-                pass
+        except:
+            pass
 
     # Свойство Aim. Определяет координаты, на которое животное хочет переместиться животное
     @property
