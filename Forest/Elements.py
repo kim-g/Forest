@@ -3,6 +3,8 @@ import numpy as np
 import pygame
 import os
 
+InterfaceDir = os.path.join(os.path.join(os.path.dirname(__file__), "sprites"), "interface")
+
 class Unit(pygame.sprite.Sprite):
     """Элемент на плоскости. Базовый класс."""
     # Инициализация класса. Создание внутренних переменных
@@ -269,18 +271,6 @@ class Animal(Food):
         except:
             print("Animal.RottenEatType не является допустимым значением") 
 
-
-
-    @property 
-    def Stamina(self):
-        return self._stamina
-    @Stamina.setter
-    def Stamina(self,value): 
-        try:
-            self._stamina=int(value)
-        except:
-            pass
-
     # Свойство Aim. Определяет координаты, на которое животное хочет переместиться животное
     @property
     def Aim(self):
@@ -439,70 +429,13 @@ class Plants(Food):
             return
         print("Error eating")
 
-class Beast(Animal):
-    def __init__(self):
-
-        super().__init__()
-        beast_img = pygame.image.load(os.path.join(os.path.dirname(__file__), "beast.png")).convert_alpha()
-        self.image = beast_img
-        self.rect = self.image.get_rect()
-        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
-        self._aim_sprite = Aim()
-
-    def Move(self, force):
-        super().Move(force)
-        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
-
-    def Step(self):
-        super().Step()
-        self._aim_sprite.Position = self.Aim
-
-    def update(self):
-        self.Step()
-
-class Fox(Animal):
-    def __init__(self):
-
-        super().__init__()
-        Fox_img = pygame.image.load(os.path.join(os.path.dirname(__file__), "fox16x16.png")).convert_alpha()
-        self.image = Fox_img
-        self.rect = self.image.get_rect()
-        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
-        self._aim_sprite = Aim()
-
-    def Move(self, force):
-        super().Move(force)
-        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
-
-    def Step(self):
-        super().Step()
-        self._aim_sprite.Position = self.Aim
-
-    def update(self):
-        self.Step()
-
 class Aim(Lifeless):
     def __init__(self):
         super().__init__()
-        aim_img = pygame.image.load(os.path.join(os.path.dirname(__file__), "aim.png")).convert_alpha()
+        aim_img = pygame.image.load(os.path.join(InterfaceDir, "aim.png")).convert_alpha()
         self.image = aim_img
         self.rect = self.image.get_rect()
         self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
 
     def update(self):
-        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
-
-class Grass(Plants):
-    def __init__(self):
-        super()._init_()
-        img = pygame.image.load(os.path.join(os.path.dirname(__file__), "grass.png")).convert_alpha()
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
-
-    def Step(self):
-        self.photosyntes(True)
-
-    def update(self):
-        self.Step()
         self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)

@@ -3,11 +3,13 @@ import numpy as np
 import Elements
 import Environment
 import random
+import Plants
+import Animals
 
 # Функция создания и добавления Зверя
 def CreateBeast(x,y,ax,ay):
     # Создание Зверя
-    Beast = Elements.Beast()
+    Beast = Animals.Beast()
     Beast.Position = np.array([x,y])
     Beast.Aim = np.array([ax,ay])
     Beast.Speed = 1
@@ -20,10 +22,12 @@ def CreateBeast(x,y,ax,ay):
     # Добавление спрайтов в группу
     all_sprites.add(Beast)
     all_sprites.add(Beast._aim_sprite)
+    animals_sprites.add(Beast)
+    interface_sprites.add(Beast._aim_sprite)
 
 def CreateFox(x, y, ax, ay):
     # Создание Зверя
-    Fox = Elements.Fox()
+    Fox = Animals.Fox()
     Fox.Position = np.array([x, y])
     Fox.Aim = np.array([ax, ay])
     Fox.Speed = 2
@@ -35,10 +39,12 @@ def CreateFox(x, y, ax, ay):
     # Добавление спрайта в группу
     all_sprites.add(Fox)
     all_sprites.add(Fox._aim_sprite)
+    animals_sprites.add(Fox)
+    interface_sprites.add(Fox._aim_sprite)
 
 # Функция, создающая траву
 def CreateGrass():
-    Grass = Elements.Grass()
+    Grass = Plants.Grass()
     Grass.X = random.randint(0, Env.Width - 1)
     Grass.Y = random.randint(0, Env.Height - 1)
     Grass.Parent = Env
@@ -47,6 +53,7 @@ def CreateGrass():
 
     # Добавление спрайтов в группу
     all_sprites.add(Grass)
+    plants_sprites.add(Grass)
 
 # Визуализация
 FPS = 15
@@ -56,6 +63,9 @@ screen = pygame.display.set_mode((1792, 896))
 pygame.display.set_caption("Forest")
 clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()
+plants_sprites = pygame.sprite.Group()
+animals_sprites = pygame.sprite.Group()
+interface_sprites = pygame.sprite.Group()
 
 # Создание среды
 Env = Environment.Field()
@@ -70,6 +80,7 @@ for i in range(0, 400):
 
 
 running = True
+interface = False
 while running:
     # Ограничение FPS
     clock.tick(FPS)
@@ -85,7 +96,10 @@ while running:
 
     # Визуализация (сборка)
     screen.fill(0x00FF00)
-    all_sprites.draw(screen)
+    animals_sprites.draw(screen)
+    plants_sprites.draw(screen)
+    if interface:
+        interface_sprites.draw(screen)
     # после отрисовки всего, переворачиваем экран
     pygame.display.flip()
     pass
