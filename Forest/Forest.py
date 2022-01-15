@@ -12,7 +12,7 @@ def CreateBeast(x,y,ax,ay):
     Beast = Animals.Beast()
     Beast.Position = np.array([x,y])
     Beast.Aim = np.array([ax,ay])
-    Beast.Speed = 1
+    Beast.Speed = 1.
     Beast.Parent = Env
     Beast.Stamina = 10
     #Env.Ground[500,500].append(animal)
@@ -30,7 +30,7 @@ def CreateFox(x, y, ax, ay):
     Fox = Animals.Fox()
     Fox.Position = np.array([x, y])
     Fox.Aim = np.array([ax, ay])
-    Fox.Speed = 2
+    Fox.Speed = 4.
     Fox.Parent = Env
     Fox.Stamina = 20
     Env.Elements.append(Fox)
@@ -41,6 +41,23 @@ def CreateFox(x, y, ax, ay):
     all_sprites.add(Fox._aim_sprite)
     animals_sprites.add(Fox)
     interface_sprites.add(Fox._aim_sprite)
+
+def CreateTurtle(x, y, ax, ay):
+    # Создание Зверя
+    Turtle = Animals.Turtle()
+    Turtle.Position = np.array([x, y])
+    Turtle.Aim = np.array([ax, ay])
+    Turtle.Speed = 0.5
+    Turtle.Parent = Env
+    Turtle.Stamina = 3
+    Env.Elements.append(Turtle)
+    Env.Alive.append(Turtle)
+
+    # Добавление спрайта в группу
+    all_sprites.add(Turtle)
+    all_sprites.add(Turtle._aim_sprite)
+    animals_sprites.add(Turtle)
+    interface_sprites.add(Turtle._aim_sprite)
 
 # Функция, создающая траву
 def CreateGrass():
@@ -71,16 +88,17 @@ interface_sprites = pygame.sprite.Group()
 Env = Environment.Field()
 
 # Создание объектов
-for i in range(0, 100):
-    CreateBeast(0, 0, 10, 10)
-    CreateFox(0, 0, 9, 9)
+for i in range(0, 10):
+    CreateBeast(0., 0., 10., 10.)
+    CreateFox(0., 0., 9., 9.)
+    CreateTurtle(2., 3., 0., 0.)
 
 for i in range(0, 400):
     CreateGrass()
 
 
 running = True
-interface = False
+interface = True
 while running:
     # Ограничение FPS
     clock.tick(FPS)

@@ -35,6 +35,31 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="sprites\" />
+    <Folder Include="sprites\animals\" />
+    <Folder Include="sprites\interface\" />
+    <Folder Include="sprites\plants\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sprites\animals\beast.png" />
+    <Content Include="sprites\animals\boar16x16.png" />
+    <Content Include="sprites\animals\boar32x32.1.png" />
+    <Content Include="sprites\animals\boar32x32.png" />
+    <Content Include="sprites\animals\dog16x16.png" />
+    <Content Include="sprites\animals\dog32x32.1.png" />
+    <Content Include="sprites\animals\dog32х32.png" />
+    <Content Include="sprites\animals\fox16x16.png" />
+    <Content Include="sprites\animals\goat16x16.png" />
+    <Content Include="sprites\animals\spider16x16.png" />
+    <Content Include="sprites\animals\spider32x32.1.png" />
+    <Content Include="sprites\animals\spider32x32.png" />
+    <Content Include="sprites\animals\turtle16x16.png" />
+    <Content Include="sprites\animals\turtle32x32.1.png" />
+    <Content Include="sprites\animals\turtle32x32.png" />
+    <Content Include="sprites\interface\aim.png" />
+    <Content Include="sprites\plants\grass.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
        Visual Studio and specify your pre- and post-build commands in

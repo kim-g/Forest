@@ -2,6 +2,7 @@ import random
 import numpy as np
 import pygame
 import os
+import math
 
 InterfaceDir = os.path.join(os.path.join(os.path.dirname(__file__), "sprites"), "interface")
 
@@ -9,7 +10,7 @@ class Unit(pygame.sprite.Sprite):
     """Элемент на плоскости. Базовый класс."""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
-        self._position = np.zeros(2,int)
+        self._position = np.zeros(2,float)
         self._full = False
         self._name = ""
         pygame.sprite.Sprite.__init__(self)
@@ -22,7 +23,7 @@ class Unit(pygame.sprite.Sprite):
     @X.setter
     def X(self, value):
         try:
-            self._position[0] = int(value)
+            self._position[0] = float(value)
         except:
             print("Unit.X – введённое значение не является целым числом")
 
@@ -32,7 +33,10 @@ class Unit(pygame.sprite.Sprite):
         return self._position[1]
     @Y.setter
     def Y(self, value):
-        self._position[1] = value
+        try:
+            self._position[1] = float(value)
+        except:
+            print("Unit.Y – введённое значение не является целым числом")
 
     # Свойство Position. Положение объекта на карте
     @property
@@ -177,11 +181,11 @@ class Animal(Food):
         super().__init__()
         self._foodtype = 0 # 0 - травоядное, 1 - хищное , 2 - всеядное
         self._foodsize = 0 
-        self._speed = 0
+        self._speed = 0.
         self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
         self._animaltype = 0 # 0 - простейшее, 1 - плоские черви, 2 - круглые черви, 3 - кольчатые черви, 4 - кишечнополостные, 5 - членистоногие, 6 - моллюски, 7 - иглокожие, 8 - хордовые 
         self._rotteneattype = 0 # 0 - не ест гниль, 1 - ест только гниль, 2 - безразлично
-        self._aim = np.zeros(2, int)
+        self._aim = np.zeros(2, float)
         self._stamina = random.randint(1, 11)
 
 
@@ -222,7 +226,7 @@ class Animal(Food):
     @Speed.setter
     def Speed(self,value):
         try:
-            self._speed = int(value)
+            self._speed = float(value)
         except:
             print("Animal.Speed не является целым числом")
 
@@ -295,6 +299,15 @@ class Animal(Food):
             self._stamina = int(value)
         except:
             print("Animal.Stamina не является числом")
+
+    def Vector_Length(self, vector):
+        return math.sqrt(vector[0]**2 + vector[1]**2)
+
+    # Метод NormalVector. Выдаёт единичный вектор от данного вектора
+    def NormalVector(self, Vect):
+        lenght = self.Vector_Length(Vect)
+        NewVector = np.array([Vect[0]/lenght, Vect[1]/lenght])
+        return NewVector
             
     # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
     def Eat(self, food):
@@ -333,21 +346,16 @@ class Animal(Food):
                 force = 1
             else:
                 force = 2
-        for i in range(0, self.Speed * force):
-            V = np.array([self.Aim[0] - self.Position[0], self.Aim[1] - self.Position[1]])
-            x1 = abs(V[0])
-            y1 = abs(V[1])
-            V1 = np.array([0 if V[0] == 0 else int(V[0] / x1), 0 if V[1] == 0 else int(V[1] / y1)])
-            M = max(x1, y1)
-            m = min(x1, y1)
-            if M > 1.5 * m:
-                if x1 > y1 :
-                    self.Position[0] += V1[0]
-                else:
-                    self.Position[1] += V1[1]
-            else:
-                self.Position[0] += V1[0]
-                self.Position[1] += V1[1]
+
+        V = np.array([self.Aim[0] - self.Position[0], self.Aim[1] - self.Position[1]])
+        V1 = self.NormalVector(V)
+        if (self.Vector_Length(V) < self.Vector_Length(V1) * self.Speed * force):
+            self.X += V[0]
+            self.Y += V[1]
+        else:
+            self.X += V1[0] * self.Speed * force
+            self.Y += V1[1] * self.Speed * force
+
         if force == 1:
             self.Stamina += 1
         if force == 2:
@@ -362,8 +370,8 @@ class Animal(Food):
     def Step(self):
         super().Step()
 
-        if self.Aim[0] == self.Position[0] and self.Aim[1] == self.Position[1]:
-            self.Aim = np.array([random.randint(0, self.Parent.Width), random.randint(0, self.Parent.Height)])
+        if abs(self.Aim[0] - self.Position[0]) < 0.5 and abs(self.Aim[1] -self.Position[1]) < 0.5:
+            self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))])
             print("Я сменил цель на ", self.Aim)
         self.Move(1)
         print ("Ход на ", self.Position)
