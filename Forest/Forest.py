@@ -38,9 +38,7 @@ def CreateFox(x, y, ax, ay):
 
     # Добавление спрайта в группу
     all_sprites.add(Fox)
-    all_sprites.add(Fox._aim_sprite)
     animals_sprites.add(Fox)
-    interface_sprites.add(Fox._aim_sprite)
 
 def CreateTurtle(x, y, ax, ay):
     # Создание Зверя

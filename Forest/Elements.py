@@ -1,10 +1,10 @@
 import random
 import numpy as np
 import pygame
-import os
+import pathlib
 import math
 
-InterfaceDir = os.path.join(os.path.join(os.path.dirname(__file__), "sprites"), "interface")
+InterfaceDir = pathlib.Path(pathlib.Path(__file__).resolve().parent, "sprites", "interface")
 
 class Unit(pygame.sprite.Sprite):
     """Элемент на плоскости. Базовый класс."""
@@ -129,15 +129,6 @@ class Food(Unit):
         except:
             print("Food.Size не является допустимым знаением")
 
-    @property 
-    def FreshTime(self): 
-        return self._freshtime
-    @FreshTime.setter
-    def FreshTime(self,value):
-        try:
-            self.freshtime=int(value) 
-        except:
-            print("Food.FreshTime не является целым числом") 
 
     # Свойство TimeOfEndLife. Определяет время с момента прекращения жизнедеятельности
     @property
@@ -155,7 +146,7 @@ class Food(Unit):
     def FreshTime(self): 
         return self._freshtime
     @FreshTime.setter
-    def FreshTime(self,value):
+    def FreshTime(self, value):
         try:
             self.freshtime=int(value) 
         except:
@@ -440,10 +431,16 @@ class Plants(Food):
 class Aim(Lifeless):
     def __init__(self):
         super().__init__()
-        aim_img = pygame.image.load(os.path.join(InterfaceDir, "aim.png")).convert_alpha()
+        aim_img = pygame.image.load(pathlib.Path(InterfaceDir, "aim.png")).convert_alpha()
         self.image = aim_img
         self.rect = self.image.get_rect()
         self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
 
     def update(self):
         self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+class Animal_Aim():#
+    def __init__(self):
+        self.rect = pygame.Rect(0, 0, 0, 0)
+    def get_distance(self, value, X, Y):
+        self.rect = pygame.update(X, Y, value, value)
