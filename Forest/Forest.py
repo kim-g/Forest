@@ -59,6 +59,23 @@ def CreateTurtle(x, y, ax, ay):
     animals_sprites.add(Turtle)
     interface_sprites.add(Turtle._aim_sprite)
 
+def CreateChameleon(x, y, ax, ay):
+    # Создание Зверя
+    Chameleon = Animals.Chameleon()
+    Chameleon.Position = np.array([x, y])
+    Chameleon.Aim = np.array([ax, ay])
+    Chameleon.Speed = 1.
+    Chameleon.Parent = Env
+    Chameleon.Stamina = 5
+    Env.Elements.append(Chameleon)
+    Env.Alive.append(Chameleon)
+
+    # Добавление спрайта в группу
+    all_sprites.add(Chameleon)
+    all_sprites.add(Chameleon._aim_sprite)
+    animals_sprites.add(Chameleon)
+    interface_sprites.add(Chameleon._aim_sprite)
+
 # Функция, создающая траву
 def CreateGrass():
     Grass = Plants.Grass()
