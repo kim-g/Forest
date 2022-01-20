@@ -30,7 +30,7 @@ def CreateFox(x, y, ax, ay):
     Fox = Animals.Fox()
     Fox.Position = np.array([x, y])
     Fox.Aim = np.array([ax, ay])
-    Fox.Speed = 4.
+    Fox.Speed = 0.5
     Fox.Parent = Env
     Fox.Stamina = 20
     Env.Elements.append(Fox)
@@ -38,7 +38,9 @@ def CreateFox(x, y, ax, ay):
 
     # Добавление спрайта в группу
     all_sprites.add(Fox)
+    all_sprites.add(Fox._aim_sprite)
     animals_sprites.add(Fox)
+    interface_sprites.add(Fox._aim_sprite)
 
 def CreateTurtle(x, y, ax, ay):
     # Создание Зверя
