@@ -86,3 +86,24 @@ class Turtle(Elements.Animal):
 
     def update(self):
         self.Step()
+
+class Chameleon(Elements.Animal):
+    def __init__(self):
+
+        super().__init__()
+        chameleon_img = pygame.image.load(pathlib.Path(AnimalDir, "chameleon16x16.png")).convert_alpha()
+        self.image = chameleon_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (int(self.X * 16 + 8), int(self.Y * 16 + 8))
+        self._aim_sprite = Elements.Aim()
+
+    def Move(self, force):
+        super().Move(force)
+        self.rect.center = (int(self.X * 16 + 8), int(self.Y * 16 + 8))
+
+    def Step(self):
+        super().Step()
+        self._aim_sprite.Position = self.Aim
+
+    def update(self):
+        self.Step()
