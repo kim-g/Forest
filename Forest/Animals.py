@@ -2,6 +2,8 @@ import Elements
 import pygame
 import numpy as np
 import pathlib
+import math
+import random
 
 AnimalDir = pathlib.Path("sprites", "animals")
 
@@ -40,26 +42,36 @@ class Beast(Elements.Animal):
 ######################################################################################################################
 class Fox(Elements.Animal):
     def __init__(self):
-
         super().__init__()
         Fox_img = pygame.image.load(pathlib.Path(AnimalDir, "fox16x16.png")).convert_alpha()
         self.image = Fox_img
         self.rect = self.image.get_rect()
         self.rect.center = (int(self.X * 16 + 8), int(self.Y * 16 + 8))
-        self._line_of_sight_ = Elements.Animal_Aim()
+        self._aim_sprite = Elements.Aim()
 
     def Move(self, force):
         super().Move(force)
         self.rect.center = (int(self.X * 16 + 8), int(self.Y * 16 + 8))
-        self._line_of_sight_.get_distance(5, self.rect.x, self.rect.y)
 
     def Step(self):#надо передать цель для движения
-        pass
+        super().Step()
+        self._aim_sprite.Position = self.Aim
 
     def update(self):
         self.Step()
 
-
+    def SetAim(self):
+        angle = random.randint(0,360) / 180 * math.pi
+        self.Aim[0] += math.cos(angle) * 3
+        self.Aim[1] += math.sin(angle) * 3
+        if self.Aim[0] < 0:
+            self.Aim[0] = 0;
+        if self.Aim[1] < 0:
+            self.Aim[1] = 0;
+        if self.Aim[0] >= self.Parent.Width:
+            self.Aim[0] = self.Parent.Width - 1;
+        if self.Aim[1] >= self.Parent.Height:
+            self.Aim[1] = self.Parent.Height - 1;
 
 ######################################################################################################################
 # Класс черпахи

@@ -362,10 +362,13 @@ class Animal(Food):
         super().Step()
 
         if abs(self.Aim[0] - self.Position[0]) < 0.5 and abs(self.Aim[1] -self.Position[1]) < 0.5:
-            self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))])
-            print("Я сменил цель на ", self.Aim)
+            self.SetAim()
         self.Move(1)
-        print ("Ход на ", self.Position)
+
+    # Установка цели
+    def SetAim(self):
+        ''' Установка цели '''
+        self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))])
 
 class Plants(Food):
     """Базовый класс растений"""
