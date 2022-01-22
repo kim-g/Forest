@@ -368,7 +368,13 @@ class Animal(Food):
     # Установка цели
     def SetAim(self):
         ''' Установка цели '''
-        self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))])
+        self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))]) 
+
+    def Path(self,Other):
+        dx=Other.X-self.X
+        dy=Other.Y-self.Y
+        return self.Vector_Length(np.array([dx,dy]))
+
 
 class Plants(Food):
     """Базовый класс растений"""
@@ -447,3 +453,4 @@ class Animal_Aim():#
         self.rect = pygame.Rect(0, 0, 0, 0)
     def get_distance(self, value, X, Y):
         self.rect = pygame.update(X, Y, value, value)
+

@@ -99,6 +99,19 @@ class Turtle(Elements.Animal):
     def update(self):
         self.Step()
 
+    
+    def SetAim(self):
+        Aims= list(filter(lambda x: self.Path(x)<10,self.Parent.Alive))
+        AimsCount=len(Aims)
+        if AimsCount ==0:
+            super().SetAim()
+            return
+        if AimsCount ==1:
+            Aim = Aims[0].Position
+            return
+        Aim=Aims[random.randint(0,AimsCount)].Position
+         
+
 class Chameleon(Elements.Animal):
     def __init__(self):
 
@@ -119,3 +132,7 @@ class Chameleon(Elements.Animal):
 
     def update(self):
         self.Step()
+
+
+
+    
