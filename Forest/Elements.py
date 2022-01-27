@@ -23,7 +23,9 @@ class Unit(pygame.sprite.Sprite):
     @X.setter
     def X(self, value):
         try:
-            self._position[0] = float(value)
+            value = float(value)
+            if not np.isnan(value):
+                self._position[0] = value
         except:
             print("Unit.X – введённое значение не является целым числом")
 
@@ -34,7 +36,8 @@ class Unit(pygame.sprite.Sprite):
     @Y.setter
     def Y(self, value):
         try:
-            self._position[1] = float(value)
+            if not np.isnan(value):
+                self._position[1] = value
         except:
             print("Unit.Y – введённое значение не является целым числом")
 
@@ -44,7 +47,8 @@ class Unit(pygame.sprite.Sprite):
         return self._position
     @Position.setter
     def Position(self, value):
-        self._position = value
+        self.X = value[0]
+        self.Y = value[1]
 
     # Свойство Full. Показывает, занимает ли объект всю ячейку. Если да, то на эту ячейку больше не может попасть ни один другой элемент
     @property 
