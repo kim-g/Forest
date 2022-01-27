@@ -16,26 +16,29 @@ class Field(object):
 
     
     #Свойство Alive. Определяет список всех живых объектов
-    @property 
+
+    @property
     def Alive(self):
         return self._alive
     @Alive.setter
-    def alive(self,value):
+    def Alive(self, value):
         try:
-            self._alive=value
+            self._alive = value
         except:
-            pass
+            print('невозможно добавить значение в список alive')
 
     #Свойство Elements. Определяет список абсолютно  всех объектов      
-    @property 
+
+    @property
     def Elements(self):
         return self._elements
     @Elements.setter
-    def elements(self,value): 
+    def Elements(self, value):
         try:
-            self._elements=value
+            self._elements = value
         except:
-            pass
+            print('невозможно добавить значение в список elements')
+
 
 
     @property
@@ -48,8 +51,10 @@ class Field(object):
     def Watch(self, pos, r):
         pass
 
+    # свойство изменяет значение дня
+
     @property 
-    def DayTime(self): #изменяет значение дня
+    def DayTime(self):
         return self._day_time
     @DayTime.setter
     def DayTime(self, value):
@@ -57,22 +62,3 @@ class Field(object):
             self._day_time = bool(value)
         except:
             print("Field.Daytime не является булеевым значением")
-
-    @property
-    def Elements(self):
-        return self._elements
-    @Elements.setter
-    def Elements(self, value):
-        try:
-            self._elements = value
-        except:
-            print('невозможно добавить значение в список elements')
-    @property
-    def Alive(self):
-        return self._alive
-    @Alive.setter
-    def Alive(self, value):
-        try:
-            self._alive = value
-        except:
-            print('невозможно добавить значение в список alive')
