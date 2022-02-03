@@ -125,6 +125,9 @@ while running:
         # проверить закрытие окна
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
 
     # Обновление
     all_sprites.update()
