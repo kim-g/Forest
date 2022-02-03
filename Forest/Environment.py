@@ -3,9 +3,9 @@ import numpy as np
 
 class Field(object):
     """Поле для симуляции"""
-    def __init__(self):
-        self.Height = 56
-        self.Width = 112
+    def __init__(self, monitor_info):
+        self.Height = int(monitor_info.current_h / 16)
+        self.Width = int(monitor_info.current_w / 16)
         self._ground = np.zeros([self.Width,self.Height])
         #for i in range (0, self.Width):
         #    for j in range (0, self.Height):
