@@ -61,23 +61,27 @@ class Fox(Elements.Animal):
         self.Step()
 
     def SetAim(self):
+#        Aims = ["Fox", "Turtle", "Beast"]
+#        Elements.Animal().Aim_1_Atack(Aims)
+
         angle = random.randint(0,360) / 180 * math.pi
         self.Aim[0] += math.cos(angle) * 3
         self.Aim[1] += math.sin(angle) * 3
         if self.Aim[0] < 0:
-            self.Aim[0] = 0;
+            self.Aim[0] = 0
         if self.Aim[1] < 0:
-            self.Aim[1] = 0;
+            self.Aim[1] = 0
         if self.Aim[0] >= self.Parent.Width:
-            self.Aim[0] = self.Parent.Width - 1;
+            self.Aim[0] = self.Parent.Width - 1
         if self.Aim[1] >= self.Parent.Height:
-            self.Aim[1] = self.Parent.Height - 1;
+            self.Aim[1] = self.Parent.Height - 1
 
 ######################################################################################################################
 # Класс черпахи
 # Всё время ходит.
 # Цель выбирается случайно
 ######################################################################################################################
+
 class Turtle(Elements.Animal):
     def __init__(self):
 
@@ -112,7 +116,7 @@ class Turtle(Elements.Animal):
             self.Aim=Aims[random.randint(0,AimsCount-1)].Position
             return
         Aims.sort(key= lambda x: self.Path(x))
-        self.Aim=Aims[random.randint(0,3)].Position 
+        self.Aim=Aims[random.randint(0,3)].Position
 
 class Chameleon(Elements.Animal):
     def __init__(self):

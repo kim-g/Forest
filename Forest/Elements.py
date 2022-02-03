@@ -3,6 +3,7 @@ import numpy as np
 import pygame
 import pathlib
 import math
+import Environment
 
 InterfaceDir = pathlib.Path(pathlib.Path(__file__).resolve().parent, "sprites", "interface")
 
@@ -379,6 +380,24 @@ class Animal(Food):
         dy=Other.Y-self.Y
         return self.Vector_Length(np.array([dx,dy]))
 
+#    def Aim_1_Atack(self, classes):
+#        for name in classes:
+#            m = Environment.Field.Alive
+#            Aims = list(filter(lambda x: Path(x) < 10 and x.__class__.__name__ == name, self.Parent(m)))
+#            AimsCount = len(Aims)
+#            if AimsCount == 0:
+#                self.SetAim()
+#                return
+#            if AimsCount == 1:
+#                self.Aim = Aims[0].Position
+#                return
+#            if AimsCount < 4:
+#                self.Aim = Aims[random.randint(0, AimsCount - 1)].Position
+#                return
+#            Aims.sort(key=lambda x: self.Path(x))
+#            self.Aim = Aims[random.randint(0, 3)].Position
+#            return self.Aim
+
 
 class Plants(Food):
     """Базовый класс растений"""
@@ -452,9 +471,4 @@ class Aim(Lifeless):
     def update(self):
         self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
 
-class Animal_Aim():#
-    def __init__(self):
-        self.rect = pygame.Rect(0, 0, 0, 0)
-    def get_distance(self, value, X, Y):
-        self.rect = pygame.update(X, Y, value, value)
 
