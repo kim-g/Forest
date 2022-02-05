@@ -308,7 +308,11 @@ class Animal(Food):
     # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
     def Eat(self, food):
         CanEat = False
-      
+
+
+        if not food in Parent.Elements:
+            return
+
         # Проверка для травоядных
         if self._foodtype == 0:
             if food.IsPlant:
