@@ -1,10 +1,11 @@
 import random
 import numpy as np
 import pygame
-import os
+import pathlib
 import math
+import Environment
 
-InterfaceDir = os.path.join(os.path.join(os.path.dirname(__file__), "sprites"), "interface")
+InterfaceDir = pathlib.Path(pathlib.Path(__file__).resolve().parent, "sprites", "interface")
 
 class Unit(pygame.sprite.Sprite):
     """Элемент на плоскости. Базовый класс."""
@@ -23,7 +24,9 @@ class Unit(pygame.sprite.Sprite):
     @X.setter
     def X(self, value):
         try:
-            self._position[0] = float(value)
+            value = float(value)
+            if not np.isnan(value):
+                self._position[0] = value
         except:
             print("Unit.X – введённое значение не является целым числом")
 
@@ -34,7 +37,8 @@ class Unit(pygame.sprite.Sprite):
     @Y.setter
     def Y(self, value):
         try:
-            self._position[1] = float(value)
+            if not np.isnan(value):
+                self._position[1] = value
         except:
             print("Unit.Y – введённое значение не является целым числом")
 
@@ -44,7 +48,8 @@ class Unit(pygame.sprite.Sprite):
         return self._position
     @Position.setter
     def Position(self, value):
-        self._position = value
+        self.X = value[0]
+        self.Y = value[1]
 
     # Свойство Full. Показывает, занимает ли объект всю ячейку. Если да, то на эту ячейку больше не может попасть ни один другой элемент
     @property 
@@ -129,15 +134,6 @@ class Food(Unit):
         except:
             print("Food.Size не является допустимым знаением")
 
-    @property 
-    def FreshTime(self): 
-        return self._freshtime
-    @FreshTime.setter
-    def FreshTime(self,value):
-        try:
-            self.freshtime=int(value) 
-        except:
-            print("Food.FreshTime не является целым числом") 
 
     # Свойство TimeOfEndLife. Определяет время с момента прекращения жизнедеятельности
     @property
@@ -155,7 +151,7 @@ class Food(Unit):
     def FreshTime(self): 
         return self._freshtime
     @FreshTime.setter
-    def FreshTime(self,value):
+    def FreshTime(self, value):
         try:
             self.freshtime=int(value) 
         except:
@@ -371,10 +367,37 @@ class Animal(Food):
         super().Step()
 
         if abs(self.Aim[0] - self.Position[0]) < 0.5 and abs(self.Aim[1] -self.Position[1]) < 0.5:
-            self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))])
-            print("Я сменил цель на ", self.Aim)
+            self.SetAim()
         self.Move(1)
-        print ("Ход на ", self.Position)
+
+    # Установка цели
+    def SetAim(self):
+        ''' Установка цели '''
+        self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))]) 
+
+    def Path(self,Other):
+        dx=Other.X-self.X
+        dy=Other.Y-self.Y
+        return self.Vector_Length(np.array([dx,dy]))
+
+#    def Aim_1_Atack(self, classes):
+#        for name in classes:
+#            m = Environment.Field.Alive
+#            Aims = list(filter(lambda x: Path(x) < 10 and x.__class__.__name__ == name, self.Parent(m)))
+#            AimsCount = len(Aims)
+#            if AimsCount == 0:
+#                self.SetAim()
+#                return
+#            if AimsCount == 1:
+#                self.Aim = Aims[0].Position
+#                return
+#            if AimsCount < 4:
+#                self.Aim = Aims[random.randint(0, AimsCount - 1)].Position
+#                return
+#            Aims.sort(key=lambda x: self.Path(x))
+#            self.Aim = Aims[random.randint(0, 3)].Position
+#            return self.Aim
+
 
 class Plants(Food):
     """Базовый класс растений"""
@@ -440,10 +463,12 @@ class Plants(Food):
 class Aim(Lifeless):
     def __init__(self):
         super().__init__()
-        aim_img = pygame.image.load(os.path.join(InterfaceDir, "aim.png")).convert_alpha()
+        aim_img = pygame.image.load(pathlib.Path(InterfaceDir, "aim.png")).convert_alpha()
         self.image = aim_img
         self.rect = self.image.get_rect()
         self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
 
     def update(self):
         self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+
