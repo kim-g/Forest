@@ -76,6 +76,7 @@ def CreateChameleon(x, y, ax, ay):
     animals_sprites.add(Chameleon)
     interface_sprites.add(Chameleon._aim_sprite)
 
+
 # Функция, создающая траву
 def CreateGrass():
     Grass = Plants.Grass()
@@ -144,4 +145,7 @@ while running:
     pygame.display.flip()
     pass
 
+
+
 pygame.quit()
+

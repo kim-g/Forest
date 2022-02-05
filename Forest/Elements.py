@@ -330,7 +330,8 @@ class Animal(Food):
 
         # Изменение энергии
         if CanEat:
-            self.Energy += food.Energy
+            self.Energy += food.Energy * 0.1
+            Field.Delete(food)
 
     # Метод Move. Передвижение
     def Move(self, force):
