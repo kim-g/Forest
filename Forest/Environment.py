@@ -62,3 +62,8 @@ class Field(object):
             self._day_time = bool(value)
         except:
             print("Field.Daytime не является булеевым значением")
+
+    def Delete(self, obj):
+        self.Elements.remove(obj)
+        self.Alive.remove(obj)
+        print("Успешно удалено")
