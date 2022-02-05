@@ -30,7 +30,7 @@ def CreateFox(x, y, ax, ay):
     Fox = Animals.Fox()
     Fox.Position = np.array([x, y])
     Fox.Aim = np.array([ax, ay])
-    Fox.Speed = 0.5
+    Fox.Speed = 1.
     Fox.Parent = Env
     Fox.Stamina = 20
     Env.Elements.append(Fox)

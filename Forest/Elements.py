@@ -183,6 +183,7 @@ class Animal(Food):
         self._rotteneattype = 0 # 0 - не ест гниль, 1 - ест только гниль, 2 - безразлично
         self._aim = np.zeros(2, float)
         self._stamina = random.randint(1, 11)
+        self._aim_object = None
 
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
@@ -296,6 +297,14 @@ class Animal(Food):
         except:
             print("Animal.Stamina не является числом")
 
+    # Свойство AimObject. Определяет объект, к которому стремится животное
+    @property
+    def AimObject(self):
+        return self._aim_object
+    @AimObject.setter
+    def AimObject(self, value):
+        self._aim_object = value
+
     def Vector_Length(self, vector):
         return math.sqrt(vector[0]**2 + vector[1]**2)
 
@@ -310,7 +319,7 @@ class Animal(Food):
         CanEat = False
 
 
-        if not food in Parent.Elements:
+        if not food in self.Parent.Elements:
             return
 
         # Проверка для травоядных

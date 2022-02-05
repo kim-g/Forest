@@ -105,14 +105,15 @@ class Turtle(Elements.Animal):
     
     def SetAim(self):
         Aims= list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Grass", self.Parent.Alive))
+        self.AimObject = Aims
         AimsCount=len(Aims)
         if AimsCount ==0:
             super().SetAim()
             return
-        if AimsCount ==1:
+        if AimsCount == 1:
             self.Aim = Aims[0].Position
             return
-        if AimsCount < 4 :
+        if AimsCount < 4:
             self.Aim=Aims[random.randint(0,AimsCount-1)].Position
             return
         Aims.sort(key= lambda x: self.Path(x))
