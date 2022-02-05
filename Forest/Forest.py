@@ -131,6 +131,12 @@ while running:
                 running = False
             if event.key == pygame.K_i:
                 interface = not interface
+#            if event.key == pygame.K_t:
+#                CreateTurtle(23., 32., 0., 0.)
+#            if event.key == pygame.K_f:
+#                CreateFox(32., 23., 0., 0.)
+#            if event.key == pygame.K_b:
+#                CreateBeast(40., 15., 0., 0.)
 
     # Обновление
     all_sprites.update()
