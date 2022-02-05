@@ -93,7 +93,7 @@ def CreateGrass():
 FPS = 15
 pygame.init()
 pygame.mixer.init()  # для звука
-screen = pygame.display.set_mode((1792, 896))
+screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 pygame.display.set_caption("Forest")
 clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()
@@ -102,7 +102,7 @@ animals_sprites = pygame.sprite.Group()
 interface_sprites = pygame.sprite.Group()
 
 # Создание среды
-Env = Environment.Field()
+Env = Environment.Field(pygame.display.Info())
 
 # Создание объектов
 for i in range(0, 10):
@@ -125,6 +125,11 @@ while running:
         # проверить закрытие окна
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+            if event.key == pygame.K_i:
+                interface = not interface
 
     # Обновление
     all_sprites.update()
