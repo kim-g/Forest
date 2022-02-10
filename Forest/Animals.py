@@ -105,19 +105,24 @@ class Turtle(Elements.Animal):
     
     def SetAim(self):
         Aims= list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Grass", self.Parent.Alive))
-        self.AimObject = Aims
         AimsCount=len(Aims)
         if AimsCount ==0:
             super().SetAim()
             return
         if AimsCount == 1:
             self.Aim = Aims[0].Position
+            self.AimObject = Aims[0]
             return
         if AimsCount < 4:
-            self.Aim=Aims[random.randint(0,AimsCount-1)].Position
+            self.AimObject = Aims[random.randint(0,AimsCount-1)]
+            self.Aim=self.AimObject.Position
             return
         Aims.sort(key= lambda x: self.Path(x))
-        self.Aim=Aims[random.randint(0,3)].Position
+        self.AimObject = Aims[random.randint(0,3)]
+        self.Aim=self.AimObject.Position
+
+    def OnAim(self, Aim):
+        self.Eat(Aim)
 
 class Chameleon(Elements.Animal):
     def __init__(self):

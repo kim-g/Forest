@@ -5,6 +5,7 @@ import Environment
 import random
 import Plants
 import Animals
+import math
 
 # Функция создания и добавления Зверя
 def CreateBeast(x,y,ax,ay):
@@ -78,10 +79,17 @@ def CreateChameleon(x, y, ax, ay):
 
 
 # Функция, создающая траву
-def CreateGrass():
+def CreateGrass(Parent = None):
     Grass = Plants.Grass()
-    Grass.X = random.randint(0, Env.Width - 1)
-    Grass.Y = random.randint(0, Env.Height - 1)
+    if Parent == None:
+        Grass.X = random.randint(0, Env.Width - 1)
+        Grass.Y = random.randint(0, Env.Height - 1)
+    else:
+        angle = random.randint(0,360)
+        angle = angle / 360 * 2 * math.pi
+        Grass.X = Parent.X + math.cos(angle)
+        Grass.Y = Parent.Y + math.sin(angle)
+    Grass.IsPlant = True
     Grass.Parent = Env
     Env.Elements.append(Grass)
     Env.Alive.append(Grass)
@@ -94,7 +102,7 @@ def CreateGrass():
 FPS = 15
 pygame.init()
 pygame.mixer.init()  # для звука
-screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+screen = pygame.display.set_mode((0,0))
 pygame.display.set_caption("Forest")
 clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()
@@ -140,6 +148,8 @@ while running:
 
     # Обновление
     all_sprites.update()
+    Grass = list(filter(lambda x: x.__class__.__name__ == "Grass", Env.Alive))
+    CreateGrass(Grass[random.randint(0,len(Grass)-1)])
 
     # Визуализация (сборка)
     screen.fill(0x00FF00)

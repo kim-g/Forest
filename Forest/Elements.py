@@ -344,7 +344,8 @@ class Animal(Food):
         # Изменение энергии
         if CanEat:
             self.Energy += food.Energy * 0.1
-            Env.Delete(food)
+            self.Parent.Delete(food)
+            food.kill()
 
     # Метод Move. Передвижение
     def Move(self, force):
@@ -381,6 +382,7 @@ class Animal(Food):
         super().Step()
 
         if abs(self.Aim[0] - self.Position[0]) < 0.5 and abs(self.Aim[1] -self.Position[1]) < 0.5:
+            self.OnAim(self.AimObject)
             self.SetAim()
         self.Move(1)
 
@@ -388,11 +390,16 @@ class Animal(Food):
     def SetAim(self):
         ''' Установка цели '''
         self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))]) 
+        self.AimObject
 
     def Path(self,Other):
         dx=Other.X-self.X
         dy=Other.Y-self.Y
         return self.Vector_Length(np.array([dx,dy]))
+
+    def OnAim(self, Aim):
+        """Метод, вызываемый при достижении цели"""
+        pass
 
 #    def Aim_1_Atack(self, classes):
 #        for name in classes:
