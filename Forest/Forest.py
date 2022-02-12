@@ -90,6 +90,7 @@ def CreateGrass(Parent = None):
         Grass.Y = Parent.Y + math.sin(angle)
     Grass.IsPlant = True
     Grass.Parent = Env
+    Grass.AmountOfChlorophill = 2
     Env.Elements.append(Grass)
     Env.Alive.append(Grass)
 

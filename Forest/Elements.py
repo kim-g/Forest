@@ -100,6 +100,7 @@ class Food(Unit):
         self._top_threshold = 0.
         self._energy_coeff = 0
         self._transcoeff = 0
+        self._lower_treshold = 0.
 
     # Свойство Energy. Определяет энергетическую ценность объекта
     @property
@@ -197,7 +198,7 @@ class Food(Unit):
         try:
             self._biomass = float(value)
         except:
-            print("Недопустимое значение перменной")
+            print("Недопустимое значение перменной в Food.Biomass")
 
     # Свойство TopTreshold. Определяет верхний порог энергии объекта
     @property
@@ -208,7 +209,18 @@ class Food(Unit):
         try:
             self._top_treshold = float(value)
         except:
-            print("Недопустимое значение перменной")
+            print("Недопустимое значение перменной в Food.TopTreshold")
+
+    # Свойство Lower_Treshold . Определяет нижний коэфициент энергии
+    @property
+    def Lower_Treshold(self):
+        return self._lower_treshold
+    @Lower_Treshold.setter
+    def Lower_Treshold(self,value):
+        try:
+            self._lower_treshold = float(value)
+        except:
+            print('Food.Lower_Treshold не Float')
 
     # Свойство EnergyCoef. Определяет коэффициент энергии, нужный для синтеза материи
     @property
