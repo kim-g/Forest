@@ -108,9 +108,17 @@ class Food(Unit):
     @Energy.setter
     def Energy(self, value):
         try:
+            if value<self.Lower_Trashhold:
+                DeltaE = self.Lower_Trashhold - value
+                DeltaM = DeltaE/self._energy_coeff - self._transcoeff
+                self.Biomass -= DeltaM
+                self._energy=self.Lower_Trashhold
+                return
+
+
             self._energy = float(value)
         except:
-            print("Food.Energy – введённое значение не является числом")
+            print("Food.Energy – введённое значение не является числом") 
 
     # Свойство IsPlant. Определяет растительная пища или нет
     @property
