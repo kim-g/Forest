@@ -77,7 +77,6 @@ def CreateChameleon(x, y, ax, ay):
     animals_sprites.add(Chameleon)
     interface_sprites.add(Chameleon._aim_sprite)
 
-
 # Функция, создающая траву
 def CreateGrass(Parent = None):
     Grass = Plants.Grass()
@@ -149,7 +148,8 @@ while running:
     # Обновление
     all_sprites.update()
     Grass = list(filter(lambda x: x.__class__.__name__ == "Grass", Env.Alive))
-    CreateGrass(Grass[random.randint(0,len(Grass)-1)])
+    LenGrass = len(Grass)-1
+    CreateGrass()
 
     # Визуализация (сборка)
     screen.fill(0x00FF00)
