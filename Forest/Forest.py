@@ -34,6 +34,7 @@ def CreateFox(x, y, ax, ay):
     Fox.Speed = 1.
     Fox.Parent = Env
     Fox.Stamina = 20
+    Fox.Lower_Treshold = 2
     Env.Elements.append(Fox)
     Env.Alive.append(Fox)
 
