@@ -89,13 +89,16 @@ class Food(Unit):
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
         super().__init__()
-        self._energy = 0.0
+        self._energy = 0.
         self._isplant = False
         self._size = 0
         self._fresh = False
         self._timeofendlife = 0
         self._freshtime = 0
         self._parent = None
+        self._biomass = 0.
+        self._top_threshold = 0.
+        self._energy_coeff = 0
 
     # Свойство Energy. Определяет энергетическую ценность объекта
     @property
@@ -169,6 +172,38 @@ class Food(Unit):
     def Step(self):
         pass
 
+    # Свойство Biomass. Определяет биомассу объекта
+    @property
+    def Biomass(self):
+        return self._biomass
+    @Biomass.setter
+    def Biomass(self, value):
+        try:
+            self._biomass = float(value)
+        except:
+            print("Недопустимое значение перменной")
+
+    # Свойство TopTreshold. Определяет верхний порог энергии объекта
+    @property
+    def TopTreshold(self):
+        return self._top_treshold
+    @TopTreshold.setter
+    def TopTreshold(self, value):
+        try:
+            self._top_treshold = float(value)
+        except:
+            print("Недопустимое значение перменной")
+
+    # Свойство EnergyCoef. Определяет коэффициент энергии, нужный для синтеза материи
+    @property
+    def EnergyCoef(self):
+        return self._energy_coef
+    @EnergyCoef.setter
+    def EnergyCoef(self, value):
+        try:
+            self._energy_coef = int(value)
+        except:
+            print("Недопустимое значение перменной")
 
 class Animal(Food):
     """Животные. Базовый класс"""
