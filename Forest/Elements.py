@@ -108,6 +108,13 @@ class Food(Unit):
     @Energy.setter
     def Energy(self, value):
         try:
+            if value > self.TopTreshold:
+                deltae = (self._energy + value) - self.TopTreshold
+                biomtransform = self.EnergyCoeff + self.TransCoeff
+                deltam = deltae / biomtransform
+                self._energy = self.TopTreshold
+                self.Biomass += deltam
+                return
             self._energy = float(value)
         except:
             print("Food.Energy – введённое значение не является числом")
@@ -205,12 +212,12 @@ class Food(Unit):
 
     # Свойство EnergyCoef. Определяет коэффициент энергии, нужный для синтеза материи
     @property
-    def EnergyCoef(self):
-        return self._energy_coef
+    def EnergyCoeff(self):
+        return self._energy_coeff
     @EnergyCoef.setter
-    def EnergyCoef(self, value):
+    def EnergyCoeff(self, value):
         try:
-            self._energy_coef = int(value)
+            self._energy_coeff = int(value)
         except:
             print("Недопустимое значение перменной")
 
