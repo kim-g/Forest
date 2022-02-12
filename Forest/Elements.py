@@ -96,6 +96,7 @@ class Food(Unit):
         self._timeofendlife = 0
         self._freshtime = 0
         self._parent = None
+        self._transcoeff = 0
 
     # Свойство Energy. Определяет энергетическую ценность объекта
     @property
@@ -165,6 +166,14 @@ class Food(Unit):
     def Parent(self, value):
         self._parent = value
 
+
+    @property
+    def TransCoeff(self):
+        return self._transcoeff
+    @TransCoeff.setter
+    def TransCoeff(self, value):
+        self._transcoeff = value
+
     # Абстрактный метод совершения действия
     def Step(self):
         pass
@@ -184,6 +193,7 @@ class Animal(Food):
         self._aim = np.zeros(2, float)
         self._stamina = random.randint(1, 11)
         self._aim_object = None
+        self._eatenbiomass=0
 
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
@@ -305,8 +315,19 @@ class Animal(Food):
     def AimObject(self, value):
         self._aim_object = value
 
+
+    @property
+    def EatenBiomass(self):
+        return self._eatenbiomass
+    @EatenBiomass.setter
+    def EatenBiomass(self, value): 
+        self._eatenbiomass = value
+
     def Vector_Length(self, vector):
-        return math.sqrt(vector[0]**2 + vector[1]**2)
+        return math.sqrt(vector[0]**2 + vector[1]**2) 
+
+
+    
 
     # Метод NormalVector. Выдаёт единичный вектор от данного вектора
     def NormalVector(self, Vect):
