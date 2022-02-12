@@ -10,7 +10,7 @@ PlantDir = pathlib.Path(pathlib.Path(__file__).parent, "sprites", "plants")
 ######################################################################################################################
 class Grass(Elements.Plants):
     def __init__(self):
-        super()._init_()
+        super().__init__()
         img = pygame.image.load(pathlib.Path(PlantDir, "grass.png")).convert_alpha()
         self.image = img
         self.rect = self.image.get_rect()
