@@ -102,23 +102,6 @@ class Food(Unit):
         self._transcoeff = 0
         self._lower_treshold = 0.
 
-    # Свойство Energy. Определяет энергетическую ценность объекта
-    @property
-    def Energy(self):
-        return self._energy
-    @Energy.setter
-    def Energy(self, value):
-        try:
-            if value > self.TopTreshold:
-                deltae = (self._energy + value) - self.TopTreshold
-                biomtransform = self.EnergyCoeff + self.TransCoeff
-                deltam = deltae / biomtransform
-                self._energy = self.TopTreshold
-                self.Biomass += deltam
-                return
-            self._energy = float(value)
-        except:
-            print("Food.Energy – введённое значение не является числом")
 
     # Свойство IsPlant. Определяет растительная пища или нет
     @property
@@ -226,12 +209,29 @@ class Food(Unit):
     @property
     def EnergyCoeff(self):
         return self._energy_coeff
-    @EnergyCoef.setter
+    @EnergyCoeff.setter
     def EnergyCoeff(self, value):
         try:
             self._energy_coeff = int(value)
         except:
             print("Недопустимое значение перменной")
+
+    # Свойство Energy. Определяет энергетическую ценность объекта
+    @property
+    def Energy(self):
+        return self._energy
+    @Energy.setter
+    def Energy(self, value):
+        try:
+            if value > self.TopTreshold:
+                deltae = (self._energy + value) - self.TopTreshold
+                biomtransform = self.EnergyCoeff + self.TransCoeff
+                deltam = deltae / biomtransform
+                self._energy = self.TopTreshold
+                self.Biomass += deltam
+                return
+        except:
+            print("Food.Energy – введённое значение не является числом")
 
 class Animal(Food):
     """Животные. Базовый класс"""
@@ -508,9 +508,9 @@ class Plants(Food):
     def AmountOfChlorophill(self):
         return self._amountofchllorophill
     @AmountOfChlorophill.setter
-    def AmountOfChlorophill(self ,value):
+    def AmountOfChlorophill(self, value):
         try:
-            self._amountofchllorophill=int(value) 
+            self._amountofchllorophill = int(value)
         except:
             print("Plants.AmOfChl не является целым числом")
                   
@@ -537,15 +537,15 @@ class Plants(Food):
             print("Plants.PlantType не является целым числом")
             print("Food.FreshTime не является целым числом") 
 
-    def photosyntes(self,light):
+    def photosyntes(self, light):
         #if not bool(light):
         #    return
         K=50
         E = K*self.AmountOfChlorophill
-        if self._size==0:
-            self.Energy += E* 0.01
+        if self._size == 0:
+            self.Energy += E * 0.01
             return
-        if self._size==1:
+        if self._size == 1:
             self.Energy += E*1
             return
         if self._size==2:
