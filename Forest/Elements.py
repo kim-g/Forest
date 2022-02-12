@@ -100,6 +100,7 @@ class Food(Unit):
         self._top_threshold = 0.
         self._energy_coeff = 0
         self._transcoeff = 0
+        self._lower_treshold = 0.
 
     # Свойство Energy. Определяет энергетическую ценность объекта
     @property
@@ -116,6 +117,13 @@ class Food(Unit):
                 return
 
 
+            if value > self.TopTreshold:
+                deltae = (self._energy + value) - self.TopTreshold
+                biomtransform = self.EnergyCoeff + self.TransCoeff
+                deltam = deltae / biomtransform
+                self._energy = self.TopTreshold
+                self.Biomass += deltam
+                return
             self._energy = float(value)
         except:
             print("Food.Energy – введённое значение не является числом") 
@@ -198,7 +206,7 @@ class Food(Unit):
         try:
             self._biomass = float(value)
         except:
-            print("Недопустимое значение перменной")
+            print("Недопустимое значение перменной в Food.Biomass")
 
     # Свойство TopTreshold. Определяет верхний порог энергии объекта
     @property
@@ -209,16 +217,27 @@ class Food(Unit):
         try:
             self._top_treshold = float(value)
         except:
-            print("Недопустимое значение перменной")
+            print("Недопустимое значение перменной в Food.TopTreshold")
+
+    # Свойство Lower_Treshold . Определяет нижний коэфициент энергии
+    @property
+    def Lower_Treshold(self):
+        return self._lower_treshold
+    @Lower_Treshold.setter
+    def Lower_Treshold(self,value):
+        try:
+            self._lower_treshold = float(value)
+        except:
+            print('Food.Lower_Treshold не Float')
 
     # Свойство EnergyCoef. Определяет коэффициент энергии, нужный для синтеза материи
     @property
-    def EnergyCoef(self):
-        return self._energy_coef
+    def EnergyCoeff(self):
+        return self._energy_coeff
     @EnergyCoef.setter
-    def EnergyCoef(self, value):
+    def EnergyCoeff(self, value):
         try:
-            self._energy_coef = int(value)
+            self._energy_coeff = int(value)
         except:
             print("Недопустимое значение перменной")
 
