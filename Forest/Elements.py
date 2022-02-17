@@ -230,7 +230,7 @@ class Food(Unit):
         except:
             print('Food.Lower_Treshold не Float')
 
-    # Свойство EnergyCoef. Определяет коэффициент энергии, нужный для синтеза материи
+    # Свойство EnergyCoeff. Определяет коэффициент энергии, нужный для синтеза материи
     @property
     def EnergyCoeff(self):
         return self._energy_coeff
