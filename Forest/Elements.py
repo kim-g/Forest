@@ -11,18 +11,21 @@ class Unit(pygame.sprite.Sprite):
     """Элемент на плоскости. Базовый класс."""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
+        """Инициализация объекта"""
         self._position = np.zeros(2,float)
-        self._full = False
-        self._name = ""
+        self._full:bool = False
+        self._name:str = ""
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((16, 16))
+        self.image:pygame.Surface = pygame.Surface((16, 16))
+        self.Y
   
     # Свойство X. Координата по горизонтали
     @property 
     def X(self):
+        """Координата объекта на оси абцисс"""
         return self._position[0]
     @X.setter
-    def X(self, value):
+    def X(self, value:float):
         try:
             value = float(value)
             if not np.isnan(value):
@@ -33,9 +36,10 @@ class Unit(pygame.sprite.Sprite):
     # Свойство Y. Координата по вертикали
     @property
     def Y(self):
+        """Свойство Y. Координата по вертикали"""
         return self._position[1]
     @Y.setter
-    def Y(self, value):
+    def Y(self, value:float):
         try:
             if not np.isnan(value):
                 self._position[1] = value
@@ -89,25 +93,27 @@ class Food(Unit):
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
         super().__init__()
-        self._energy = 0.
-        self._isplant = False
-        self._size = 0
-        self._fresh = False
-        self._timeofendlife = 0
-        self._freshtime = 0
+        self._energy:float = 0.
+        self._isplant:bool = False
+        self._size:int = 0
+        self._fresh:bool = False
+        self._timeofendlife:int = 0
+        self._freshtime:int = 0
         self._parent = None
-        self._biomass = 0.
-        self._top_threshold = 0.
-        self._energy_coeff = 0
-        self._transcoeff = 0
-        self._lower_treshold = 0.
+        self._biomass:float = 0.
+        self._top_threshold:float = 0.
+        self._energy_coeff:float = 4.
+        self._transcoeff:float = 1.
+        self._lower_treshold:float = 0.
 
     # Свойство Energy. Определяет энергетическую ценность объекта
     @property
     def Energy(self):
+        """Определяет энергетическую ценность объекта"""
         return self._energy
     @Energy.setter
-    def Energy(self, value):
+    def Energy(self, value:float):
+        """Определяет энергетическую ценность объекта"""
         try:
             if value<self.Lower_Trashhold:
                 DeltaE = self.Lower_Trashhold - value
@@ -133,7 +139,7 @@ class Food(Unit):
     def IsPlant(self):
         return self._isplant
     @IsPlant.setter
-    def IsPlant(self, value):
+    def IsPlant(self, value:bool):
         try:
             self._isplant = bool(value)
         except:
@@ -190,8 +196,11 @@ class Food(Unit):
     def TransCoeff(self):
         return self._transcoeff
     @TransCoeff.setter
-    def TransCoeff(self, value):
-        self._transcoeff = value
+    def TransCoeff(self, value:float):
+        try:
+            self._transcoeff = float(value)
+        except:
+            pass
 
     # Абстрактный метод совершения действия
     def Step(self):
@@ -237,7 +246,7 @@ class Food(Unit):
     @EnergyCoeff.setter
     def EnergyCoeff(self, value):
         try:
-            self._energy_coeff = int(value)
+            self._energy_coeff = float(value)
         except:
             print("Недопустимое значение перменной")
 
@@ -272,7 +281,8 @@ class Animal(Food):
         self._aim = np.zeros(2, float)
         self._stamina = random.randint(1, 11)
         self._aim_object = None
-        self._eatenbiomass=0
+        self._eatenbiomass=0.
+        self._eat_per_step = 10.
 
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
@@ -405,6 +415,18 @@ class Animal(Food):
     def Vector_Length(self, vector):
         return math.sqrt(vector[0]**2 + vector[1]**2) 
 
+    @property
+    def EatPerStep(self):
+        """Количество биомассы, которое животное съедает за шаг."""
+        return self._eat_per_step
+    @EatPerStep.setter
+    def EatPerStep(self, value:float):
+        try:
+            value = float(value)
+            if value>0:
+                self._eat_per_step = value
+        except:
+            print("Неправильно установлено Animal.EatPerStep")
 
     
 
@@ -415,7 +437,7 @@ class Animal(Food):
         return NewVector
             
     # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
-    def Eat(self, food):
+    def Eat(self, food:Food):
         CanEat = False
 
 
@@ -443,9 +465,13 @@ class Animal(Food):
 
         # Изменение энергии
         if CanEat:
-            self.Energy += food.Energy * 0.1
-            self.Parent.Delete(food)
-            food.kill()
+            if food.Biomass <= self.EatPerStep:
+                self.EatenBiomass += food.Biomass
+                self.Parent.Delete(food)
+                food.kill()
+            else:
+                self.EatenBiomass += self.EatPerStep
+                food.Biomass -= self.EatPerStep
 
     # Метод Move. Передвижение
     def Move(self, force):

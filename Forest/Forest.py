@@ -94,6 +94,7 @@ def CreateGrass(Parent = None):
     Env.Elements.append(Grass)
     Env.Alive.append(Grass)
     Grass.TopTreshold = 23.
+    Grass.Biomass = 35.
 
     # Добавление спрайтов в группу
     all_sprites.add(Grass)
