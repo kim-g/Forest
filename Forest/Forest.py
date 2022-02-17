@@ -1,8 +1,15 @@
-import Elements 
+import pygame
+import numpy as np
+import Elements
+import Environment
+import random
+import Plants
+import Animals
+import math
 
-# Функция создания и добавления Зверя
+# Р¤СѓРЅРєС†РёСЏ СЃРѕР·РґР°РЅРёСЏ Рё РґРѕР±Р°РІР»РµРЅРёСЏ Р—РІРµСЂСЏ
 def CreateBeast(x,y,ax,ay):
-    # Создание Зверя
+    # РЎРѕР·РґР°РЅРёРµ Р—РІРµСЂСЏ
     Beast = Animals.Beast()
     Beast.Position = np.array([x,y])
     Beast.Aim = np.array([ax,ay])
@@ -13,31 +20,32 @@ def CreateBeast(x,y,ax,ay):
     Env.Elements.append(Beast)
     Env.Alive.append(Beast)
 
-    # Добавление спрайтов в группу
+    # Р”РѕР±Р°РІР»РµРЅРёРµ СЃРїСЂР°Р№С‚РѕРІ РІ РіСЂСѓРїРїСѓ
     all_sprites.add(Beast)
     all_sprites.add(Beast._aim_sprite)
     animals_sprites.add(Beast)
     interface_sprites.add(Beast._aim_sprite)
 
 def CreateFox(x, y, ax, ay):
-    # Создание Зверя
+    # РЎРѕР·РґР°РЅРёРµ Р—РІРµСЂСЏ
     Fox = Animals.Fox()
     Fox.Position = np.array([x, y])
     Fox.Aim = np.array([ax, ay])
     Fox.Speed = 1.
     Fox.Parent = Env
     Fox.Stamina = 20
+    Fox.Lower_Treshold = 2
     Env.Elements.append(Fox)
     Env.Alive.append(Fox)
 
-    # Добавление спрайта в группу
+    # Р”РѕР±Р°РІР»РµРЅРёРµ СЃРїСЂР°Р№С‚Р° РІ РіСЂСѓРїРїСѓ
     all_sprites.add(Fox)
     all_sprites.add(Fox._aim_sprite)
     animals_sprites.add(Fox)
     interface_sprites.add(Fox._aim_sprite)
 
 def CreateTurtle(x, y, ax, ay):
-    # Создание Зверя
+    # РЎРѕР·РґР°РЅРёРµ Р—РІРµСЂСЏ
     Turtle = Animals.Turtle()
     Turtle.Position = np.array([x, y])
     Turtle.Aim = np.array([ax, ay])
@@ -45,17 +53,15 @@ def CreateTurtle(x, y, ax, ay):
     Turtle.Parent = Env
     Turtle.Stamina = 3
     Turtle.TopTreshold = 44.
-    Env.Elements.append(Turtle)
-    Env.Alive.append(Turtle)
 
-    # Добавление спрайта в группу
+    # Р”РѕР±Р°РІР»РµРЅРёРµ СЃРїСЂР°Р№С‚Р° РІ РіСЂСѓРїРїСѓ
     all_sprites.add(Turtle)
     all_sprites.add(Turtle._aim_sprite)
     animals_sprites.add(Turtle)
     interface_sprites.add(Turtle._aim_sprite)
 
 def CreateChameleon(x, y, ax, ay):
-    # Создание Зверя
+    # РЎРѕР·РґР°РЅРёРµ Р—РІРµСЂСЏ
     Chameleon = Animals.Chameleon()
     Chameleon.Position = np.array([x, y])
     Chameleon.Aim = np.array([ax, ay])
@@ -65,13 +71,13 @@ def CreateChameleon(x, y, ax, ay):
     Env.Elements.append(Chameleon)
     Env.Alive.append(Chameleon)
 
-    # Добавление спрайта в группу
+    # Р”РѕР±Р°РІР»РµРЅРёРµ СЃРїСЂР°Р№С‚Р° РІ РіСЂСѓРїРїСѓ
     all_sprites.add(Chameleon)
     all_sprites.add(Chameleon._aim_sprite)
     animals_sprites.add(Chameleon)
     interface_sprites.add(Chameleon._aim_sprite)
 
-# Функция, создающая траву
+# Р¤СѓРЅРєС†РёСЏ, СЃРѕР·РґР°СЋС‰Р°СЏ С‚СЂР°РІСѓ
 def CreateGrass(Parent = None):
     Grass = Plants.Grass()
     if Parent == None:
@@ -89,14 +95,14 @@ def CreateGrass(Parent = None):
     Env.Alive.append(Grass)
     Grass.TopTreshold = 23.
 
-    # Добавление спрайтов в группу
+    # Р”РѕР±Р°РІР»РµРЅРёРµ СЃРїСЂР°Р№С‚РѕРІ РІ РіСЂСѓРїРїСѓ
     all_sprites.add(Grass)
     plants_sprites.add(Grass)
 
-# Визуализация
+# Р’РёР·СѓР°Р»РёР·Р°С†РёСЏ
 FPS = 15
 pygame.init()
-pygame.mixer.init()  # для звука
+pygame.mixer.init()  # РґР»СЏ Р·РІСѓРєР°
 screen = pygame.display.set_mode((0,0))
 pygame.display.set_caption("Forest")
 clock = pygame.time.Clock()
@@ -105,10 +111,10 @@ plants_sprites = pygame.sprite.Group()
 animals_sprites = pygame.sprite.Group()
 interface_sprites = pygame.sprite.Group()
 
-# Создание среды
+# РЎРѕР·РґР°РЅРёРµ СЃСЂРµРґС‹
 Env = Environment.Field(pygame.display.Info())
 
-# Создание объектов
+# РЎРѕР·РґР°РЅРёРµ РѕР±СЉРµРєС‚РѕРІ
 for i in range(0, 10):
     CreateBeast(0., 0., 10., 10.)
     CreateFox(0., 0., 9., 9.)
@@ -121,12 +127,12 @@ for i in range(0, 400):
 running = True
 interface = True
 while running:
-    # Ограничение FPS
+    # РћРіСЂР°РЅРёС‡РµРЅРёРµ FPS
     clock.tick(FPS)
 
-    # Ввод процесса (события)
+    # Р’РІРѕРґ РїСЂРѕС†РµСЃСЃР° (СЃРѕР±С‹С‚РёСЏ)
     for event in pygame.event.get():
-        # проверить закрытие окна
+        # РїСЂРѕРІРµСЂРёС‚СЊ Р·Р°РєСЂС‹С‚РёРµ РѕРєРЅР°
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
@@ -141,19 +147,20 @@ while running:
 #            if event.key == pygame.K_b:
 #                CreateBeast(40., 15., 0., 0.)
 
-    # Обновление
+    # РћР±РЅРѕРІР»РµРЅРёРµ
     all_sprites.update()
     Grass = list(filter(lambda x: x.__class__.__name__ == "Grass", Env.Alive))
     LenGrass = len(Grass)-1
     CreateGrass()
 
-    # Визуализация (сборка)
+    # Р’РёР·СѓР°Р»РёР·Р°С†РёСЏ (СЃР±РѕСЂРєР°)
     screen.fill(0x00FF00)
     animals_sprites.draw(screen)
     plants_sprites.draw(screen)
     if interface:
         interface_sprites.draw(screen)
-    # после отрисовки всего, переворачиваем экран
+
+    # РїРѕСЃР»Рµ РѕС‚СЂРёСЃРѕРІРєРё РІСЃРµРіРѕ, РїРµСЂРµРІРѕСЂР°С‡РёРІР°РµРј СЌРєСЂР°РЅ
     pygame.display.flip()
     pass
 

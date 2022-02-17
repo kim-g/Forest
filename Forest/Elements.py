@@ -1,13 +1,21 @@
 import random
 import numpy as np
+import pygame
+import pathlib
+import math
+import Environment
 
-class Unit(object):
+InterfaceDir = pathlib.Path(pathlib.Path(__file__).resolve().parent, "sprites", "interface")
+
+class Unit(pygame.sprite.Sprite):
     """Элемент на плоскости. Базовый класс."""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
-        self._position = np.zeros(2,int)
+        self._position = np.zeros(2,float)
         self._full = False
         self._name = ""
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((16, 16))
   
     # Свойство X. Координата по горизонтали
     @property 
@@ -16,7 +24,9 @@ class Unit(object):
     @X.setter
     def X(self, value):
         try:
-            self._position[0] = int(value)
+            value = float(value)
+            if not np.isnan(value):
+                self._position[0] = value
         except:
             print("Unit.X – введённое значение не является целым числом")
 
@@ -26,7 +36,11 @@ class Unit(object):
         return self._position[1]
     @Y.setter
     def Y(self, value):
-        self._position[1] = value
+        try:
+            if not np.isnan(value):
+                self._position[1] = value
+        except:
+            print("Unit.Y – введённое значение не является целым числом")
 
     # Свойство Position. Положение объекта на карте
     @property
@@ -34,7 +48,8 @@ class Unit(object):
         return self._position
     @Position.setter
     def Position(self, value):
-        self._position = value
+        self.X = value[0]
+        self.Y = value[1]
 
     # Свойство Full. Показывает, занимает ли объект всю ячейку. Если да, то на эту ячейку больше не может попасть ни один другой элемент
     @property 
@@ -57,6 +72,7 @@ class Lifeless (Unit):
     """Неживые объекты на поверхности"""
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
+        super().__init__()
         self._jump_over = True
 
     # Свойство JumpOver. Определяет, можно ли перепыгнуть данный объект.
@@ -73,13 +89,18 @@ class Food(Unit):
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
         super().__init__()
-        self._energy = 0.0
+        self._energy = 0.
         self._isplant = False
         self._size = 0
         self._fresh = False
         self._timeofendlife = 0
         self._freshtime = 0
         self._parent = None
+        self._biomass = 0.
+        self._top_threshold = 0.
+        self._energy_coeff = 0
+        self._transcoeff = 0
+        self._lower_treshold = 0.
 
     # Свойство Energy. Определяет энергетическую ценность объекта
     @property
@@ -88,9 +109,24 @@ class Food(Unit):
     @Energy.setter
     def Energy(self, value):
         try:
+            if value<self.Lower_Trashhold:
+                DeltaE = self.Lower_Trashhold - value
+                DeltaM = DeltaE/self._energy_coeff - self._transcoeff
+                self.Biomass -= DeltaM
+                self._energy=self.Lower_Trashhold
+                return
+
+
+            if value > self.TopTreshold:
+                deltae = (self._energy + value) - self.TopTreshold
+                biomtransform = self.EnergyCoeff + self.TransCoeff
+                deltam = deltae / biomtransform
+                self._energy = self.TopTreshold
+                self.Biomass += deltam
+                return
             self._energy = float(value)
         except:
-            print("Food.Energy – введённое значение не является числом")
+            print("Food.Energy – введённое значение не является числом") 
 
     # Свойство IsPlant. Определяет растительная пища или нет
     @property
@@ -118,15 +154,6 @@ class Food(Unit):
         except:
             print("Food.Size не является допустимым знаением")
 
-    @property 
-    def FreshTime(self): 
-        return self._freshtime
-    @FreshTime.setter
-    def FreshTime(self,value):
-        try:
-            self.freshtime=int(value) 
-        except:
-            print("Food.FreshTime не является целым числом") 
 
     # Свойство TimeOfEndLife. Определяет время с момента прекращения жизнедеятельности
     @property
@@ -144,7 +171,7 @@ class Food(Unit):
     def FreshTime(self): 
         return self._freshtime
     @FreshTime.setter
-    def FreshTime(self,value):
+    def FreshTime(self, value):
         try:
             self.freshtime=int(value) 
         except:
@@ -158,6 +185,17 @@ class Food(Unit):
     def Parent(self, value):
         self._parent = value
 
+
+    @property
+    def TransCoeff(self):
+        return self._transcoeff
+    @TransCoeff.setter
+    def TransCoeff(self, value):
+        self._transcoeff = value
+
+    # Абстрактный метод совершения действия
+    def Step(self):
+        pass
 
     # Свойство Biomass. Определяет биомассу объекта
     @property
@@ -203,6 +241,23 @@ class Food(Unit):
         except:
             print("Недопустимое значение перменной")
 
+    # Свойство Energy. Определяет энергетическую ценность объекта
+    @property
+    def Energy(self):
+        return self._energy
+    @Energy.setter
+    def Energy(self, value):
+        try:
+            if value > self.TopTreshold:
+                deltae = (self._energy + value) - self.TopTreshold
+                biomtransform = self.EnergyCoeff + self.TransCoeff
+                deltam = deltae / biomtransform
+                self._energy = self.TopTreshold
+                self.Biomass += deltam
+                return
+        except:
+            print("Food.Energy – введённое значение не является числом")
+
 class Animal(Food):
     """Животные. Базовый класс"""
     # Инициализация класса. Создание внутренних переменных
@@ -210,11 +265,15 @@ class Animal(Food):
         super().__init__()
         self._foodtype = 0 # 0 - травоядное, 1 - хищное , 2 - всеядное
         self._foodsize = 0 
-        self._speed = 0
+        self._speed = 0.
         self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
         self._animaltype = 0 # 0 - простейшее, 1 - плоские черви, 2 - круглые черви, 3 - кольчатые черви, 4 - кишечнополостные, 5 - членистоногие, 6 - моллюски, 7 - иглокожие, 8 - хордовые 
         self._rotteneattype = 0 # 0 - не ест гниль, 1 - ест только гниль, 2 - безразлично
-        self._aim = np.zeros(2, int)
+        self._aim = np.zeros(2, float)
+        self._stamina = random.randint(1, 11)
+        self._aim_object = None
+        self._eatenbiomass=0
+
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
     @property
@@ -253,7 +312,7 @@ class Animal(Food):
     @Speed.setter
     def Speed(self,value):
         try:
-            self._speed = int(value)
+            self._speed = float(value)
         except:
             print("Animal.Speed не является целым числом")
 
@@ -280,7 +339,7 @@ class Animal(Food):
     def AnimalType(self,value):
         try:
             at = int(value)
-            if st >= 0 and st < 9:
+            if at >= 0 and at < 9:
                 self._animaltype = value
             else:
                 print("Animal.AnimalType не является допустимым значением")
@@ -295,12 +354,12 @@ class Animal(Food):
     def RottenEatType(self,value):
         try:
             ret = int(value)
-            if st >= 0 and st < 3:
-                self._sleeptime = value
+            if ret >= 0 and ret < 3:
+                self._rotteneattype = value
             else:
                 print("Animal.RottenEatType не является допустимым значением")
         except:
-            print("Animal.RottenEatType не является допустимым значением")
+            print("Animal.RottenEatType не является допустимым значением") 
 
     # Свойство Aim. Определяет координаты, на которое животное хочет переместиться животное
     @property
@@ -308,12 +367,61 @@ class Animal(Food):
         return self._aim
     @Aim.setter
     def Aim(self, value):
-        pass
+        self._aim = value
 
+    # Свойство Stamina. Определяет выносливость объекта
+    @property
+    def Stamina(self):
+        return self._stamina
+    @Stamina.setter
+    def Stamina(self, value):
+        try:
+            if value < 0:
+                self._stamina = 0
+                return
+            if value > 10:
+                self._stamina = 10
+                return
+            self._stamina = int(value)
+        except:
+            print("Animal.Stamina не является числом")
+
+    # Свойство AimObject. Определяет объект, к которому стремится животное
+    @property
+    def AimObject(self):
+        return self._aim_object
+    @AimObject.setter
+    def AimObject(self, value):
+        self._aim_object = value
+
+
+    @property
+    def EatenBiomass(self):
+        return self._eatenbiomass
+    @EatenBiomass.setter
+    def EatenBiomass(self, value): 
+        self._eatenbiomass = value
+
+    def Vector_Length(self, vector):
+        return math.sqrt(vector[0]**2 + vector[1]**2) 
+
+
+    
+
+    # Метод NormalVector. Выдаёт единичный вектор от данного вектора
+    def NormalVector(self, Vect):
+        lenght = self.Vector_Length(Vect)
+        NewVector = np.array([Vect[0]/lenght, Vect[1]/lenght])
+        return NewVector
+            
     # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
     def Eat(self, food):
         CanEat = False
-      
+
+
+        if not food in self.Parent.Elements:
+            return
+
         # Проверка для травоядных
         if self._foodtype == 0:
             if food.IsPlant:
@@ -335,29 +443,88 @@ class Animal(Food):
 
         # Изменение энергии
         if CanEat:
-            self.Energy += food.Energy
+            self.Energy += food.Energy * 0.1
+            self.Parent.Delete(food)
+            food.kill()
 
-        # Метод Move. Передвижение
-        def Move(self):
-            StartPos = self.Position
-            for i in range(1, self.Speed + 1):
-                V = np.array([self.Position[0] - self.Aim[0], self.Position[1] - self.Aim[1]])
-                x1 = abs(x)
-                y1 = abs(y)
-                M = max(x1, y1)
-                m = min(x1, y1)
-                if M > 1.5 * m:
-                    return
-                else:
-                    return
-            Parent.Ground[StartPos[0], StartPos[1]].remove(self)
-            Parent.Ground[Position[0], Position[1]].append(self)
+    # Метод Move. Передвижение
+    def Move(self, force):
+        StartPos = self.Position
+        if force == 2 and self.Stamina < 2:
+            force = 1
+        if force == 5 and self.Stamina < 8:
+            if force == 2 and self.Stamina < 2:
+                force = 1
+            else:
+                force = 2
+
+        V = np.array([self.Aim[0] - self.Position[0], self.Aim[1] - self.Position[1]])
+        V1 = self.NormalVector(V)
+        if (self.Vector_Length(V) < self.Vector_Length(V1) * self.Speed * force):
+            self.X += V[0]
+            self.Y += V[1]
+        else:
+            self.X += V1[0] * self.Speed * force
+            self.Y += V1[1] * self.Speed * force
+
+        if force == 1:
+            self.Stamina += 1
+        if force == 2:
+            self.Stamina -= 2
+        if force == 5:
+            self.Stamina -= 8
+
+        #Parent.Ground[StartPos[0], StartPos[1]].remove(self)
+        #Parent.Ground[Position[0], Position[1]].append(self)
+
+    # Итерация действия у животного.
+    def Step(self):
+        super().Step()
+
+        if abs(self.Aim[0] - self.Position[0]) < 0.5 and abs(self.Aim[1] -self.Position[1]) < 0.5:
+            self.OnAim(self.AimObject)
+            self.SetAim()
+        self.Move(1)
+
+    # Установка цели
+    def SetAim(self):
+        ''' Установка цели '''
+        self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))]) 
+        self.AimObject
+
+    def Path(self,Other):
+        dx=Other.X-self.X
+        dy=Other.Y-self.Y
+        return self.Vector_Length(np.array([dx,dy]))
+
+    def OnAim(self, Aim):
+        """Метод, вызываемый при достижении цели"""
+        pass
+
+#    def Aim_1_Atack(self, classes):
+#        for name in classes:
+#            m = Environment.Field.Alive
+#            Aims = list(filter(lambda x: Path(x) < 10 and x.__class__.__name__ == name, self.Parent(m)))
+#            AimsCount = len(Aims)
+#            if AimsCount == 0:
+#                self.SetAim()
+#                return
+#            if AimsCount == 1:
+#                self.Aim = Aims[0].Position
+#                return
+#            if AimsCount < 4:
+#                self.Aim = Aims[random.randint(0, AimsCount - 1)].Position
+#                return
+#            Aims.sort(key=lambda x: self.Path(x))
+#            self.Aim = Aims[random.randint(0, 3)].Position
+#            return self.Aim
+
 
 class Plants(Food):
     """Базовый класс растений"""
     def _init_(self):
         super().__init__()
-        self._amofchl = 0.0
+        self._amountofchllorophill = 0.0
         self._toxicity = False
         self._plant_type = 0
 
@@ -366,9 +533,9 @@ class Plants(Food):
     def AmountOfChlorophill(self):
         return self._amountofchllorophill
     @AmountOfChlorophill.setter
-    def AmountOfChlorophill(self,value):
+    def AmountOfChlorophill(self, value):
         try:
-            self._amountofchllorophill=int(value) 
+            self._amountofchllorophill = int(value)
         except:
             print("Plants.AmOfChl не является целым числом")
                   
@@ -395,15 +562,15 @@ class Plants(Food):
             print("Plants.PlantType не является целым числом")
             print("Food.FreshTime не является целым числом") 
 
-    def photosyntes(self,light):
+    def photosyntes(self, light):
         #if not bool(light):
         #    return
         K=50
         E = K*self.AmountOfChlorophill
-        if self._size==0:
-            self.Energy += E* 0.01
+        if self._size == 0:
+            self.Energy += E * 0.01
             return
-        if self._size==1:
+        if self._size == 1:
             self.Energy += E*1
             return
         if self._size==2:
@@ -413,3 +580,16 @@ class Plants(Food):
             self.Energy += E*20
             return
         print("Error eating")
+
+class Aim(Lifeless):
+    def __init__(self):
+        super().__init__()
+        aim_img = pygame.image.load(pathlib.Path(InterfaceDir, "aim.png")).convert_alpha()
+        self.image = aim_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+    def update(self):
+        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+
+
