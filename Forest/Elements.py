@@ -297,6 +297,7 @@ class Animal(Food):
         self._aim_object = None
         self._eatenbiomass=0.
         self._eat_per_step = 10.
+        self._digested_per_step = 0
 
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
@@ -454,7 +455,18 @@ class Animal(Food):
             if value>0:
                 self._eat_per_step = value
         except:
-            print("Неправильно установлено Animal.EatPerStep")
+            print("Неправильно установлено Animal.EatPerStep") 
+
+    #Свойство Digested_Per_Step.Определяет Количество биомассы,перевариваемой за шаг
+    @property
+    def Digested_Per_Step(self):
+        return self.digested_per_step
+    @Digested_Per_Step.setter
+    def Digested_Per_Step(self, value:float):
+        try:
+            self.digested_per_step=float(value)
+        except:
+            pass
 
     
 
