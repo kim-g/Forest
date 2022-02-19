@@ -361,6 +361,19 @@ class Animal(Food):
         except:
             print("Animal.RottenEatType не является допустимым значением") 
 
+
+
+    @property 
+    def Stamina(self):
+        return self._stamina
+    @Stamina.setter
+    def Stamina(self,value): 
+        try:
+            self._stamina=int(value)
+        except:
+            pass
+            print()
+
     # Свойство Aim. Определяет координаты, на которое животное хочет переместиться животное
     @property
     def Aim(self):
