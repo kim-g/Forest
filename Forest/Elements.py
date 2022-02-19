@@ -17,6 +17,7 @@ class Unit(pygame.sprite.Sprite):
         self._name:str = ""
         pygame.sprite.Sprite.__init__(self)
         self.image:pygame.Surface = pygame.Surface((16, 16))
+        self.Y
   
     # Свойство X. Координата по горизонтали
     @property 
@@ -285,8 +286,8 @@ class Animal(Food):
     # Инициализация класса. Создание внутренних переменных
     def __init__(self):
         super().__init__()
-        self._foodtype = 0 # 0 - травоядное, 1 - хищное , 2 - всеядное
-        self._foodsize = 0 
+        self._foodtype:int = 0 # 0 - травоядное, 1 - хищное , 2 - всеядное
+        self._foodsize:int = 0 
         self._speed = 0.
         self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
         self._animaltype = 0 # 0 - простейшее, 1 - плоские черви, 2 - круглые черви, 3 - кольчатые черви, 4 - кишечнополостные, 5 - членистоногие, 6 - моллюски, 7 - иглокожие, 8 - хордовые 
@@ -296,6 +297,7 @@ class Animal(Food):
         self._aim_object = None
         self._eatenbiomass=0.
         self._eat_per_step = 10.
+        self._digested_per_step = 0
 
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
@@ -453,7 +455,7 @@ class Animal(Food):
             if value>0:
                 self._eat_per_step = value
         except:
-            print("Неправильно установлено Animal.EatPerStep")
+            print("Неправильно установлено Animal.EatPerStep") 
 
     #Свойство Digested_Per_Step.Определяет Количество биомассы,перевариваемой за шаг
     @property
@@ -465,6 +467,8 @@ class Animal(Food):
             self.digested_per_step=float(value)
         except:
             pass
+
+    
 
     # Метод NormalVector. Выдаёт единичный вектор от данного вектора
     def NormalVector(self, Vect):
@@ -547,14 +551,6 @@ class Animal(Food):
             self.OnAim(self.AimObject)
             self.SetAim()
         self.Move(1)
-
-        if self.Digested_Per_Step > self.EatenBiomass:
-            self.Energy += self.EatenBiomass*(self.EnergyCoeff-self.TransCoeff)
-            self.EatenBiomass = 0
-        else:
-            self.Energy += self.Digested_Per_Step*(self.EnergyCoeff-self.TransCoeff)
-            self.EatenBiomass -= self.Digested_Per_Step
-
 
     # Установка цели
     def SetAim(self):
