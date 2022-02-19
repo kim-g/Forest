@@ -551,7 +551,7 @@ class Animal(Food):
             self.OnAim(self.AimObject)
             self.SetAim()
         self.Move(1)
-        if  self.EatenBiomass>self.Digested_Per_Step:
+        if  self.Digested_Per_Step>self.EnergyCoeff:
             self.Energy += self.EatenBiomass*(self.EnergyCoeff-self.TransCoeff)
             self.EatenBiomass=0
         else:
@@ -563,7 +563,7 @@ class Animal(Food):
     def SetAim(self):
         ''' Установка цели '''
         self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))]) 
-        self.AimObject
+        self.AimObject()
 
     def Path(self,Other):
         dx=Other.X-self.X
