@@ -66,4 +66,3 @@ class Field(object):
     def Delete(self, obj):
         self.Elements.remove(obj)
         self.Alive.remove(obj)
-        print("Успешно удалено")

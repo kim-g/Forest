@@ -52,8 +52,7 @@ def CreateTurtle(x, y, ax, ay):
     Turtle.Speed = 0.5
     Turtle.Parent = Env
     Turtle.Stamina = 3
-    Env.Elements.append(Turtle)
-    Env.Alive.append(Turtle)
+    Turtle.TopTreshold = 44.
 
     # Добавление спрайта в группу
     all_sprites.add(Turtle)
@@ -94,6 +93,8 @@ def CreateGrass(Parent = None):
     Grass.AmountOfChlorophill = 2
     Env.Elements.append(Grass)
     Env.Alive.append(Grass)
+    Grass.TopTreshold = 23.
+    Grass.Biomass = 35.
 
     # Добавление спрайтов в группу
     all_sprites.add(Grass)
@@ -159,6 +160,7 @@ while running:
     plants_sprites.draw(screen)
     if interface:
         interface_sprites.draw(screen)
+
     # после отрисовки всего, переворачиваем экран
     pygame.display.flip()
     pass
