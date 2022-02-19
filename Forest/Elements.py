@@ -43,6 +43,7 @@ class Unit(pygame.sprite.Sprite):
     # Свойство Full. Показывает, занимает ли объект всю ячейку. Если да, то на эту ячейку больше не может попасть ни один другой элемент
     @property 
     def Full(self):
+        """Определяет, занимает ли объект всю ячейку"""
         return self._full
     @Full.setter
     def Full(self, value):
@@ -51,6 +52,7 @@ class Unit(pygame.sprite.Sprite):
     # Свойство Name. Название объекта.
     @property
     def Name(self):
+        """Название объекта"""
         return self._name
     @Name.setter
     def Name(self, value):
@@ -67,6 +69,7 @@ class Lifeless (Unit):
     # Свойство JumpOver. Определяет, можно ли перепыгнуть данный объект.
     @property 
     def JumpOver(self):
+        """Определяет, можно ли перепрыгнуть через объект"""
         return self._jump_over
     @JumpOver.setter
     def JumpOver(self, value):
@@ -389,6 +392,7 @@ class Plants(Food):
     # Количество хлорофила 0 - отсутствует, 1 - мало, 2 - среднее, 3 - много
     @property 
     def AmountOfChlorophill(self):
+        """Определяет колтчество хлорофила"""
         return self._amountofchllorophill
     @AmountOfChlorophill.setter
     def AmountOfChlorophill(self ,value):
@@ -400,6 +404,7 @@ class Plants(Food):
     # Токсичность 0 - нетоксично, 1 - малотоксичный (неприятно), 2 - среднетоксичный (болезнь) 3 - Смертельный 
     @property
     def Toxicity(self):
+        """Определяет токсичность растения"""
         return self._toxicity
     @Toxicity.setter
     def Toxicity(self,value):
@@ -411,6 +416,7 @@ class Plants(Food):
     # Тип растения. 0 - Водоросль, 1 - Мох, 2 - Папоротник, 3 - Голосеменное, 4 - Цветковое
     @property 
     def PlantType(self):
+        """Определяет тип растения"""
         return self._plant_type
     @PlantType.setter
     def PlantType(self,value):
@@ -423,6 +429,7 @@ class Plants(Food):
     def photosyntes(self,light):
         #if not bool(light):
         #    return
+        """Добавляет определенное кол-во энергнии в зависимости от размера"""
         K=50
         E = K*self.AmountOfChlorophill
         if self._size==0:
