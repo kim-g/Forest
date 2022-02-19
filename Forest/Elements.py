@@ -460,11 +460,11 @@ class Animal(Food):
     #Свойство Digested_Per_Step.Определяет Количество биомассы,перевариваемой за шаг
     @property
     def Digested_Per_Step(self):
-        return self.digested_per_step
+        return self._digested_per_step
     @Digested_Per_Step.setter
     def Digested_Per_Step(self, value:float):
         try:
-            self.digested_per_step=float(value)
+            self._digested_per_step=float(value)
         except:
             pass
 
@@ -563,7 +563,7 @@ class Animal(Food):
     def SetAim(self):
         ''' Установка цели '''
         self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))]) 
-        self.AimObject()
+        
 
     def Path(self,Other):
         dx=Other.X-self.X
