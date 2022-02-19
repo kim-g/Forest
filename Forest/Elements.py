@@ -288,10 +288,10 @@ class Animal(Food):
         super().__init__()
         self._foodtype:int = 0 # 0 - травоядное, 1 - хищное , 2 - всеядное
         self._foodsize:int = 0 
-        self._speed:float = 0.
-        self._sleeptime:int = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
-        self._animaltype:int = 0 # 0 - простейшее, 1 - плоские черви, 2 - круглые черви, 3 - кольчатые черви, 4 - кишечнополостные, 5 - членистоногие, 6 - моллюски, 7 - иглокожие, 8 - хордовые 
-        self._rotteneattype:int = 0 # 0 - не ест гниль, 1 - ест только гниль, 2 - безразлично
+        self._speed = 0.
+        self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
+        self._animaltype = 0 # 0 - простейшее, 1 - плоские черви, 2 - круглые черви, 3 - кольчатые черви, 4 - кишечнополостные, 5 - членистоногие, 6 - моллюски, 7 - иглокожие, 8 - хордовые 
+        self._rotteneattype = 0 # 0 - не ест гниль, 1 - ест только гниль, 2 - безразлично
         self._aim = np.zeros(2, float)
         self._stamina = random.randint(1, 11)
         self._aim_object = None
@@ -460,7 +460,7 @@ class Animal(Food):
     #Свойство Digested_Per_Step.Определяет Количество биомассы,перевариваемой за шаг
     @property
     def Digested_Per_Step(self):
-        return self.digested_per_step
+        return self._digested_per_step
     @Digested_Per_Step.setter
     def Digested_Per_Step(self, value:float):
         try:
@@ -551,12 +551,18 @@ class Animal(Food):
             self.OnAim(self.AimObject)
             self.SetAim()
         self.Move(1)
+        if  self.Digested_Per_Step>self.EnergyCoeff:
+            self.Energy += self.EatenBiomass*(self.EnergyCoeff-self.TransCoeff)
+            self.EatenBiomass=0
+        else:
+            self.Energy += self.EatenBiomass*(self.EnergyCoeff-self.TransCoeff)
+            self.EatenBiomass -= self.Digested_Per_Step
+
 
     # Установка цели
     def SetAim(self):
         ''' Установка цели '''
         self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))]) 
-        self.AimObject
 
     def Path(self,Other):
         dx=Other.X-self.X
@@ -661,5 +667,3 @@ class Aim(Lifeless):
 
     def update(self):
         self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
-
-

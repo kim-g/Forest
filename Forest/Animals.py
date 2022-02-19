@@ -147,7 +147,3 @@ class Chameleon(Elements.Animal):
 
     def update(self):
         self.Step()
-
-
-
-    
