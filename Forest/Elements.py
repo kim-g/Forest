@@ -551,6 +551,13 @@ class Animal(Food):
             self.OnAim(self.AimObject)
             self.SetAim()
         self.Move(1)
+        if  self.EatenBiomass>self.Digested_Per_Step:
+            self.Energy += self.EatenBiomass*(self.EnergyCoeff-self.TransCoeff)
+            self.EatenBiomass=0
+        else:
+            self.Energy += self.EatenBiomass*(self.EnergyCoeff-self.TransCoeff)
+            self.EatenBiomass -= self.Digested_Per_Step
+
 
     # Установка цели
     def SetAim(self):
