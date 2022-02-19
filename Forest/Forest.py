@@ -16,6 +16,7 @@ def CreateBeast(x,y,ax,ay):
     Beast.Speed = 1.
     Beast.Parent = Env
     Beast.Stamina = 10
+    Beast.Digested_Per_Step = 5.
     #Env.Ground[500,500].append(animal)
     Env.Elements.append(Beast)
     Env.Alive.append(Beast)
@@ -35,6 +36,7 @@ def CreateFox(x, y, ax, ay):
     Fox.Parent = Env
     Fox.Stamina = 20
     Fox.Lower_Treshold = 2
+    Fox.Digested_Per_Step = 5.
     Env.Elements.append(Fox)
     Env.Alive.append(Fox)
 
@@ -53,6 +55,7 @@ def CreateTurtle(x, y, ax, ay):
     Turtle.Parent = Env
     Turtle.Stamina = 3
     Turtle.TopTreshold = 44.
+    Turtle.Digested_Per_Step = 5.
 
     # Добавление спрайта в группу
     all_sprites.add(Turtle)
@@ -68,6 +71,7 @@ def CreateChameleon(x, y, ax, ay):
     Chameleon.Speed = 1.
     Chameleon.Parent = Env
     Chameleon.Stamina = 5
+    Chameleon.Digested_Per_Step = 5.
     Env.Elements.append(Chameleon)
     Env.Alive.append(Chameleon)
 
