@@ -102,9 +102,10 @@ class Food(Unit):
         self._fresh:bool = False
         self._timeofendlife:int = 0
         self._freshtime:int = 0
-        self._parent = None
+        self._parent:Environment.Field = None
         self._biomass:float = 0.
         self._top_threshold:float = 0.
+        self._top_treshold:float = 20.
         self._energy_coeff:float = 4.
         self._transcoeff:float = 1.
         self._lower_treshold:float = 0.
@@ -119,17 +120,16 @@ class Food(Unit):
         """Определяет энергетическую ценность объекта"""
         try:
             if value<self.Lower_Treshold:
-                DeltaE = self.Lower_Trashhold - value
-                DeltaM = DeltaE/self._energy_coeff - self._transcoeff
+                DeltaE = self.Lower_Treshold - value
+                DeltaM = DeltaE/(self.EnergyCoeff - self.TransCoeff)
                 self.Biomass -= DeltaM
-                self._energy=self.Lower_Trashhold
+                self._energy=self.Lower_Treshold
                 return
 
 
             if value > self.TopTreshold:
                 deltae = (self._energy + value) - self.TopTreshold
-                biomtransform = self.EnergyCoeff + self.TransCoeff
-                deltam = deltae / biomtransform
+                deltam = deltae / (self.EnergyCoeff + self.TransCoeff)
                 self._energy = self.TopTreshold
                 self.Biomass += deltam
                 return
@@ -190,13 +190,13 @@ class Food(Unit):
         except:
             print("Food.FreshTime не является целым числом") 
     
-    # Свойство Parent. Определяет родителей объекта
+    # Свойство EcoSystem. Определяет родителей объекта
     @property 
-    def Parent(self):
+    def EcoSystem(self):
         '''Определяет родителей объекта'''
         return self._parent
-    @Parent.setter
-    def Parent(self, value):
+    @EcoSystem.setter
+    def EcoSystem(self, value:Environment.Field):
         self._parent = value
 
 
@@ -223,6 +223,10 @@ class Food(Unit):
     @Biomass.setter
     def Biomass(self, value:float):
         try:
+            if value <= 0:
+                self.EcoSystem.Delete(self)
+                self.kill()
+            
             self._biomass = float(value)
         except:
             print("Недопустимое значение перменной в Food.Biomass")
@@ -262,24 +266,6 @@ class Food(Unit):
             self._energy_coeff = float(value)
         except:
             print("Недопустимое значение перменной")
-
-    # Свойство Energy. Определяет энергетическую ценность объекта
-    @property
-    def Energy(self):
-        '''Определяет энергетическую ценность объекта'''
-        return self._energy
-    @Energy.setter
-    def Energy(self, value:float):
-        try:
-            if value > self.TopTreshold:
-                deltae = (self._energy + value) - self.TopTreshold
-                biomtransform = self.EnergyCoeff + self.TransCoeff
-                deltam = deltae / biomtransform
-                self._energy = self.TopTreshold
-                self.Biomass += deltam
-                return
-        except:
-            print("Food.Energy – введённое значение не является числом")
 
 class Animal(Food):
     """Животные. Базовый класс"""
@@ -481,7 +467,7 @@ class Animal(Food):
         CanEat = False
 
 
-        if not food in self.Parent.Elements:
+        if not food in self.EcoSystem.Elements:
             return
 
         # Проверка для травоядных
@@ -507,7 +493,7 @@ class Animal(Food):
         if CanEat:
             if food.Biomass <= self.EatPerStep:
                 self.EatenBiomass += food.Biomass
-                self.Parent.Delete(food)
+                self.EcoSystem.Delete(food)
                 food.kill()
             else:
                 self.EatenBiomass += self.EatPerStep
@@ -540,8 +526,8 @@ class Animal(Food):
         if force == 5:
             self.Stamina -= 8
 
-        #Parent.Ground[StartPos[0], StartPos[1]].remove(self)
-        #Parent.Ground[Position[0], Position[1]].append(self)
+        #EcoSystem.Ground[StartPos[0], StartPos[1]].remove(self)
+        #EcoSystem.Ground[Position[0], Position[1]].append(self)
 
     # Итерация действия у животного.
     def Step(self):
@@ -562,7 +548,7 @@ class Animal(Food):
     # Установка цели
     def SetAim(self):
         ''' Установка цели '''
-        self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))]) 
+        self.Aim = np.array([float(random.randint(0, self.EcoSystem.Width)), float(random.randint(0, self.EcoSystem.Height))]) 
         self.AimObject
 
     def Path(self,Other):
@@ -577,7 +563,7 @@ class Animal(Food):
 #    def Aim_1_Atack(self, classes):
 #        for name in classes:
 #            m = Environment.Field.Alive
-#            Aims = list(filter(lambda x: Path(x) < 10 and x.__class__.__name__ == name, self.Parent(m)))
+#            Aims = list(filter(lambda x: Path(x) < 10 and x.__class__.__name__ == name, self.EcoSystem(m)))
 #            AimsCount = len(Aims)
 #            if AimsCount == 0:
 #                self.SetAim()
