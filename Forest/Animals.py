@@ -104,7 +104,7 @@ class Turtle(Elements.Animal):
         self.Step()
     
     def SetAim(self):
-        if self.EatenBiomass > 0:
+        if Elements.Animal.HungryFlag:
             self.Aim = self.Position
         else:
             Aims = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Grass", self.EcoSystem.Alive))

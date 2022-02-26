@@ -303,6 +303,7 @@ class Animal(Food):
         self._digested_per_step:int = 0
         self._eaten_biomass_treshold:float = 0.
         self._hungry_flag:bool = True
+        self._eaten_biomass_lower_treshold = 0
 
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
@@ -464,6 +465,20 @@ class Animal(Food):
     @EatenBiomass.setter
     def EatenBiomass(self, value:float):
         self._eatenbiomass = float(value)
+
+    #свойство Eaten_Biomass_Lower_Treshhold
+    @property
+    def Eaten_Biomass_Lower_Treshold(self):
+        return self._eaten_biomass_lower_treshold
+    @Eaten_Biomass_Lower_Treshold.setter
+    def Eaten_Biomass_Lower_Treshold(self,value:float):
+        try:
+            if value >= 0 and self.EatenBiomassTreshold > value:
+                self._eaten_biomass_lower_treshold = float(value)
+        except:
+            print('Animal.Eaten_Biomass_Lower_Treshhold не входит \nв рамки от 0 до Animal.EatenBiomassTreshhold или не float')
+
+
 
     def Vector_Length(self, vector):
         return math.sqrt(vector[0]**2 + vector[1]**2) 
