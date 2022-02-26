@@ -104,7 +104,7 @@ class Food(Unit):
         self._freshtime:int = 0
         self._parent = None
         self._biomass:float = 0.
-        self._top_threshold:float = 0.
+        self._top_treshold:float = 0.
         self._energy_coeff:float = 4.
         self._transcoeff:float = 1.
         self._lower_treshold:float = 0.
@@ -278,6 +278,14 @@ class Food(Unit):
                 self._energy = self.TopTreshold
                 self.Biomass += deltam
                 return
+            if value < self.LowerTreshold:
+                deltae = (self._energy + value) - self.LowerTreshold
+                biomtransform = self.EnergyCoeff - self.TransCoeff
+                deltam = deltae / biomtransform
+                self._energy = self.LowerTreshold
+                self.Biomass += deltam
+                return
+            self._energy += value
         except:
             print("Food.Energy – введённое значение не является числом")
 
@@ -288,16 +296,16 @@ class Animal(Food):
         super().__init__()
         self._foodtype:int = 0 # 0 - травоядное, 1 - хищное , 2 - всеядное
         self._foodsize:int = 0 
-        self._speed = 0.
-        self._sleeptime = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
-        self._animaltype = 0 # 0 - простейшее, 1 - плоские черви, 2 - круглые черви, 3 - кольчатые черви, 4 - кишечнополостные, 5 - членистоногие, 6 - моллюски, 7 - иглокожие, 8 - хордовые 
-        self._rotteneattype = 0 # 0 - не ест гниль, 1 - ест только гниль, 2 - безразлично
-        self._aim = np.zeros(2, float)
-        self._stamina = random.randint(1, 11)
-        self._aim_object = None
-        self._eatenbiomass=0.
-        self._eat_per_step = 10.
-        self._digested_per_step = 0
+        self._speed:float = 0.
+        self._sleeptime:int = 0 # 0 - ночное, 1 - дневное, 2 - и то и другое
+        self._animaltype:int = 0 # 0 - простейшее, 1 - плоские черви, 2 - круглые черви, 3 - кольчатые черви, 4 - кишечнополостные, 5 - членистоногие, 6 - моллюски, 7 - иглокожие, 8 - хордовые 
+        self._rotteneattype:int = 0 # 0 - не ест гниль, 1 - ест только гниль, 2 - безразлично
+        self._aim:np.array = np.zeros(2, float)
+        self._stamina:int = random.randint(1, 11)
+        self._aim_object:Unit = None
+        self._eatenbiomass:float = 0.
+        self._eat_per_step:float = 10.
+        self._digested_per_step:int = 0
 
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
@@ -439,7 +447,7 @@ class Animal(Food):
         return self._eatenbiomass
     @EatenBiomass.setter
     def EatenBiomass(self, value): 
-        self._eatenbiomass = value
+        self._eatenbiomass = float(value)
 
     def Vector_Length(self, vector):
         return math.sqrt(vector[0]**2 + vector[1]**2) 
@@ -552,10 +560,10 @@ class Animal(Food):
             self.SetAim()
         self.Move(1)
         if  self.Digested_Per_Step > self.EnergyCoeff:
-            self.Energy += self.EatenBiomass*(self.EnergyCoeff-self.TransCoeff)
+            self.Energy += self.EatenBiomass * (self.EnergyCoeff - self.TransCoeff)
             self.EatenBiomass = 0
         else:
-            self.Energy += self.EatenBiomass*(self.EnergyCoeff-self.TransCoeff)
+            self.Energy += self.Digested_Per_Step * (self.EnergyCoeff - self.TransCoeff)
             self.EatenBiomass -= self.Digested_Per_Step
 
 
