@@ -301,6 +301,8 @@ class Animal(Food):
         self._eatenbiomass:float = 0.
         self._eat_per_step:float = 10.
         self._digested_per_step:int = 0
+        self._eaten_biomass_treshold:float = 0.
+        self._hungry_flag:bool = True
 
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
@@ -317,6 +319,25 @@ class Animal(Food):
                 print("Animal.FoodType не является допустимым значением")
         except:
             print("Animal.FoodType не является допустимым значением")
+
+    @property
+    def EatenBiomassTreshold(self):
+        return self._eaten_biomass_treshold
+    @EatenBiomassTreshold.setter
+    def EatenBiomassTreshold(self, value):
+        self._eaten_biomass_treshold = value
+
+    @property
+    def HungryFlag(self):
+        return self._hungry_flag
+    @HungryFlag.setter
+    def HungryFlag(self):
+        if self.EatenBiomass > self.EatenBiomassTreshold:
+            self._hungry_flag = False
+            return
+        if self.EatenBiomass < self.Eaten_Biomass_Lower_Treshold:
+            self._hungry_flag = True
+            return
 
     # Свойство FoodSize. Определяет размер пищи, предпочитаемый объектом
     @property
