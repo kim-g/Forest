@@ -325,19 +325,20 @@ class Animal(Food):
         return self._eaten_biomass_treshold
     @EatenBiomassTreshold.setter
     def EatenBiomassTreshold(self, value):
-        self._eaten_biomass_treshold = value
+        try:
+            self._eaten_biomass_treshold = float(value)
+        except:
+            print("Error")
 
     @property
     def HungryFlag(self):
         return self._hungry_flag
     @HungryFlag.setter
-    def HungryFlag(self):
-        if self.EatenBiomass > self.EatenBiomassTreshold:
-            self._hungry_flag = False
-            return
-        if self.EatenBiomass < self.Eaten_Biomass_Lower_Treshold:
-            self._hungry_flag = True
-            return
+    def HungryFlag(self, value):
+        try:
+            self._hungry_flag = bool(value)
+        except:
+             print("Error")
 
     # Свойство FoodSize. Определяет размер пищи, предпочитаемый объектом
     @property
@@ -536,6 +537,9 @@ class Animal(Food):
             else:
                 self.EatenBiomass += self.EatPerStep
                 food.Biomass -= self.EatPerStep
+            if self.EatenBiomass > self.EatenBiomassTreshold:
+                self._hungry_flag = False
+                return
 
     # Метод Move. Передвижение
     def Move(self, force):
@@ -581,6 +585,9 @@ class Animal(Food):
         else:
             self.Energy += self.Digested_Per_Step * (self.EnergyCoeff - self.TransCoeff)
             self.EatenBiomass -= self.Digested_Per_Step
+        if self.EatenBiomass < self.Eaten_Biomass_Lower_Treshold:
+            self._hungry_flag = True
+            return
 
 
     # Установка цели
