@@ -1,7 +1,7 @@
 import pygame
 import numpy as np
-import Elements
 import Environment
+import Elements
 import random
 import Plants
 import Animals
@@ -14,7 +14,7 @@ def CreateBeast(x,y,ax,ay):
     Beast.Position = np.array([x,y])
     Beast.Aim = np.array([ax,ay])
     Beast.Speed = 1.
-    Beast.Parent = Env
+    Beast.EcoSystem = Env
     Beast.Stamina = 10
     Beast.Digested_Per_Step = 5.
     #Env.Ground[500,500].append(animal)
@@ -33,7 +33,7 @@ def CreateFox(x, y, ax, ay):
     Fox.Position = np.array([x, y])
     Fox.Aim = np.array([ax, ay])
     Fox.Speed = 1.
-    Fox.Parent = Env
+    Fox.EcoSystem = Env
     Fox.Stamina = 20
     Fox.Lower_Treshold = 2
     Fox.Digested_Per_Step = 5.
@@ -52,7 +52,7 @@ def CreateTurtle(x, y, ax, ay):
     Turtle.Position = np.array([x, y])
     Turtle.Aim = np.array([ax, ay])
     Turtle.Speed = 0.5
-    Turtle.Parent = Env
+    Turtle.EcoSystem = Env
     Turtle.Stamina = 3
     Turtle.TopTreshold = 44.
     Turtle.Digested_Per_Step = 5.
@@ -69,7 +69,7 @@ def CreateChameleon(x, y, ax, ay):
     Chameleon.Position = np.array([x, y])
     Chameleon.Aim = np.array([ax, ay])
     Chameleon.Speed = 1.
-    Chameleon.Parent = Env
+    Chameleon.EcoSystem = Env
     Chameleon.Stamina = 5
     Chameleon.Digested_Per_Step = 5.
     Env.Elements.append(Chameleon)
@@ -93,7 +93,7 @@ def CreateGrass(Parent = None):
         Grass.X = Parent.X + math.cos(angle)
         Grass.Y = Parent.Y + math.sin(angle)
     Grass.IsPlant = True
-    Grass.Parent = Env
+    Grass.EcoSystem = Env
     Grass.AmountOfChlorophill = 2
     Env.Elements.append(Grass)
     Env.Alive.append(Grass)

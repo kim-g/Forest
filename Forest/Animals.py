@@ -71,10 +71,10 @@ class Fox(Elements.Animal):
             self.Aim[0] = 0
         if self.Aim[1] < 0:
             self.Aim[1] = 0
-        if self.Aim[0] >= self.Parent.Width:
-            self.Aim[0] = self.Parent.Width - 1
-        if self.Aim[1] >= self.Parent.Height:
-            self.Aim[1] = self.Parent.Height - 1
+        if self.Aim[0] >= self.EcoSystem.Width:
+            self.Aim[0] = self.EcoSystem.Width - 1
+        if self.Aim[1] >= self.EcoSystem.Height:
+            self.Aim[1] = self.EcoSystem.Height - 1
 
 ######################################################################################################################
 # Класс черпахи
@@ -107,7 +107,7 @@ class Turtle(Elements.Animal):
         if self.EatenBiomass > 0:
             self.Aim = self.Position
         else:
-            Aims = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Grass", self.Parent.Alive))
+            Aims = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Grass", self.EcoSystem.Alive))
             AimsCount=len(Aims)
             if AimsCount ==0:
                 super().SetAim()
