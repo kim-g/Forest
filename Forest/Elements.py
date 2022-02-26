@@ -441,7 +441,7 @@ class Animal(Food):
     def EatenBiomass(self):
         return self._eatenbiomass
     @EatenBiomass.setter
-    def EatenBiomass(self, value): 
+    def EatenBiomass(self, value:float):
         self._eatenbiomass = float(value)
 
     def Vector_Length(self, vector):
@@ -554,7 +554,7 @@ class Animal(Food):
             self.OnAim(self.AimObject)
             self.SetAim()
         self.Move(1)
-        if  self.Digested_Per_Step > self.EnergyCoeff:
+        if  self.EnergyCoeff > self.Digested_Per_Step:
             self.Energy += self.EatenBiomass * (self.EnergyCoeff - self.TransCoeff)
             self.EatenBiomass = 0
         else:
