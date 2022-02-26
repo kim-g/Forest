@@ -57,9 +57,12 @@ def CreateTurtle(x, y, ax, ay):
     Turtle.EcoSystem = Env
     Turtle.Stamina = 3
     Turtle.TopTreshold = 44.
-    Turtle.Digested_Per_Step = 3.
+    Turtle.Digested_Per_Step = 10.
     Turtle.Biomass = 10
     Turtle.EatenBiomass = 1
+    Turtle.Eaten_Biomass_Lower_Treshold = 10.
+    Turtle.EatenBiomassTreshold = 400.
+    Turtle.EatPerStep = 150.
 
     # Добавление спрайта в группу
     all_sprites.add(Turtle)
@@ -103,7 +106,7 @@ def CreateGrass(Parent = None):
     Env.Elements.append(Grass)
     Env.Alive.append(Grass)
     Grass.TopTreshold = 23.
-    Grass.Biomass = 35.
+    Grass.Biomass = 100.
     Grass.Energy = 32.
 
     # Добавление спрайтов в группу
