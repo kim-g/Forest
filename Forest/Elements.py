@@ -534,7 +534,7 @@ class Animal(Food):
                 if food.Size == self._foodsize:
                     CanEat = True
         
-        # Проверка для хищников
+        # Проверка для хищников#
         if self._foodtype == 1:
             if food.IsPlant:
                 CanEat = False
