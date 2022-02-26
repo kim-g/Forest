@@ -58,7 +58,7 @@ def CreateTurtle(x, y, ax, ay):
     Turtle.Stamina = 3
     Turtle.TopTreshold = 44.
     Turtle.Digested_Per_Step = 1.
-    Turtle.Biomass = 10
+    Turtle.Biomass = 10#
 
     # Добавление спрайта в группу
     all_sprites.add(Turtle)
