@@ -108,6 +108,7 @@ class Food(Unit):
         self._energy_coeff:float = 4.
         self._transcoeff:float = 1.
         self._lower_treshold:float = 0.
+        self._energy_per_step:float = 0.
 
     # Свойство Energy. Определяет энергетическую ценность объекта
     @property
@@ -212,7 +213,7 @@ class Food(Unit):
 
     # Абстрактный метод совершения действия
     def Step(self):
-        pass
+        self.Energy -= self.EnergyPerStep
 
     # Свойство Biomass. Определяет биомассу объекта
     @property
@@ -266,23 +267,19 @@ class Food(Unit):
         except:
             print("Недопустимое значение перменной")
 
-    # Свойство Energy. Определяет энергетическую ценность объекта
     @property
-    def Energy(self):
-        '''Определяет энергетическую ценность объекта'''
-        return self._energy
-    @Energy.setter
-    def Energy(self, value:float):
+    def EnergyPerStep(self):
+        """Количество энергии, когторое затрачивает существо за ход в состоянии покоя"""
+        return self._energy_per_step
+    @EnergyPerStep.setter
+    def EnergyPerStep(self, value:float):
         try:
-            if value > self.TopTreshold:
-                deltae = (self._energy + value) - self.TopTreshold
-                biomtransform = self.EnergyCoeff + self.TransCoeff
-                deltam = deltae / biomtransform
-                self._energy = self.TopTreshold
-                self.Biomass += deltam
-                return
+            value = float(value)
         except:
-            print("Food.Energy – введённое значение не является числом")
+            print ("Food.EnergyPerStep не является float")
+
+        if (value > 0):
+            self._energy_per_step = value
 
 class Animal(Food):
     """Животные. Базовый класс"""
@@ -304,6 +301,7 @@ class Animal(Food):
         self._eaten_biomass_treshold:float = 0.
         self._hungry_flag:bool = True
         self._eaten_biomass_lower_treshold = 0
+
 
 
     # Свойство FoodType. Определяет тип пищи, которым объект питается
@@ -333,6 +331,7 @@ class Animal(Food):
         except:
             print("Error EatenBiomassTreshold")
 
+            
     # Свойство HungryFlag. Определяет переваривает объект или ищет еду
     @property
     def HungryFlag(self):
@@ -684,6 +683,11 @@ class Plants(Food):
         except:
             print("Plants.PlantType не является целым числом")
             print("Food.FreshTime не является целым числом") 
+
+    def Step(self):
+        """Действия за один шаг"""
+        super().Step()
+        self.photosyntes(True)
 
     def photosyntes(self, light):
         if not bool(light):

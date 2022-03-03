@@ -18,6 +18,7 @@ def CreateBeast(x,y,ax,ay):
     Beast.Stamina = 10
     Beast.Digested_Per_Step = 0.
     Beast.Biomass = 10.
+    Beast.EnergyPerStep = 5.
     #Env.Ground[500,500].append(animal)
     Env.Elements.append(Beast)
     Env.Alive.append(Beast)
@@ -39,6 +40,7 @@ def CreateFox(x, y, ax, ay):
     Fox.Lower_Treshold = 2
     Fox.Digested_Per_Step = 0.
     Fox.Biomass = 10.
+    Fox.EnergyPerStep = 100.
     Env.Elements.append(Fox)
     Env.Alive.append(Fox)
 
@@ -63,6 +65,7 @@ def CreateTurtle(x, y, ax, ay):
     Turtle.EatenBiomassTreshold = 50.
     Turtle.Eaten_Biomass_Lower_Treshold = 10.
     Turtle.EatPerStep = 10.
+    Turtle.EnergyPerStep = 1.
 
     # Добавление спрайта в группу
     all_sprites.add(Turtle)
@@ -102,6 +105,7 @@ def CreateGrass(Parent = None):
         Grass.Y = Parent.Y + math.sin(angle)
     Grass.IsPlant = True
     Grass.EcoSystem = Env
+    Grass.EnergyPerStep = 5.
     Grass.AmountOfChlorophill = 2
     Env.Elements.append(Grass)
     Env.Alive.append(Grass)

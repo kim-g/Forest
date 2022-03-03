@@ -88,6 +88,8 @@ class Turtle(Elements.Animal):
         super().__init__()
         turtle_img = pygame.image.load(pathlib.Path(AnimalDir, "turtle16x16.png")).convert_alpha()
         self.image = turtle_img
+        self.Out_Image = turtle_img
+        self.Hole_Image = pygame.image.load(pathlib.Path(AnimalDir, "turtle_hole16x16.png")).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.center = (int(self.X * 16 + 8), int(self.Y * 16 + 8))
         self._aim_sprite = Elements.Aim()
@@ -106,7 +108,9 @@ class Turtle(Elements.Animal):
     def SetAim(self):
         if not self.HungryFlag:
             self.Aim = self.Position
+            self.image = self.Hole_Image
         else:
+            self.image = self.Out_Image
             Aims = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Grass", self.EcoSystem.Alive))
             AimsCount=len(Aims)
             if AimsCount ==0:
