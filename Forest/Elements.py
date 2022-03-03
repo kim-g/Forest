@@ -300,7 +300,7 @@ class Animal(Food):
         self._aim_object:Unit = None
         self._eatenbiomass:float = 0.
         self._eat_per_step:float = 10.
-        self._digested_per_step:int = 0
+        self._digested_per_step:float = 0
         self._eaten_biomass_treshold:float = 0.
         self._hungry_flag:bool = True
         self._eaten_biomass_lower_treshold = 0
@@ -508,7 +508,7 @@ class Animal(Food):
     @Digested_Per_Step.setter
     def Digested_Per_Step(self, value:float):
         try:
-            self.digested_per_step=float(value)
+            self._digested_per_step=float(value)
         except:
             pass
 
@@ -587,9 +587,6 @@ class Animal(Food):
         if force == 5:
             self.Stamina -= 8
 
-        #EcoSystem.Ground[StartPos[0], StartPos[1]].remove(self)
-        #EcoSystem.Ground[Position[0], Position[1]].append(self)
-
     # Итерация действия у животного.
     def Step(self):
         super().Step()
@@ -598,13 +595,13 @@ class Animal(Food):
             self.OnAim(self.AimObject)
             self.SetAim()
         self.Move(1)
-        if  self.EnergyCoeff > self.Digested_Per_Step:
+        if  self.EatenBiomass <= self.Digested_Per_Step:
             self.Energy += self.EatenBiomass * (self.EnergyCoeff - self.TransCoeff)
             self.EatenBiomass = 0
         else:
             self.Energy += self.Digested_Per_Step * (self.EnergyCoeff - self.TransCoeff)
             self.EatenBiomass -= self.Digested_Per_Step
-        if self.EatenBiomass < self.Eaten_Biomass_Lower_Treshold:
+        if self.EatenBiomass <= self.Eaten_Biomass_Lower_Treshold:
             self.HungryFlag = True
             return
 
@@ -689,8 +686,8 @@ class Plants(Food):
             print("Food.FreshTime не является целым числом") 
 
     def photosyntes(self, light):
-        #if not bool(light):
-        #    return
+        if not bool(light):
+            return
         """Добавляет определенное кол-во энергнии в зависимости от размера"""
         K=50
         E = K*self.AmountOfChlorophill

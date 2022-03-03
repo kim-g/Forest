@@ -57,12 +57,12 @@ def CreateTurtle(x, y, ax, ay):
     Turtle.EcoSystem = Env
     Turtle.Stamina = 3
     Turtle.TopTreshold = 44.
-    Turtle.Digested_Per_Step = 10.
+    Turtle.Digested_Per_Step = 1
     Turtle.Biomass = 10
     Turtle.EatenBiomass = 1
+    Turtle.EatenBiomassTreshold = 50.
     Turtle.Eaten_Biomass_Lower_Treshold = 10.
-    Turtle.EatenBiomassTreshold = 400.
-    Turtle.EatPerStep = 150.
+    Turtle.EatPerStep = 10.
 
     # Добавление спрайта в группу
     all_sprites.add(Turtle)

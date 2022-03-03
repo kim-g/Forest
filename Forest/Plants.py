@@ -17,7 +17,7 @@ class Grass(Elements.Plants):
         self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
 
     def Step(self):
-        self.photosyntes(True)
+        self.photosyntes(False)
 
     def update(self):
         self.Step()
