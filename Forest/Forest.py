@@ -131,7 +131,7 @@ def CreateGrass(Parent = None):
     Grass.IsPlant = True
     Grass.EcoSystem = Env
     Grass.EnergyPerStep = 5.
-    Grass.AmountOfChlorophill = 2
+    Grass.AmountOfChlorophill = 2.
     Env.Elements.append(Grass)
     Env.Alive.append(Grass)
     Grass.TopTreshold = 23.
@@ -162,6 +162,7 @@ for i in range(0, 10):
     CreateBeast(0., 0., 10., 10.)
     CreateFox(0., 0., 9., 9.)
     CreateTurtle(2., 3., 0., 0.)
+    CreateBunny(2., 3., 3., 2.)
 
 for i in range(0, 400):
     CreateGrass()
