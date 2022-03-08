@@ -46,6 +46,7 @@
     <Content Include="sprites\animals\boar16x16.png" />
     <Content Include="sprites\animals\boar32x32.1.png" />
     <Content Include="sprites\animals\boar32x32.png" />
+    <Content Include="sprites\animals\chameleon16x16.png" />
     <Content Include="sprites\animals\dog16x16.png" />
     <Content Include="sprites\animals\dog32x32.1.png" />
     <Content Include="sprites\animals\dog32х32.png" />
@@ -57,8 +58,23 @@
     <Content Include="sprites\animals\turtle16x16.png" />
     <Content Include="sprites\animals\turtle32x32.1.png" />
     <Content Include="sprites\animals\turtle32x32.png" />
+    <Content Include="sprites\animals\turtle_hole16x16.png" />
+    <Content Include="sprites\animals\Волк 16.png" />
+    <Content Include="sprites\animals\гусеница 16.png" />
+    <Content Include="sprites\animals\Заяц 16.png" />
+    <Content Include="sprites\animals\Корова 16.png" />
+    <Content Include="sprites\animals\Лягушка 16.png" />
+    <Content Include="sprites\animals\Мышь 16.png" />
+    <Content Include="sprites\animals\Сова 16.png" />
+    <Content Include="sprites\animals\тигр 16.png" />
+    <Content Include="sprites\animals\Что то крайне отдаленно похожее на обезьяну 16.png" />
     <Content Include="sprites\interface\aim.png" />
     <Content Include="sprites\plants\grass.png" />
+    <Content Include="sprites\plants\Береза 16.png" />
+    <Content Include="sprites\plants\Мох 16.png" />
+    <Content Include="sprites\plants\Одуванчик 16.png" />
+    <Content Include="sprites\plants\папоротник 16.png" />
+    <Content Include="sprites\plants\ромашка 16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
