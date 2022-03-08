@@ -92,6 +92,31 @@ def CreateChameleon(x, y, ax, ay):
     animals_sprites.add(Chameleon)
     interface_sprites.add(Chameleon._aim_sprite)
 
+# Функция, создающая кролика из Террарии
+def CreateBunny(x, y, ax, ay):
+    # Создание кролика
+    Bunny = Animals.Bunny()
+    Bunny.Position = np.array([x, y])
+    Bunny.Aim = np.array([ax, ay])
+    Bunny.Speed = 2.5
+    Bunny.EcoSystem = Env
+    Bunny.Stamina = 11
+    Bunny.Digested_Per_Step = 15.
+    Env.Elements.append(Bunny)
+    Env.Alive.append(Bunny)
+    Bunny.Biomass = 2500.
+    Bunny.EatenBiomass = 1
+    Bunny.EatenBiomassTreshold = 50.
+    Bunny.Eaten_Biomass_Lower_Treshold = 10.
+    Bunny.EatPerStep = 10.
+    Bunny.EnergyPerStep = 1.
+
+    # Добавление спрайта в группу
+    all_sprites.add(Bunny)
+    all_sprites.add(Bunny._aim_sprite)
+    animals_sprites.add(Bunny)
+    interface_sprites.add(Bunny._aim_sprite)
+
 # Функция, создающая траву
 def CreateGrass(Parent = None):
     Grass = Plants.Grass()
@@ -110,8 +135,8 @@ def CreateGrass(Parent = None):
     Env.Elements.append(Grass)
     Env.Alive.append(Grass)
     Grass.TopTreshold = 23.
-    Grass.Biomass = 100.
-    Grass.Energy = 32.
+    Grass.Biomass = 500.
+    Grass.Energy = 10.
 
     # Добавление спрайтов в группу
     all_sprites.add(Grass)
