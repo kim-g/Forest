@@ -133,7 +133,7 @@ class Turtle(Elements.Animal):
 
 ######################################################################################################################
 # Класс кролика
-# Всё время ходит.
+# Всё время ходит
 # Целью выбирается ближайшая трава. Если сыт, старается убежать от лисов
 ######################################################################################################################
 class Bunny(Elements.Animal):
@@ -146,7 +146,7 @@ class Bunny(Elements.Animal):
         self.rect.center = (int(self.X * 16 + 8), int(self.Y * 16 + 8))
         self._aim_sprite = Elements.Aim()
 
-        def Move(self, force):
+    def Move(self, force):
         super().Move(force)
         self.rect.center = (int(self.X * 16 + 8), int(self.Y * 16 + 8))
 
@@ -166,6 +166,57 @@ class Bunny(Elements.Animal):
         else:
             self.image = self.Out_Image
             Aims = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Grass", self.EcoSystem.Alive))
+            AimsCount=len(Aims)
+            if AimsCount ==0:
+                super().SetAim()
+                return
+            if AimsCount == 1:
+                self.Aim = Aims[0].Position
+                self.AimObject = Aims[0]
+                return
+            if AimsCount < 4:
+                self.AimObject = Aims[random.randint(0,AimsCount-1)]
+                self.Aim=self.AimObject.Position
+                return
+            Aims.sort(key= lambda x: self.Path(x))
+            self.AimObject = Aims[random.randint(0,3)]
+            self.Aim=self.AimObject.Position
+
+######################################################################################################################
+# Класс волка
+# Всё время ходит.
+# Целью выбирается ближайшие кролики
+# Ауф
+######################################################################################################################
+class Wolf(Elements.Animal):
+    def __init__(self):
+
+        super().__init__()
+        wolf_img = pygame.image.load(pathlib.Path(AnimalDir, "Wolf16x16.png")).convert_alpha()
+        self.image = wolf_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (int(self.X * 16 + 8), int(self.Y * 16 + 8))
+        self._aim_sprite = Elements.Aim()
+        self.wolf_pokushal_img = pygame.image.load(pathlib.Path(AnimalDir, "WolfChill16x16.png")).convert_alpha()
+
+    def Move(self, force):
+        super().Move(force)
+        self.rect.center = (int(self.X * 16 + 8), int(self.Y * 16 + 8))
+
+    def Step(self):
+        super().Step()
+        self._aim_sprite.Position = self.Aim
+
+    def update(self):
+        self.Step()
+
+    def SetAim(self, food):
+        '''Установка цели волка'''
+        if not self.HungryFlag:  
+            self.image = self.wolf_pokushal_img
+            self.Aim = self.Position
+        else:
+            Aims = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Bunny", self.EcoSystem.Alive))
             AimsCount=len(Aims)
             if AimsCount ==0:
                 super().SetAim()

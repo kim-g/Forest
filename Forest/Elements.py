@@ -619,24 +619,6 @@ class Animal(Food):
         """Метод, вызываемый при достижении цели"""
         pass
 
-#    def Aim_1_Atack(self, classes):
-#        for name in classes:
-#            m = Environment.Field.Alive
-#            Aims = list(filter(lambda x: Path(x) < 10 and x.__class__.__name__ == name, self.EcoSystem(m)))
-#            AimsCount = len(Aims)
-#            if AimsCount == 0:
-#                self.SetAim()
-#                return
-#            if AimsCount == 1:
-#                self.Aim = Aims[0].Position
-#                return
-#            if AimsCount < 4:
-#                self.Aim = Aims[random.randint(0, AimsCount - 1)].Position
-#                return
-#            Aims.sort(key=lambda x: self.Path(x))
-#            self.Aim = Aims[random.randint(0, 3)].Position
-#            return self.Aim
-
 
 class Plants(Food):
     """Базовый класс растений"""
@@ -657,7 +639,7 @@ class Plants(Food):
             self._amountofchllorophill = int(value)
         except:
             print("Plants.AmOfChl не является целым числом")
-                  
+                 
     # Токсичность 0 - нетоксично, 1 - малотоксичный (неприятно), 2 - среднетоксичный (болезнь) 3 - Смертельный 
     @property
     def Toxicity(self):
