@@ -93,29 +93,29 @@ def CreateChameleon(x, y, ax, ay):
     interface_sprites.add(Chameleon._aim_sprite)
 
 # Функция, создающая кролика из Террарии
-def CreateBunny(x, y, ax, ay):
-    # Создание кролика
-    Bunny = Animals.Bunny()
-    Bunny.Position = np.array([x, y])
-    Bunny.Aim = np.array([ax, ay])
-    Bunny.Speed = 2.5
-    Bunny.EcoSystem = Env
-    Bunny.Stamina = 11
-    Bunny.Digested_Per_Step = 15.
-    Env.Elements.append(Bunny)
-    Env.Alive.append(Bunny)
-    Bunny.Biomass = 2500.
-    Bunny.EatenBiomass = 1
-    Bunny.EatenBiomassTreshold = 50.
-    Bunny.Eaten_Biomass_Lower_Treshold = 10.
-    Bunny.EatPerStep = 10.
-    Bunny.EnergyPerStep = 1.
-
-    # Добавление спрайта в группу
-    all_sprites.add(Bunny)
-    all_sprites.add(Bunny._aim_sprite)
-    animals_sprites.add(Bunny)
-    interface_sprites.add(Bunny._aim_sprite)
+#def CreateBunny(x, y, ax, ay):
+#    # Создание кролика
+#    Bunny = Animals.Bunny()
+#    Bunny.Position = np.array([x, y])
+#    Bunny.Aim = np.array([ax, ay])
+#    Bunny.Speed = 2.5
+#    Bunny.EcoSystem = Env
+#    Bunny.Stamina = 11
+#    Bunny.Digested_Per_Step = 15.
+#    Env.Elements.append(Bunny)
+#    Env.Alive.append(Bunny)
+#    Bunny.Biomass = 2500.
+#    Bunny.EatenBiomass = 1
+#    Bunny.EatenBiomassTreshold = 50.
+#    Bunny.Eaten_Biomass_Lower_Treshold = 10.
+#    Bunny.EatPerStep = 10.
+#    Bunny.EnergyPerStep = 1.
+#
+#    # Добавление спрайта в группу
+#    all_sprites.add(Bunny)
+#    all_sprites.add(Bunny._aim_sprite)
+#    animals_sprites.add(Bunny)
+#    interface_sprites.add(Bunny._aim_sprite)
 
 def CreateWolf(x, y, ax, ay):
     # Создание волка
@@ -169,7 +169,7 @@ def CreateGrass(Parent = None):
 # Визуализация
 FPS = 15
 pygame.init()
-pygame.mixer.init()  # для звука
+#pygame.mixer.init()  # для звука
 screen = pygame.display.set_mode((0,0))
 pygame.display.set_caption("Forest")
 clock = pygame.time.Clock()
@@ -186,7 +186,7 @@ for i in range(0, 10):
     CreateBeast(0., 0., 10., 10.)
     CreateFox(0., 0., 9., 9.)
     CreateTurtle(2., 3., 0., 0.)
-    CreateBunny(2., 3., 3., 2.)
+#    CreateBunny(2., 3., 3., 2.)
     CreateWolf(4., 4., 4., 4.)
 
 for i in range(0, 400):
