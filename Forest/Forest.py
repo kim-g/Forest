@@ -1,14 +1,14 @@
 import pygame
 import numpy as np
 import Environment
-import Elements
 import random
 import Plants
 import Animals
+import ProgramInterface
 import math
 
-# Функция создания и добавления Зверя
-def CreateBeast(x,y,ax,ay):
+def CreateBeast(x:float, y:float, ax:float, ay:float):
+    """Функция для создания абстрактного зверя для отладки"""
     # Создание Зверя
     Beast = Animals.Beast()
     Beast.Position = np.array([x,y])
@@ -29,8 +29,8 @@ def CreateBeast(x,y,ax,ay):
     animals_sprites.add(Beast)
     interface_sprites.add(Beast._aim_sprite)
 
-def CreateFox(x, y, ax, ay):
-    # Создание Зверя
+def CreateFox(x:float, y:float, ax:float, ay:float):
+    """Функция для создания песца"""
     Fox = Animals.Fox()
     Fox.Position = np.array([x, y])
     Fox.Aim = np.array([ax, ay])
@@ -50,8 +50,8 @@ def CreateFox(x, y, ax, ay):
     animals_sprites.add(Fox)
     interface_sprites.add(Fox._aim_sprite)
 
-def CreateTurtle(x, y, ax, ay):
-    # Создание Зверя
+def CreateTurtle(x:float, y:float, ax:float, ay:float):
+    """Функция для создания черепахи для отладки"""
     Turtle = Animals.Turtle()
     Turtle.Position = np.array([x, y])
     Turtle.Aim = np.array([ax, ay])
@@ -73,8 +73,8 @@ def CreateTurtle(x, y, ax, ay):
     animals_sprites.add(Turtle)
     interface_sprites.add(Turtle._aim_sprite)
 
-def CreateChameleon(x, y, ax, ay):
-    # Создание Зверя
+def CreateChameleon(x:float, y:float, ax:float, ay:float):
+    """Функция для создания хамелеона для отладки"""
     Chameleon = Animals.Chameleon()
     Chameleon.Position = np.array([x, y])
     Chameleon.Aim = np.array([ax, ay])
@@ -92,15 +92,16 @@ def CreateChameleon(x, y, ax, ay):
     animals_sprites.add(Chameleon)
     interface_sprites.add(Chameleon._aim_sprite)
 
-# Функция, создающая траву
+
 def CreateGrass(Parent = None):
+    """Функция для создания травы"""
     Grass = Plants.Grass()
     if Parent == None:
         Grass.X = random.randint(0, Env.Width - 1)
         Grass.Y = random.randint(0, Env.Height - 1)
     else:
         angle = random.randint(0,360)
-        angle = angle / 360 * 2 * math.pi
+        angle = float(angle / 360 * 2 * math.pi)
         Grass.X = Parent.X + math.cos(angle)
         Grass.Y = Parent.Y + math.sin(angle)
     Grass.IsPlant = True
@@ -130,7 +131,8 @@ animals_sprites = pygame.sprite.Group()
 interface_sprites = pygame.sprite.Group()
 
 # Создание среды
-Env = Environment.Field(pygame.display.Info())
+monitor_info = pygame.display.Info()
+Env = Environment.Field(monitor_info)
 
 # Создание объектов
 for i in range(0, 10):
@@ -142,8 +144,16 @@ for i in range(0, 400):
     CreateGrass()
 
 
+# Создание окна интерфейса
+Pause = ProgramInterface.PauseWindow()
+Pause.Show = False;
+interface_sprites.add(Pause)
+all_sprites.add(Pause)
+
 running = True
 interface = True
+pause = False
+
 while running:
     # Ограничение FPS
     clock.tick(FPS)
@@ -153,11 +163,23 @@ while running:
         # проверить закрытие окна
         if event.type == pygame.QUIT:
             running = False
+
+        # Проверка нажатия кнопки
         if event.type == pygame.KEYDOWN:
+
+            # Проверяем кнопку Esc для закрытия
             if event.key == pygame.K_ESCAPE:
                 running = False
+
+            # Проверяем кнопку I для отображения / скрытия интерфейсных элементов
             if event.key == pygame.K_i:
                 interface = not interface
+
+            # Проверяем кнопку P для паузы в симуляции
+            if event.key == pygame.K_p:
+                pause = not pause
+                Pause.Show = pause
+
 #            if event.key == pygame.K_t:
 #                CreateTurtle(23., 32., 0., 0.)
 #            if event.key == pygame.K_f:
@@ -166,10 +188,11 @@ while running:
 #                CreateBeast(40., 15., 0., 0.)
 
     # Обновление
-    all_sprites.update()
-    Grass = list(filter(lambda x: x.__class__.__name__ == "Grass", Env.Alive))
-    LenGrass = len(Grass)-1
-    CreateGrass()
+    if pause:
+        interface_sprites.update()
+    else:
+        all_sprites.update()
+    #CreateGrass()
 
     # Визуализация (сборка)
     screen.fill(0x00FF00)

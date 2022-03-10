@@ -30,7 +30,13 @@
     <Compile Include="Environment.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Fonts.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Forest.py" />
+    <Compile Include="ProgramInterface.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Plants.py">
       <SubType>Code</SubType>
     </Compile>
