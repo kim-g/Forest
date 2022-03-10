@@ -210,7 +210,7 @@ class Wolf(Elements.Animal):
     def update(self):
         self.Step()
 
-    def SetAim(self, food):
+    def SetAim(self):
         '''Установка цели волка'''
         if not self.HungryFlag:  
             self.image = self.wolf_pokushal_img
