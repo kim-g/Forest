@@ -138,11 +138,11 @@ class Turtle(Elements.Animal):
 ######################################################################################################################
 class Bunny(Elements.Animal):
     def __init__(self):
-
         super().__init__()
         bunny_img = pygame.image.load(pathlib.Path(AnimalDir, "Bunny16x16")).convert_alpha()
         self.image = bunny_img
-        self.rect = self.image.get_rect
+        self.Out_Image = bunny_img
+        self.rect = self.image.get_rect()
         self.rect.center = (int(self.X * 16 + 8), int(self.Y * 16 + 8))
         self._aim_sprite = Elements.Aim()
 
@@ -161,7 +161,7 @@ class Bunny(Elements.Animal):
         if not self.HungryFlag:
             Dangers = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Fox", self.EcoSystem.Alive))
             while Dangers != 0:
-                self.Aim = np.array[self.X + 1, self.Y + 1]
+                self.Aim = np.array([self.X + 1, self.Y + 1])
             self.Aim = self.Position
         else:
             self.image = self.Out_Image
