@@ -18,7 +18,7 @@ def CreateBeast(x:float, y:float, ax:float, ay:float):
     Beast.Stamina = 10
     Beast.Digested_Per_Step = 0.
     Beast.Biomass = 10.
-    Beast.EnergyPerStep = 5.
+    Beast.EnergyPerStep = 0.
     #Env.Ground[500,500].append(animal)
     Env.Elements.append(Beast)
     Env.Alive.append(Beast)
@@ -40,7 +40,7 @@ def CreateFox(x:float, y:float, ax:float, ay:float):
     Fox.Lower_Treshold = 2
     Fox.Digested_Per_Step = 0.
     Fox.Biomass = 10.
-    Fox.EnergyPerStep = 100.
+    Fox.EnergyPerStep = 0.
     Env.Elements.append(Fox)
     Env.Alive.append(Fox)
 
@@ -155,7 +155,7 @@ def CreateGrass(Parent = None):
         Grass.Y = Parent.Y + math.sin(angle)
     Grass.IsPlant = True
     Grass.EcoSystem = Env
-    Grass.EnergyPerStep = 5.
+    Grass.EnergyPerStep = 0.5
     Grass.AmountOfChlorophill = 2.
     Env.Elements.append(Grass)
     Env.Alive.append(Grass)
@@ -188,7 +188,7 @@ for i in range(0, 10):
     CreateBeast(0., 0., 10., 10.)
     CreateFox(0., 0., 9., 9.)
     CreateTurtle(2., 3., 0., 0.)
-#    CreateBunny(2., 3., 3., 2.)
+    CreateBunny(2., 3., 3., 2.)
     CreateWolf(4., 4., 4., 4.)
 
 for i in range(0, 400):
@@ -201,9 +201,15 @@ Pause.Show = False;
 interface_sprites.add(Pause)
 all_sprites.add(Pause)
 
+StepsCountWindow = ProgramInterface.StepsWindow()
+interface_sprites.add(StepsCountWindow)
+all_sprites.add(StepsCountWindow)
+
 running = True
 interface = True
 pause = False
+
+steps = 0
 
 while running:
     # Ограничение FPS
@@ -243,7 +249,9 @@ while running:
         interface_sprites.update()
     else:
         all_sprites.update()
+        StepsCountWindow.Count += 1
     #CreateGrass()
+    
 
     # Визуализация (сборка)
     screen.fill(0x00FF00)

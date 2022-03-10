@@ -226,6 +226,7 @@ class Food(Unit):
             if value <= 0:
                 self.EcoSystem.Delete(self)
                 self.kill()
+                return
             
             self._biomass = float(value)
         except:
