@@ -92,7 +92,56 @@ def CreateChameleon(x:float, y:float, ax:float, ay:float):
     animals_sprites.add(Chameleon)
     interface_sprites.add(Chameleon._aim_sprite)
 
+# Функция, создающая кролика из Террарии
+def CreateBunny(x, y, ax, ay):
+    # Создание кролика
+    Bunny = Animals.Bunny()
+    Bunny.Position = np.array([x, y])
+    Bunny.Aim = np.array([ax, ay])
+    Bunny.Speed = 2.5
+    Bunny.EcoSystem = Env
+    Bunny.Stamina = 11
+    Bunny.Digested_Per_Step = 15.
+    Env.Elements.append(Bunny)
+    Env.Alive.append(Bunny)
+    Bunny.Biomass = 2500.
+    Bunny.EatenBiomass = 1
+    Bunny.EatenBiomassTreshold = 50.
+    Bunny.Eaten_Biomass_Lower_Treshold = 10.
+    Bunny.EatPerStep = 10.
+    Bunny.EnergyPerStep = 1.
 
+    # Добавление спрайта в группу
+    all_sprites.add(Bunny)
+    all_sprites.add(Bunny._aim_sprite)
+    animals_sprites.add(Bunny)
+    interface_sprites.add(Bunny._aim_sprite)
+
+def CreateWolf(x, y, ax, ay):
+    # Создание волка
+    Wolf = Animals.Wolf()
+    Wolf.Position = np.array([x, y])
+    Wolf.Aim = np.array([ax, ay])
+    Wolf.Speed = 2.5
+    Wolf.EcoSystem = Env
+    Wolf.Stamina = 11
+    Wolf.Digested_Per_Step = 15.
+    Env.Elements.append(Wolf)
+    Env.Alive.append(Wolf)
+    Wolf.Biomass = 2500.
+    Wolf.EatenBiomass = 1
+    Wolf.EatenBiomassTreshold = 50.
+    Wolf.Eaten_Biomass_Lower_Treshold = 10.
+    Wolf.EatPerStep = 10.
+    Wolf.EnergyPerStep = 1.
+
+    # Добавление спрайта в группу
+    all_sprites.add(Wolf)
+    all_sprites.add(Wolf._aim_sprite)
+    animals_sprites.add(Wolf)
+    interface_sprites.add(Wolf._aim_sprite)
+
+# Функция, создающая траву
 def CreateGrass(Parent = None):
     """Функция для создания травы"""
     Grass = Plants.Grass()
@@ -107,12 +156,12 @@ def CreateGrass(Parent = None):
     Grass.IsPlant = True
     Grass.EcoSystem = Env
     Grass.EnergyPerStep = 5.
-    Grass.AmountOfChlorophill = 2
+    Grass.AmountOfChlorophill = 2.
     Env.Elements.append(Grass)
     Env.Alive.append(Grass)
     Grass.TopTreshold = 23.
-    Grass.Biomass = 100.
-    Grass.Energy = 32.
+    Grass.Biomass = 500.
+    Grass.Energy = 10.
 
     # Добавление спрайтов в группу
     all_sprites.add(Grass)
@@ -139,6 +188,8 @@ for i in range(0, 10):
     CreateBeast(0., 0., 10., 10.)
     CreateFox(0., 0., 9., 9.)
     CreateTurtle(2., 3., 0., 0.)
+#    CreateBunny(2., 3., 3., 2.)
+    CreateWolf(4., 4., 4., 4.)
 
 for i in range(0, 400):
     CreateGrass()

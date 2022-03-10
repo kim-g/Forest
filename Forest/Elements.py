@@ -303,10 +303,10 @@ class Animal(Food):
         self._eaten_biomass_lower_treshold = 0
 
 
-
-    # Свойство FoodType. Определяет тип пищи, которым объект питается
+    # Свойство FoodType
     @property
     def FoodType(self):
+        '''Определяет тип пищи, которым объект питается'''
         return self._foodtype
     @FoodType.setter
     def FoodType(self,value):
@@ -319,7 +319,7 @@ class Animal(Food):
         except:
             print("Animal.FoodType не является допустимым значением")
 
-    # Свойство EatenBiomassTreshold. Определяет верхний порог сытости объекта
+    # Свойство EatenBiomassTreshold.
     @property
     def EatenBiomassTreshold(self):
         '''Определяет верхний порог сытости объекта'''
@@ -332,7 +332,7 @@ class Animal(Food):
             print("Error EatenBiomassTreshold")
 
             
-    # Свойство HungryFlag. Определяет переваривает объект или ищет еду
+    # Свойство HungryFlag.
     @property
     def HungryFlag(self):
         '''Определяет переваривает объект или ищет еду'''
@@ -344,9 +344,10 @@ class Animal(Food):
         except:
              print("Error HungryFlag")
 
-    # Свойство FoodSize. Определяет размер пищи, предпочитаемый объектом
+    # Свойство FoodSize. 
     @property
     def FoodSize(self):
+        '''Определяет размер пищи, предпочитаемый объектом'''
         return self._foodsize
     @FoodSize.setter
     def FoodSize(self,value):
@@ -359,9 +360,10 @@ class Animal(Food):
         except:
             print("Animal.FoodSize не является допустимым значением")
 
-    # Свойство Speed. Определяет скорость объекта
+    # Свойство Speed. 
     @property
     def Speed(self):
+        '''Определяет скорость объекта'''
         return self._speed
     @Speed.setter
     def Speed(self,value):
@@ -370,9 +372,10 @@ class Animal(Food):
         except:
             print("Animal.Speed не является целым числом")
 
-    # Свойство SleepTime. Определяет время, в которое животное спит
+    # Свойство SleepTime. 
     @property
     def SleepTime(self):
+        '''Определяет время, в которое животное спит'''
         return self._sleeptime
     @SleepTime.setter
     def SleepTime(self,value):
@@ -385,9 +388,10 @@ class Animal(Food):
         except:
             print("Animal.SleepTime не является допустимым значением")
 
-    # Свойство AnimalType. Определяет тип животного
+    # Свойство AnimalType. 
     @property
     def AnimalType(self):
+        '''Определяет тип животного'''
         return self._animaltype
     @AnimalType.setter
     def AnimalType(self,value):
@@ -400,9 +404,10 @@ class Animal(Food):
         except:
             print("Animal.AnimalType не является допустимым значением")
 
-    # Свойство RottenEatType. Определяет какие предпочтения в свежести у объекта
+    # Свойство RottenEatType. 
     @property
     def RottenEatType(self):
+        '''Определяет предпочтения в свежести у объекта'''
         return self._rotteneattype
     @RottenEatType.setter
     def RottenEatType(self,value):
@@ -415,31 +420,19 @@ class Animal(Food):
         except:
             print("Animal.RottenEatType не является допустимым значением") 
 
-
-
-    @property 
-    def Stamina(self):
-        return self._stamina
-    @Stamina.setter
-    def Stamina(self,value): 
-        try:
-            self._stamina=int(value)
-        except:
-            pass
-            print()
-
-    # Свойство Aim. Определяет координаты, на которое животное хочет переместиться животное
+    # Свойство Aim. 
     @property
     def Aim(self):
-        '''Определяет координаты,\n на которое животное хочет переместиться животное'''
+        '''Определяет координаты,\n на которые животное хочет переместиться животное'''
         return self._aim
     @Aim.setter
     def Aim(self, value):
         self._aim = value
 
-    # Свойство Stamina. Определяет выносливость объекта
+    # Свойство Stamina. 
     @property
     def Stamina(self):
+        '''Определяет выносливость объекта'''
         return self._stamina
     @Stamina.setter
     def Stamina(self, value):
@@ -454,17 +447,19 @@ class Animal(Food):
         except:
             print("Animal.Stamina не является числом")
 
-    # Свойство AimObject. Определяет объект, к которому стремится животное
+    # Свойство AimObject. 
     @property
     def AimObject(self):
+        '''Определяет объект, к которому стремится животное'''
         return self._aim_object
     @AimObject.setter
     def AimObject(self, value):
         self._aim_object = value
 
-
+    # Свойство EatenBiomass
     @property
     def EatenBiomass(self):
+        '''Определяет количество съеденной биомассы'''
         return self._eatenbiomass
     @EatenBiomass.setter
     def EatenBiomass(self, value:float):
@@ -500,9 +495,10 @@ class Animal(Food):
         except:
             print("Неправильно установлено Animal.EatPerStep") 
 
-    #Свойство Digested_Per_Step.Определяет Количество биомассы,перевариваемой за шаг
+    #Свойство Digested_Per_Step.
     @property
     def Digested_Per_Step(self):
+        '''Определяет количество биомассы, перевариваемой за шаг'''
         return self._digested_per_step
     @Digested_Per_Step.setter
     def Digested_Per_Step(self, value:float):
@@ -513,14 +509,16 @@ class Animal(Food):
 
     
 
-    # Метод NormalVector. Выдаёт единичный вектор от данного вектора
+    # Метод NormalVector. 
     def NormalVector(self, Vect):
+        '''Выдаёт единичный вектор от данного вектора'''
         lenght = self.Vector_Length(Vect)
         NewVector = np.array([Vect[0]/lenght, Vect[1]/lenght])
         return NewVector
             
-    # Метод Eat. Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного
+    # Метод Eat. 
     def Eat(self, food:Food):
+        '''Проверяет может ли животное съесть обект и в зависимости от результата изменяет энергию животного'''
         CanEat = False
 
 
@@ -559,8 +557,9 @@ class Animal(Food):
                 self.HungryFlag = False
                 return
 
-    # Метод Move. Передвижение
+    # Метод Move. 
     def Move(self, force):
+        '''Передвижение'''
         StartPos = self.Position
         if force == 2 and self.Stamina < 2:
             force = 1
@@ -586,8 +585,8 @@ class Animal(Food):
         if force == 5:
             self.Stamina -= 8
 
-    # Итерация действия у животного.
     def Step(self):
+        '''Итерация действия у животного'''
         super().Step()
 
         if abs(self.Aim[0] - self.Position[0]) < 0.5 and abs(self.Aim[1] -self.Position[1]) < 0.5:
@@ -620,24 +619,6 @@ class Animal(Food):
         """Метод, вызываемый при достижении цели"""
         pass
 
-#    def Aim_1_Atack(self, classes):
-#        for name in classes:
-#            m = Environment.Field.Alive
-#            Aims = list(filter(lambda x: Path(x) < 10 and x.__class__.__name__ == name, self.EcoSystem(m)))
-#            AimsCount = len(Aims)
-#            if AimsCount == 0:
-#                self.SetAim()
-#                return
-#            if AimsCount == 1:
-#                self.Aim = Aims[0].Position
-#                return
-#            if AimsCount < 4:
-#                self.Aim = Aims[random.randint(0, AimsCount - 1)].Position
-#                return
-#            Aims.sort(key=lambda x: self.Path(x))
-#            self.Aim = Aims[random.randint(0, 3)].Position
-#            return self.Aim
-
 
 class Plants(Food):
     """Базовый класс растений"""
@@ -658,7 +639,7 @@ class Plants(Food):
             self._amountofchllorophill = int(value)
         except:
             print("Plants.AmOfChl не является целым числом")
-                  
+                 
     # Токсичность 0 - нетоксично, 1 - малотоксичный (неприятно), 2 - среднетоксичный (болезнь) 3 - Смертельный 
     @property
     def Toxicity(self):
