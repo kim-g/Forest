@@ -11,13 +11,16 @@ PlantDir = pathlib.Path(pathlib.Path(__file__).parent, "sprites", "plants")
 class Grass(Elements.Plants):
     def __init__(self):
         super().__init__()
-        img = pygame.image.load(pathlib.Path(PlantDir, "grass.png")).convert_alpha()
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+        try:
+            img = pygame.image.load(pathlib.Path(PlantDir, "grass.png")).convert_alpha()
+            self.image = img
+            self.rect = self.image.get_rect()
+            self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+        except:
+            pass
 
     def Step(self):
-        self.photosyntes(True)
+        super().Step()
 
     def update(self):
         self.Step()

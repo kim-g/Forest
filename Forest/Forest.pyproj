@@ -30,7 +30,13 @@
     <Compile Include="Environment.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Fonts.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Forest.py" />
+    <Compile Include="ProgramInterface.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Plants.py">
       <SubType>Code</SubType>
     </Compile>
@@ -58,6 +64,7 @@
     <Content Include="sprites\animals\turtle16x16.png" />
     <Content Include="sprites\animals\turtle32x32.1.png" />
     <Content Include="sprites\animals\turtle32x32.png" />
+    <Content Include="sprites\animals\turtle_hole16x16.png" />
     <Content Include="sprites\animals\Волк 16.png" />
     <Content Include="sprites\animals\гусеница 16.png" />
     <Content Include="sprites\animals\Заяц 16.png" />
