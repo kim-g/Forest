@@ -197,13 +197,25 @@ for i in range(0, 400):
 
 # Создание окна интерфейса
 Pause = ProgramInterface.PauseWindow()
-Pause.Show = False;
+Pause.Show = False
 interface_sprites.add(Pause)
 all_sprites.add(Pause)
 
 StepsCountWindow = ProgramInterface.StepsWindow()
 interface_sprites.add(StepsCountWindow)
 all_sprites.add(StepsCountWindow)
+
+BiomassCount = ProgramInterface.BiomassCount()
+interface_sprites.add(BiomassCount)
+all_sprites.add(BiomassCount)
+
+BiomassCountAnimal = ProgramInterface.BiomassCountAnimal()
+interface_sprites.add(BiomassCountAnimal)
+all_sprites.add(BiomassCountAnimal)
+
+BiomassCountPlants = ProgramInterface.BiomassCountPlants()
+interface_sprites.add(BiomassCountPlants)
+all_sprites.add(BiomassCountPlants)
 
 running = True
 interface = True
@@ -250,7 +262,8 @@ while running:
     else:
         all_sprites.update()
         StepsCountWindow.Count += 1
-    #CreateGrass()
+        for x in all_sprites:
+
     
 
     # Визуализация (сборка)
