@@ -608,7 +608,7 @@ class Animal(Food):
     # Установка цели
     def SetAim(self):
         ''' Установка цели '''
-        self.Aim = np.array([float(random.randint(0, self.Parent.Width)), float(random.randint(0, self.Parent.Height))]) 
+        self.Aim = np.array([float(random.randint(0, self.EcoSystem.Width)), float(random.randint(0, self.EcoSystem.Height))]) 
         self.AimObject
 
     def Path(self,Other):

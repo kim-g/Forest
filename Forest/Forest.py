@@ -204,12 +204,11 @@ all_sprites.add(Pause)
 StepsCountWindow = ProgramInterface.StepsWindow()
 interface_sprites.add(StepsCountWindow)
 all_sprites.add(StepsCountWindow)
+StepsCountWindow.Count = 0
 
 running = True
 interface = True
 pause = False
-
-steps = 0
 
 while running:
     # Ограничение FPS

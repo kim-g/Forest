@@ -43,14 +43,21 @@ class StepsWindow(Window):
 
     def __init__(self):
         monitor_info = pygame.display.Info()
-        Label = Fonts.MainFont.render('Ходов:', True, (255, 255, 255, 255))
+        Label = Fonts.MainFont.render('Ходов: , ', True, (255, 255, 255, 255))
+        Label2 = Fonts.MainFont.render('ВремяМ: , ', True, (255, 255, 255, 255)) 
+        Label3 = Fonts.MainFont.render('ХодовЧ: , ', True, (255, 255, 255, 255))
+        Label4 = Fonts.MainFont.render('ВремяД: , ', True, (255, 255, 255, 255))
         d_h = 4
         self.width = 150
-        self.height = Label.get_height() + d_h * 2
+        self.height = Label2.get_height() + d_h * 14
         self._count:int = 0
-        super().__init__(np.array([10, monitor_info.current_h - self.height - 10]), np.array([self.width, self.height]))
+        super().__init__(np.array([10, monitor_info.current_h - self.height - 800]), np.array([self.width, self.height]))
         self.image.fill((0, 0, 0, 120))
-        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
+        self.image.blit(Label,  ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2)) 
+        self.image.blit(Label2,  ((self.width - Label2.get_width()) / 2, (self.height - Label2.get_height()) / 2)) 
+        
+        
+
 
     @property
     def Count(self):
@@ -64,7 +71,24 @@ class StepsWindow(Window):
             print("StepsWindow.Count не является целым числом")
             return
 
+
         self._count = value
+        self._count1=value
+        self._count2=int(self._count1/60)
+        self._count1 = self._count1 - self._count2 * 60
+        self._count3=int(self._count2/24)
+        self._count2 = self._count2- self._count3* 24
+        
+        
         self.image.fill((0, 0, 0, 120))
         Label = Fonts.MainFont.render('Ходов: '+str(self._count), True, (255, 255, 255, 255))
-        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
+        Label2 = Fonts.MainFont.render('Время: '+str(self._count3) + "д" + ":" + str(self._count2) + "ч" + ":" + str(self._count1) + "м", True, (255, 255, 255, 255))
+
+        self.image.blit(Label, ((self.width - Label2.get_width()) / 2, (self.height - Label2.get_height()) / 4)) 
+        self.image.blit(Label2,  ((self.width - Label2.get_width()) / 2, (self.height - Label2.get_height()) / 2)) 
+        
+        
+
+        
+ 
+        
