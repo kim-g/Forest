@@ -204,7 +204,7 @@ all_sprites.add(Pause)
 StepsCountWindow = ProgramInterface.StepsWindow()
 interface_sprites.add(StepsCountWindow)
 all_sprites.add(StepsCountWindow)
-StepsCountWindow.Count = 0
+StepsCountWindow.Count = 5326
 
 running = True
 interface = True
