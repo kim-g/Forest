@@ -6,6 +6,7 @@ import Plants
 import Animals
 import ProgramInterface
 import math
+import Regions
 
 def CreateBeast(x:float, y:float, ax:float, ay:float):
     """Функция для создания абстрактного зверя для отладки"""
@@ -206,6 +207,10 @@ interface_sprites.add(StepsCountWindow)
 all_sprites.add(StepsCountWindow)
 StepsCountWindow.Count = 5326
 
+Region = Regions.Region([23, 23], [100, 100])
+interface_sprites.add(Region)
+all_sprites.add(Region)
+
 running = True
 interface = True
 pause = False
@@ -258,6 +263,7 @@ while running:
     plants_sprites.draw(screen)
     if interface:
         interface_sprites.draw(screen)
+        
 
     # после отрисовки всего, переворачиваем экран
     pygame.display.flip()
