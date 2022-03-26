@@ -128,7 +128,7 @@ def CreateWolf(x, y, ax, ay):
     Wolf.Digested_Per_Step = 15.
     Env.Elements.append(Wolf)
     Env.Alive.append(Wolf)
-    Wolf.Biomass = 2500.
+    Wolf.Biomass = 23000.
     Wolf.EatenBiomass = 1
     Wolf.EatenBiomassTreshold = 50.
     Wolf.Eaten_Biomass_Lower_Treshold = 10.
