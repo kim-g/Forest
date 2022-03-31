@@ -7,7 +7,7 @@ import Fonts
 AnimalDir = pathlib.Path("sprites", "animals")
 
 class Region(ProgramInterface.Window):
-    '''ÐÐ°Ð·Ð¾Ð²ÑÐ¹ ÐºÐ»Ð°ÑÑ Ð¾Ð±Ð»Ð°ÑÑÐ¸'''
+    '''Базовый класс области'''
     def __init__(self, position:np.array, size:np.array):
         super().__init__([230, 230], [100, 100])
         self._max:int = 0
@@ -22,45 +22,45 @@ class Region(ProgramInterface.Window):
 
     @property
     def Max(self):
-        '''ÐÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑÐ½Ð¾Ðµ ÐºÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð¾ Ð¾ÑÐ¾Ð±ÐµÐ¹, ÐºÐ¾ÑÐ¾ÑÐ¾Ðµ Ð¼Ð¾Ð¶ÐµÑ Ð²ÑÐ´ÐµÑÐ¶Ð°ÑÑ ÑÑÐµÐ´Ð°'''
+        '''Максимальное количество особей, которое может выдержать среда'''
         return self._max
     @Max.setter
     def Max(self, value):
         try:
             if value < 0:
-                print('ÐÐµÐ´Ð¾Ð¿ÑÑÑÐ¸Ð¼Ð¾Ðµ Ð·Ð½Ð°ÑÐµÐ½Ð¸Ðµ Regions.Max')
+                print('Недопустимое значение Regions.Max')
             else:
                 self._max = int(value)
         except:
-            print('ÐÐµÐ´Ð¾Ð¿ÑÑÑÐ¸Ð¼Ð¾Ðµ Ð·Ð½Ð°ÑÐµÐ½Ð¸Ðµ Pegions.Max')
+            print('Недопустимое значение Pegions.Max')
 
     @property
     def Number(self):
-        '''ÐÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð¾ Ð¾ÑÐ¾Ð±ÐµÐ¹ Ð½Ð° Ð´Ð°Ð½Ð½ÑÐ¹ Ð¼Ð¾Ð¼ÐµÐ½Ñ'''
+        '''Количество особей на данный момент'''
         return int(self._number)
     @Number.setter
     def Number(self, value):
         try:
             if value < 0:
-                print('ÐÐµÐ´Ð¾Ð¿ÑÑÑÐ¸Ð¼Ð¾Ðµ Ð·Ð½Ð°ÑÐµÐ½Ð¸Ðµ Regions.Number')
+                print('Недопустимое значение Regions.Number')
                 return
             if value == 0:
                 self.kill()
                 return
             self._number = float(value)
         except:
-            print('ÐÐµÐ´Ð¾Ð¿ÑÑÑÐ¸Ð¼Ð¾Ðµ Ð·Ð½Ð°ÑÐµÐ½Ð¸Ðµ Regions.Number')
+            print('Недопустимое значение Regions.Number')
 
     @property
     def A(self):
-        '''Ð£Ð´ÐµÐ»ÑÐ½ÑÐ¹ Ð¿ÑÐ¸ÑÐ¾ÑÑ'''
+        '''Удельный прирост'''
         return self._a
     @A.setter
     def A(self, value):
         try:
             self._a = float(value)
         except:
-            print('ÐÐµÐ´Ð¾Ð¿ÑÑÑÐ¸Ð¼Ð¾Ðµ Ð·Ð½Ð°ÑÐµÐ½Ð¸Ðµ Regions.A')
+            print('Недопустимое значение Regions.A')
 
     def SetMax(self):
         pass        
