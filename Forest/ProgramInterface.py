@@ -6,7 +6,7 @@ import Fonts
 class Window(pygame.sprite.Sprite):
     """Окно, появляющиеся внутри главного окна симуляции"""
 
-    def __init__(self, position:np.array, size:np.array):
+    def __init__(self, position: np.array, size: np.array):
         """Инициализация окна"""
         super().__init__()
         self.Size = size;
@@ -26,7 +26,7 @@ class Window(pygame.sprite.Sprite):
         self.rect.top = position[1]
         self._show:bool = True
 
-    @property 
+    @property
     def Show(self):
         """Определяет, показывать ли элемент"""
         return self._show
@@ -53,7 +53,7 @@ class PauseWindow(Window):
         width = 200
         height = 70
         super().__init__(np.array([(monitor_info.current_w-width) / 2, (monitor_info.current_h-height) / 2]), np.array([width, height]))
-        self.image.fill((0, 0, 0, 120)) #0x00000078
+        self.image.fill((0, 0, 0, 120))#0x00000078
         Label = Fonts.LargeFont.render('Пауза', True, (255, 255, 255, 255))
         self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
         self.Border()
@@ -150,9 +150,107 @@ class StepsWindow(Window):
         self.image.blit(Label2,  ((self.width - Label2.get_width()) / 2, self.d_h * 2 + Label.get_height())) 
 
         self.Border()
-        
-        
 
-        
- 
-        
+
+class BiomassCount(Window):
+    def __init__(self):
+        self._all_bio_count = 0.
+        monitor_info = pygame.display.Info()
+        Label = Fonts.MainFont.render('общ кол-во биомассы:', True, (255, 255, 255, 255))
+
+        self.width = 300
+        self.height = 20
+        super().__init__(np.array([monitor_info.current_w - self.width - 10, 10]), np.array([self.width, self.height]))
+        self.image.fill((0, 0, 0, 120))
+        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
+
+    @property
+    def All_Bio_Count(self):
+        return int(self._all_bio_count)
+
+    @All_Bio_Count.setter
+    def All_Bio_Count(self, value: float):
+        try:
+            value = float(value)
+        except:
+            print("BiomassCount.All_Bio_Count не является float")
+            return
+        self._all_bio_count = int(value)
+        self.image.fill((0, 0, 0, 120))
+        Label = Fonts.MainFont.render('общ кол-во биомассы: ' + str(self._all_bio_count), True, (255, 255, 255, 255))
+        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
+
+
+
+class BiomassCountAnimal(Window):
+    def __init__(self):
+        self._animals_bio_count = 0.
+        monitor_info = pygame.display.Info()
+        Label = Fonts.MainFont.render('общ кол-во биомассы животного:', True, (255, 255, 255, 255))
+        self.width = 300
+        self.height = 20
+        super().__init__(np.array([monitor_info.current_w - self.width - 10, 30]),np.array([self.width, self.height]))
+        self.image.fill((0, 0, 0, 120))
+        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
+
+    @property
+    def Animal_Bio_Count(self):
+        return self._animals_bio_count
+
+    @Animal_Bio_Count.setter
+    def Animal_Bio_Count(self, value: float):
+        try:
+            value = float(value)
+        except:
+            print("BiomassCount.All_Bio_Count не является float")
+            return
+        self._animals_bio_count = int(value)
+        self.image.fill((0, 0, 0, 120))
+        Label = Fonts.MainFont.render('общ кол-во биомассы животного: ' + str(self._animals_bio_count), True,
+                                      (255, 255, 255, 255))
+        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
+
+class BiomassCountPlants(Window):
+    def __init__(self):
+        self._plants_bio_count = 0.
+        monitor_info = pygame.display.Info()
+        Label = Fonts.MainFont.render('общ кол-во биомассы растения:', True, (255, 255, 255, 255))
+        self.width = 300
+        self.height = 20
+        super().__init__(np.array([monitor_info.current_w - self.width - 10, 50]), np.array([self.width, self.height]))
+        self.image.fill((0, 0, 0, 120))
+        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
+
+    @property
+    def Plants_Bio_Count(self):
+        return int(self._plants_bio_count)
+
+    @Plants_Bio_Count.setter
+    def Plants_Bio_Count(self, value: float):
+        try:
+            value = float(value)
+        except:
+            print("")
+            return
+        self._plants_bio_count = int(value)
+        self.image.fill((0, 0, 0, 120))
+        Label = Fonts.MainFont.render('общ кол-во биомассы растения: ' + str(self._plants_bio_count), True,
+                                      (255, 255, 255, 255))
+        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
+
+
+
+class Region(Window):
+    '''базовый класс области'''
+    def __init__(self,position: np.array, size: np.array):
+        self._specific_increase = 0.
+        super().__init__(position,size)
+    @property
+    def Specific_Increase(self):
+        return self._specific_increase
+    @Specific_Increase.setter
+    def Specific_Increase(self,value: float):
+        try:
+            self._specific_increase=float(value)
+        except:
+            print("Region.Specific_Increase не является float")

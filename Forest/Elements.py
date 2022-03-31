@@ -17,8 +17,8 @@ class Unit(pygame.sprite.Sprite):
         self._name:str = ""
         pygame.sprite.Sprite.__init__(self)
         self.image:pygame.Surface = pygame.Surface((16, 16))
-        self.Y
-  
+
+
     # Свойство X. Координата по горизонтали
     @property 
     def X(self):
