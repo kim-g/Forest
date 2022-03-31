@@ -12,7 +12,7 @@ class Window(pygame.sprite.Sprite):
         self.Size = size;
         self.image = pygame.Surface((size[0], size[1]), pygame.SRCALPHA, 32).convert_alpha()
         self._top_border = pygame.Surface((size[0], 1), pygame.SRCALPHA, 32).convert_alpha()
-        self._left_border = pygame.Surface((1, size[1]), pygame.SRCALPHA, 32).convert_alpha()
+        self._left_border = pygame.Surface((1, size[1]), pygame.SRCALPHA, 32).convert_alpha()#
         self._right_border = pygame.Surface((1, size[1]), pygame.SRCALPHA, 32).convert_alpha()
         self._bottom_border:pygame.Surface = pygame.Surface((size[0], 1), pygame.SRCALPHA, 32).convert_alpha()
         self.color = (0, 0, 0, 255)

@@ -40,7 +40,9 @@
     <Compile Include="Plants.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Regions.py" />
+    <Compile Include="Regions.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="sprites\" />
