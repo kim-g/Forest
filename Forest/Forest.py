@@ -6,6 +6,7 @@ import Plants
 import Animals
 import ProgramInterface
 import math
+import Regions
 
 
 def CreateBeast(x: float, y: float, ax: float, ay: float):
@@ -211,6 +212,16 @@ all_sprites.add(Pause)
 StepsCountWindow = ProgramInterface.StepsWindow()
 interface_sprites.add(StepsCountWindow)
 all_sprites.add(StepsCountWindow)
+StepsCountWindow.Count = 5326
+
+Region = Regions.Region([23, 23], [100, 100])
+interface_sprites.add(Region)
+all_sprites.add(Region)
+
+AliveCount = ProgramInterface.AliveCountWindow()
+AliveCount.Show = True
+interface_sprites.add(AliveCount)
+all_sprites.add(AliveCount)
 
 BiomassCount = ProgramInterface.BiomassCount()
 interface_sprites.add(BiomassCount)
@@ -229,7 +240,6 @@ interface = True
 pause = False
 
 steps = 0
-
 
 while running:
     # Ограничение FPS
@@ -283,7 +293,11 @@ while running:
         BiomassCount.All_Bio_Count = biomas
         BiomassCountAnimal.Animal_Bio_Count = anim_biomass
         BiomassCountPlants.Plants_Bio_Count = plants_biomass
-
+        
+        plants = filter(lambda x: x.IsPlant == True, Env.Alive)
+        plants1 = list(plants)
+        AliveCount.PlantsCount = len(plants1)
+    #CreateGrass()
 
 
     # Визуализация (сборка)
@@ -292,6 +306,7 @@ while running:
     plants_sprites.draw(screen)
     if interface:
         interface_sprites.draw(screen)
+        
 
     # после отрисовки всего, переворачиваем экран
     pygame.display.flip()
