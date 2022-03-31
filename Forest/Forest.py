@@ -211,6 +211,11 @@ Region = Regions.Region([23, 23], [100, 100])
 interface_sprites.add(Region)
 all_sprites.add(Region)
 
+AliveCount = ProgramInterface.AliveCountWindow()
+AliveCount.Show = True
+interface_sprites.add(AliveCount)
+all_sprites.add(AliveCount)
+
 running = True
 interface = True
 pause = False
@@ -254,6 +259,9 @@ while running:
     else:
         all_sprites.update()
         StepsCountWindow.Count += 1
+        plants = filter(lambda x: x.IsPlant == True, Env.Alive)
+        plants1 = list(plants)
+        AliveCount.PlantsCount = len(plants1)
     #CreateGrass()
     
 
