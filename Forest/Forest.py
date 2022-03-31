@@ -6,6 +6,7 @@ import Plants
 import Animals
 import ProgramInterface
 import math
+import Regions
 
 def CreateBeast(x:float, y:float, ax:float, ay:float):
     """Функция для создания абстрактного зверя для отладки"""
@@ -128,7 +129,7 @@ def CreateWolf(x, y, ax, ay):
     Wolf.Digested_Per_Step = 15.
     Env.Elements.append(Wolf)
     Env.Alive.append(Wolf)
-    Wolf.Biomass = 2500.
+    Wolf.Biomass = 23000.
     Wolf.EatenBiomass = 1
     Wolf.EatenBiomassTreshold = 50.
     Wolf.Eaten_Biomass_Lower_Treshold = 10.
@@ -204,6 +205,11 @@ all_sprites.add(Pause)
 StepsCountWindow = ProgramInterface.StepsWindow()
 interface_sprites.add(StepsCountWindow)
 all_sprites.add(StepsCountWindow)
+StepsCountWindow.Count = 5326
+
+Region = Regions.Region([23, 23], [100, 100])
+interface_sprites.add(Region)
+all_sprites.add(Region)
 
 AliveCount = ProgramInterface.AliveCountWindow()
 AliveCount.Show = True
@@ -213,8 +219,6 @@ all_sprites.add(AliveCount)
 running = True
 interface = True
 pause = False
-
-steps = 0
 
 while running:
     # Ограничение FPS
@@ -267,6 +271,7 @@ while running:
     plants_sprites.draw(screen)
     if interface:
         interface_sprites.draw(screen)
+        
 
     # после отрисовки всего, переворачиваем экран
     pygame.display.flip()
