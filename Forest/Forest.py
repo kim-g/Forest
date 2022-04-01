@@ -235,6 +235,11 @@ BiomassCountPlants = ProgramInterface.BiomassCountPlants()
 interface_sprites.add(BiomassCountPlants)
 all_sprites.add(BiomassCountPlants)
 
+Button = ProgramInterface.Button(np.array([300,10]), np.array([100,40]))
+Button.Text = "Нажми меня!"
+interface_sprites.add(Button)
+all_sprites.add(Button)
+
 running = True
 interface = True
 pause = False
@@ -276,6 +281,15 @@ while running:
     #                CreateFox(32., 23., 0., 0.)
     #            if event.key == pygame.K_b:
     #                CreateBeast(40., 15., 0., 0.)
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            Button.MouseDown(event.pos)
+
+        if event.type == pygame.MOUSEBUTTONUP:
+            Button.MouseUp(event.pos)
+
+        if event.type == pygame.MOUSEMOTION:
+            Button.MouseMotion(event.pos)
 
     # Обновление
 

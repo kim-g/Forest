@@ -254,3 +254,78 @@ class Region(Window):
             self._specific_increase=float(value)
         except:
             print("Region.Specific_Increase не является float")
+
+
+class Button(Window):
+    """Кнопка"""
+
+    def __init__(self, position: np.array, size: np.array):
+        """Инициализация кнопки"""
+
+        # Цвета кнопки
+        self._main_color = (0, 0, 0, 120)
+        self._mouse_on_color = (50, 50, 50, 120)
+        self._pressed_color = (0, 0, 0, 200)
+        self._color = self._main_color
+
+        # Состояния кнопки
+        self._pressed:bool = False;
+
+        self._text:str = ""
+        self.width:int = size[0]
+        self.height:int = size[1]
+        super().__init__(position, size)
+        self._TextElement = Fonts.MainFont.render(self._text, True, (255, 255, 255, 255))
+        self.Paint()
+
+    @property 
+    def Color(self):
+        """Текущий цвет кнопки"""
+        return self._color
+    @Color.setter
+    def Color (self, value):
+        if self._color == value:
+            return
+        self._color = value
+        self.Paint()
+
+    @property 
+    def Text (self):
+        """Текст на кнопке"""
+        return self._text
+    @Text.setter
+    def Text (self, value:str):
+        try:
+            value = str(value)
+        except:
+            "Button.Text – ошибка преобразования значения в строку"
+        self._text = value
+        self._TextElement = Fonts.MainFont.render(self._text, True, (255, 255, 255, 255))
+        self.Paint()
+
+    def MouseMotion(self, cursor):
+        """Изменение при движении мыши"""
+        if self.rect.collidepoint(cursor):
+            self.Color = self._pressed_color if self._pressed else self._mouse_on_color
+        else:
+           self.Color = self._main_color
+
+    def MouseDown(self, cursor):
+        """Изменения при нажатии на кнопку мыши"""
+        if self.rect.collidepoint(cursor):
+            self.Color = self._pressed_color
+            self._pressed = True
+
+    def MouseUp(self, cursor):
+        """Изменения при отпускании кнопки мыши"""
+        if self.rect.collidepoint(cursor):
+            self.Color = self._mouse_on_color
+        else:
+            self.Color = self._main_color
+        self._pressed = False
+
+    def Paint(self):
+        """Отрисовка кнопки"""
+        self.image.fill(self._color)#0x00000078
+        self.image.blit(self._TextElement, ((self.width - self._TextElement.get_width()) / 2, (self.height - self._TextElement.get_height()) / 2))
+        self.Border()
