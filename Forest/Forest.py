@@ -214,7 +214,10 @@ interface_sprites.add(StepsCountWindow)
 all_sprites.add(StepsCountWindow)
 StepsCountWindow.Count = 5326
 
-Region = Regions.Region([23, 23], [100, 100])
+Region = Regions.Ferhulst([500, 500], [100, 100])
+Region.A =0.0000167
+Region.Max =  100
+Region.Number = 10
 interface_sprites.add(Region)
 all_sprites.add(Region)
 

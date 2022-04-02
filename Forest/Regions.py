@@ -9,7 +9,8 @@ AnimalDir = pathlib.Path("sprites", "animals")
 class Region(ProgramInterface.Window):
     '''Базовый класс области'''
     def __init__(self, position:np.array, size:np.array):
-        super().__init__([230, 230], [100, 100])
+        super().__init__(position, size)
+        self._size = size
         self._max:int = 0
         self._number:float = 0.
         self._a:float = 0.
@@ -17,8 +18,11 @@ class Region(ProgramInterface.Window):
         height = size[1]
         x = position[0]
         y = position[1]
-        object_img = pygame.image.load(pathlib.Path(AnimalDir, "Bunny16x16.png")).convert_alpha()
-        object_count = self.Number
+        self._object_img = pygame.image.load(pathlib.Path(AnimalDir, "Bunny16x16.png")).convert_alpha()
+        self._object_count = self.Number
+        self.image.blit(self._object_img, ((width - self._object_img.get_width()) / 2, (height - self._object_img.get_height()) / 2))
+
+
 
     @property
     def Max(self):
@@ -77,10 +81,24 @@ class Region(ProgramInterface.Window):
         self.image.fill((0, 0, 0, 120)) #0x00000078
         Label = Fonts.MainFont.render(str(self.Number), True, (255, 255, 255, 255))
         self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
-        self.Border()
+        
+        self.image.blit(self._object_img, ((width - self._object_img.get_width()) / 2, (height - self._object_img.get_height()) / 2))
+        self.Border() 
+
+
+
 
     def update(self):
         self.SetMax()
         self.Eat()
         self.Multiply()
-        self.Draw([23, 23])
+        self.Draw(self._size)
+
+
+class Ferhulst(Region):
+    def __init__(self, position, size):
+        super().__init__(position,size)
+
+    def Multiply(self):
+        DN=self.A * (1-self.Number / self.Max)*self.Number
+
