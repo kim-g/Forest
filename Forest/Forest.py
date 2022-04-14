@@ -7,6 +7,7 @@ import Animals
 import ProgramInterface
 import math
 import Regions
+import time
 
 
 def CreateBeast(x: float, y: float, ax: float, ay: float):
@@ -175,6 +176,17 @@ def CreateGrass(Parent=None):
     all_sprites.add(Grass)
     plants_sprites.add(Grass)
 
+def SetPause():
+    global pause
+    global Pause
+    pause = not pause
+    Pause.Show = pause
+
+def CloseWindow():
+    global running
+    running = False
+    print("Closing")
+
 
 # Визуализация
 FPS = 15
@@ -200,7 +212,7 @@ for i in range(0, 10):
     CreateBunny(2., 3., 3., 2.)
     CreateWolf(4., 4., 4., 4.)
 
-for i in range(0, 400):
+for i in range(0, 40):
     CreateGrass()
 
 # Создание окна интерфейса
@@ -235,10 +247,21 @@ BiomassCountPlants = ProgramInterface.BiomassCountPlants()
 interface_sprites.add(BiomassCountPlants)
 all_sprites.add(BiomassCountPlants)
 
+Buttons = ProgramInterface.Clickable()
+
 Button = ProgramInterface.Button(np.array([300,10]), np.array([100,40]))
-Button.Text = "Нажми меня!"
+Button.Text = "Пауза"
+Button.Click = SetPause
+Buttons.add(Button)
 interface_sprites.add(Button)
 all_sprites.add(Button)
+
+ExitButton = ProgramInterface.Button(np.array([monitor_info.current_w - 50, monitor_info.current_h - 50]), np.array([40,40]))
+ExitButton.Text = "X"
+ExitButton.Click = CloseWindow
+Buttons.add(ExitButton)
+interface_sprites.add(ExitButton)
+all_sprites.add(ExitButton)
 
 running = True
 interface = True
@@ -247,6 +270,7 @@ pause = False
 steps = 0
 
 while running:
+    StartTime = time.process_time_ns()/1000000
     # Ограничение FPS
     clock.tick(FPS)
     biomas = 0.
@@ -257,7 +281,7 @@ while running:
     for event in pygame.event.get():
         # проверить закрытие окна
         if event.type == pygame.QUIT:
-            running = False
+            CloseWindow()
 
         # Проверка нажатия кнопки
         if event.type == pygame.KEYDOWN:
@@ -272,8 +296,7 @@ while running:
 
             # Проверяем кнопку P для паузы в симуляции
             if event.key == pygame.K_p:
-                pause = not pause
-                Pause.Show = pause
+                SetPause()
 
     #            if event.key == pygame.K_t:
     #                CreateTurtle(23., 32., 0., 0.)
@@ -283,13 +306,13 @@ while running:
     #                CreateBeast(40., 15., 0., 0.)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            Button.MouseDown(event.pos)
+            Buttons.MouseDown(event.pos)
 
         if event.type == pygame.MOUSEBUTTONUP:
-            Button.MouseUp(event.pos)
+            Buttons.MouseUp(event.pos)
 
         if event.type == pygame.MOUSEMOTION:
-            Button.MouseMotion(event.pos)
+            Buttons.MouseMove(event.pos)
 
     # Обновление
 
@@ -324,6 +347,8 @@ while running:
 
     # после отрисовки всего, переворачиваем экран
     pygame.display.flip()
-    pass
+    EndTime = time.process_time_ns() / 1000000
+    DT = EndTime - StartTime
+    print(DT, 1 / (DT / 1000))
 
 pygame.quit()

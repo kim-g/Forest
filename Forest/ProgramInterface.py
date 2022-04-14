@@ -278,6 +278,8 @@ class Button(Window):
         self._TextElement = Fonts.MainFont.render(self._text, True, (255, 255, 255, 255))
         self.Paint()
 
+        self.Click = self.DoNothing
+
     @property 
     def Color(self):
         """Текущий цвет кнопки"""
@@ -320,6 +322,8 @@ class Button(Window):
         """Изменения при отпускании кнопки мыши"""
         if self.rect.collidepoint(cursor):
             self.Color = self._mouse_on_color
+            if self._pressed:
+                self.Click()
         else:
             self.Color = self._main_color
         self._pressed = False
@@ -329,3 +333,31 @@ class Button(Window):
         self.image.fill(self._color)#0x00000078
         self.image.blit(self._TextElement, ((self.width - self._TextElement.get_width()) / 2, (self.height - self._TextElement.get_height()) / 2))
         self.Border()
+
+    def DoNothing(self):
+        pass
+
+class Clickable():
+    """ Группа кликабельных элементов"""
+    def __init__(self):
+        self.items = list()
+
+    def add(self, item):
+        """Добавление элемента"""
+        self.items.append(item)
+
+    def MouseDown(self, point):
+        """Обработка нажатия мыши для всех элементов"""
+        for element in self.items:
+            element.MouseDown(point)
+
+    def MouseUp(self, point):
+        """Обработка отпускания мыши для всех элементов"""
+        for element in self.items:
+            element.MouseUp(point)
+
+    def MouseMove(self, point):
+        """Обработка движения мыши для всех элементов"""
+        for element in self.items:
+            element.MouseMotion(point)
+
