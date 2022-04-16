@@ -235,26 +235,6 @@ AliveCount.Show = True
 interface_sprites.add(AliveCount)
 all_sprites.add(AliveCount)
 
-AnimalsCount = ProgramInterface.AliveCountWindow.AnimalsCount()
-interface_sprites.add(AnimalsCount)
-all_sprites.add(AnimalsCount)
-
-TurtlesCount = ProgramInterface.AliveCountWindow.TurtlesCount()
-interface_sprites.add(TurtlesCount)
-all_sprites.add(TurtlesCount)
-
-PlantsCount = ProgramInterface.AliveCountWindow.PlantsCount()
-interface_sprites.add(PlantsCount)
-all_sprites.add(PlantsCount)
-
-WolvesCount = ProgramInterface.AliveCountWindow.WolvesCount()
-interface_sprites.add(WolvesCount)
-all_sprites.add(WolvesCount)
-
-RabbitsCount = ProgramInterface.AliveCountWindow.RabbitsCount()
-interface_sprites.add(RabbitsCount)
-all_sprites.add(RabbitsCount)
-
 BiomassCount = ProgramInterface.BiomassCount()
 interface_sprites.add(BiomassCount)
 all_sprites.add(BiomassCount)
@@ -348,9 +328,9 @@ while running:
         StepsCountWindow.Count += 1
         all_animals = list(filter(lambda x: x.IsPlant == False, Env.Alive))
         all_plants = list(filter(lambda x: x.IsPlant == True, Env.Alive))
-        wolves = list(filter(lambda x: x.IsPlant == False, x.__class__.__name__ == "Wolf", Env.Alive))
-        rabbits = list(filter(lambda x: x.IsPlant == False, x.__class__.__name__ == "Rabbit", Env.Alive))
-        turtles = list(filter(lambda x: x.IsPlant == False, x.__class__.__name__ == "Turtle", Env.Alive))
+        wolves = list(filter(lambda x: x.IsPlant == False and x.__class__.__name__ == "Wolf", Env.Alive))
+        rabbits = list(filter(lambda x: x.IsPlant == False and x.__class__.__name__ == "Rabbit", Env.Alive))
+        turtles = list(filter(lambda x: x.IsPlant == False and x.__class__.__name__ == "Turtle", Env.Alive))
         for x in Env.Alive:
             biomas += x.Biomass
             if str(type(x)) in ["<class 'Animals.Beast'>","<class 'Animals.Turtle'>","<class 'Animals.Fox'>","<class 'Animals.Wolf'>","<class 'Animals.Chameleon'>","<class 'Animals.Bunny'>"]:
@@ -361,11 +341,11 @@ while running:
         BiomassCountAnimal.Animal_Bio_Count = anim_biomass
         BiomassCountPlants.Plants_Bio_Count = plants_biomass
 
-        AnimalsCount = all_animals
-        TurtlesCount = turtles
-        PlantsCount = all_plants
-        WolvesCount = wolves
-        RabbitsCount = rabbits
+        AliveCount.AnimalsCount = len(all_animals)
+        AliveCount.TurtlesCount = len(turtles)
+        AliveCount.PlantsCount = len(all_plants)
+        AliveCount.WolvesCount = len(wolves)
+        AliveCount.RabbitsCount = len(rabbits)
         
     #CreateGrass()
 
