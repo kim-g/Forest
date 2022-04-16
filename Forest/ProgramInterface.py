@@ -66,7 +66,7 @@ class AliveCountWindow(Window):
         self._turtles = Fonts.MainFont.render('Черепах:', True, (255, 255, 255, 255))
         self._wolves = Fonts.MainFont.render('Волков:', True, (255, 255, 255, 255))
         self._rabbits = Fonts.MainFont.render('Кроликов:', True, (255, 255, 255, 255)) #из Террарии
-        self._animals = Fonts.MainFont.render('Зверей:', True, (255, 255, 255, 255))
+        self._animals = Fonts.MainFont.render('Животных:', True, (255, 255, 255, 255))
         self._plants_count:int = 0
         self._turtles_count:int = 0
         self._wolves_count:int = 0
@@ -95,7 +95,71 @@ class AliveCountWindow(Window):
 
             self._plants_count = value
             self.image.fill((0, 0, 0, 120))
-            Label = Fonts.MainFont.render('Растений: '+str(self._plants_count), True, (255, 255, 255, 255))
+            Label = Fonts.MainFont.render('Растений: ' + str(self._plants_count), True, (255, 255, 255, 255))
+            self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
+
+        @property
+        def AnimalsCount(self):
+            return self._animals_count
+        @AnimalsCount.setter
+        def AnimalsCount(self, value:int):
+            try:
+                value = int(value)
+            except:
+                print("AliveCountWindow.AnimalsCount не является целым числом")
+                return
+
+            self._animals_count = value
+            self.image.fill((0, 0, 0, 120))
+            Label = Fonts.MainFont.render('Животных: ' + str(self._animals_count), True, (255, 255, 255, 255))
+            self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
+
+        @property
+        def WolvesCount(self):
+            return self._wolves_count
+        @WolvesCount.setter
+        def WolvesCount(self, value:int):
+            try:
+                value = int(value)
+            except:
+                print("AliveCountWindow.WolvesCount не является целым числом")
+                return
+
+            self._wolves_count = value
+            self.image.fill((0, 0, 0, 120))
+            Label = Fonts.MainFont.render('Волков: '+str(self._wolves_count), True, (255, 255, 255, 255))
+            self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
+
+        @property
+        def RabbitsCount(self):
+            return self._rabbits_count
+        @RabbitsCount.setter
+        def PlantsCount(self, value:int):
+            try:
+                value = int(value)
+            except:
+                print("AliveCountWindow.RabbitsCount не является целым числом")
+                return
+
+            self._rabbits_count = value
+            self.image.fill((0, 0, 0, 120))
+            Label = Fonts.MainFont.render('Кроликов: '+str(self._rabbits_count), True, (255, 255, 255, 255))
+            self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
+
+        @property
+        def TurtlesCount(self):
+            return self._turtles_count
+        @TurtlesCount.setter
+        def TurtlesCount(self, value:int):
+            try:
+                value = int(value)
+            except:
+                print("AliveCountWindow.TurtlesCount не является целым числом")
+                return
+
+            self._turtles_count = value
+            self.image.fill((0, 0, 0, 120))
+            Label = Fonts.MainFont.render('Черепах: '+str(self._turtles_count), True, (255, 255, 255, 255))
             self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
         
 

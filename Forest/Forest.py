@@ -235,6 +235,26 @@ AliveCount.Show = True
 interface_sprites.add(AliveCount)
 all_sprites.add(AliveCount)
 
+AnimalsCount = ProgramInterface.AliveCountWindow.AnimalsCount()
+interface_sprites.add(AnimalsCount)
+all_sprites.add(AnimalsCount)
+
+TurtlesCount = ProgramInterface.AliveCountWindow.TurtlesCount()
+interface_sprites.add(TurtlesCount)
+all_sprites.add(TurtlesCount)
+
+PlantsCount = ProgramInterface.AliveCountWindow.PlantsCount()
+interface_sprites.add(PlantsCount)
+all_sprites.add(PlantsCount)
+
+WolvesCount = ProgramInterface.AliveCountWindow.WolvesCount()
+interface_sprites.add(WolvesCount)
+all_sprites.add(WolvesCount)
+
+RabbitsCount = ProgramInterface.AliveCountWindow.RabbitsCount()
+interface_sprites.add(RabbitsCount)
+all_sprites.add(RabbitsCount)
+
 BiomassCount = ProgramInterface.BiomassCount()
 interface_sprites.add(BiomassCount)
 all_sprites.add(BiomassCount)
@@ -276,6 +296,11 @@ while running:
     biomas = 0.
     anim_biomass = 0.
     plants_biomass = 0.
+    all_animals = 0
+    all_plants = 0
+    wolves = 0
+    rabbits = 0
+    turtles = 0
 
     # Ввод процесса (события)
     for event in pygame.event.get():
@@ -321,6 +346,11 @@ while running:
     else:
         all_sprites.update()
         StepsCountWindow.Count += 1
+        all_animals = list(filter(lambda x: x.IsPlant == False, Env.Alive))
+        all_plants = list(filter(lambda x: x.IsPlant == True, Env.Alive))
+        wolves = list(filter(lambda x: x.IsPlant == False, x.__class__.__name__ == "Wolf", Env.Alive))
+        rabbits = list(filter(lambda x: x.IsPlant == False, x.__class__.__name__ == "Rabbit", Env.Alive))
+        turtles = list(filter(lambda x: x.IsPlant == False, x.__class__.__name__ == "Turtle", Env.Alive))
         for x in Env.Alive:
             biomas += x.Biomass
             if str(type(x)) in ["<class 'Animals.Beast'>","<class 'Animals.Turtle'>","<class 'Animals.Fox'>","<class 'Animals.Wolf'>","<class 'Animals.Chameleon'>","<class 'Animals.Bunny'>"]:
@@ -330,10 +360,13 @@ while running:
         BiomassCount.All_Bio_Count = biomas
         BiomassCountAnimal.Animal_Bio_Count = anim_biomass
         BiomassCountPlants.Plants_Bio_Count = plants_biomass
+
+        AnimalsCount = all_animals
+        TurtlesCount = turtles
+        PlantsCount = all_plants
+        WolvesCount = wolves
+        RabbitsCount = rabbits
         
-        plants = filter(lambda x: x.IsPlant == True, Env.Alive)
-        plants1 = list(plants)
-        AliveCount.PlantsCount = len(plants1)
     #CreateGrass()
 
 
