@@ -84,7 +84,7 @@ class Region(ProgramInterface.Window):
         self.region_rect = self.image.get_rect()
         self.reion_center = self.region_rect.center
         Label = Fonts.MainFont.render(str(self.Number), True, (255, 255, 255, 255))
-        self.image.blit(Label, ((width - Label.get_width()) / 4, (height - Label.get_height()) / 2))
+        self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2 + 16))
         self.image.blit(self.object_img, ((width - self.object_img.get_width()) / 2, (height - self.object_img.get_height()) / 2))
         self.Border()
 
@@ -102,3 +102,12 @@ class Ferhulst(Region):
         key1 = 1 - (self.Number / self.Max)
         DeltaNumber = key1 * self.A * self.Number
         self.Number += DeltaNumber
+
+class BunnyRegion(Ferhulst):
+    def __init__(self, position, size):
+        super().__init__(position, size)
+
+
+class GrassRegion(Ferhulst):
+    def __init__(self, position, size):
+        super().__init__(position, size)

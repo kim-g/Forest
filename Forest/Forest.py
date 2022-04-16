@@ -215,11 +215,20 @@ all_sprites.add(StepsCountWindow)
 StepsCountWindow.Count = 0
 
 Ferhulst = Regions.Ferhulst([230, 230], [123, 132])
-interface_sprites.add(Ferhulst)
+#animals_sprites.add(Ferhulst)
 all_sprites.add(Ferhulst)
-Ferhulst.Number = 2300000
+Ferhulst.Number = 0
 Ferhulst.Max = 100
 Ferhulst.A = 0.0000167
+
+BunnyRegion = Regions.BunnyRegion([23, 23], [100, 100])
+animals_sprites.add(Ferhulst)
+all_sprites.add(Ferhulst)
+Ferhulst.Number = 23
+Ferhulst.Max = 100
+Ferhulst.A = 0.0000167
+
+GrassRegion = 0
 
 AliveCount = ProgramInterface.AliveCountWindow()
 AliveCount.Show = True
