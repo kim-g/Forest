@@ -61,17 +61,17 @@ class PauseWindow(Window):
 class AliveCountWindow(Window):
     '''Выдаёт окно, считающее количество животных и растений всего и каждого вида'''
     def __init__(self):
-        monitor_info = pygame.display.Info()
-        self._plants =  Fonts.MainFont.render('Растений:', True, (255, 255, 255, 255))
-        self._turtles = Fonts.MainFont.render('Черепах:', True, (255, 255, 255, 255))
-        self._wolves = Fonts.MainFont.render('Волков:', True, (255, 255, 255, 255))
-        self._rabbits = Fonts.MainFont.render('Кроликов:', True, (255, 255, 255, 255)) #из Террарии
-        self._animals = Fonts.MainFont.render('Животных:', True, (255, 255, 255, 255))
+        monitor_info = pygame.display.Info()      
         self._plants_count:int = 0
         self._turtles_count:int = 0
         self._wolves_count:int = 0
         self._rabbit_count:int = 0
         self._animals_count:int = 0
+        self._plants =  Fonts.MainFont.render('Растений:' + str(self._plants_count), True, (255, 255, 255, 255))
+        self._turtles = Fonts.MainFont.render('Черепах:' + str(self._plants_count), True, (255, 255, 255, 255))
+        self._wolves = Fonts.MainFont.render('Волков:'  + str(self._wolves_count), True, (255, 255, 255, 255))
+        self._rabbits = Fonts.MainFont.render('Кроликов:'  + str(self._rabbit_count), True, (255, 255, 255, 255)) #из Террарии
+        self._animals = Fonts.MainFont.render('Животных:'  + str(self._animals_count), True, (255, 255, 255, 255))
         width = max(self._plants.get_width(), self._turtles.get_width(), self._wolves.get_width(), self._rabbits.get_width()) + 20
         height = int(self._plants.get_height()) + int(self._turtles.get_height()) + int(self._wolves.get_height()) + int(self._rabbits.get_height()) + 10 + self._animals.get_height()
         super().__init__(np.array([10, monitor_info.current_h - height - 10]), np.array([width, height]))
@@ -110,9 +110,7 @@ class AliveCountWindow(Window):
                 return
 
             self._animals_count = value
-            self.image.fill((0, 0, 0, 120))
-            Label = Fonts.MainFont.render('Животных: ' + str(self._animals_count), True, (255, 255, 255, 255))
-            self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
+            
 
         @property
         def WolvesCount(self):
@@ -142,9 +140,7 @@ class AliveCountWindow(Window):
                 return
 
             self._rabbits_count = value
-            self.image.fill((0, 0, 0, 120))
-            Label = Fonts.MainFont.render('Кроликов: '+str(self._rabbits_count), True, (255, 255, 255, 255))
-            self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
+            
 
         @property
         def TurtlesCount(self):
@@ -158,9 +154,7 @@ class AliveCountWindow(Window):
                 return
 
             self._turtles_count = value
-            self.image.fill((0, 0, 0, 120))
-            Label = Fonts.MainFont.render('Черепах: '+str(self._turtles_count), True, (255, 255, 255, 255))
-            self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
+            
         
 
 class StepsWindow(Window):
