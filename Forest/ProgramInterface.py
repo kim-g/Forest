@@ -67,93 +67,118 @@ class AliveCountWindow(Window):
         self._wolves_count:int = 0
         self._rabbit_count:int = 0
         self._animals_count:int = 0
+        self._NeedRefresh:bool = False
         self._plants =  Fonts.MainFont.render('Растений:' + str(self._plants_count), True, (255, 255, 255, 255))
         self._turtles = Fonts.MainFont.render('Черепах:' + str(self._plants_count), True, (255, 255, 255, 255))
         self._wolves = Fonts.MainFont.render('Волков:'  + str(self._wolves_count), True, (255, 255, 255, 255))
         self._rabbits = Fonts.MainFont.render('Кроликов:'  + str(self._rabbit_count), True, (255, 255, 255, 255)) #из Террарии
         self._animals = Fonts.MainFont.render('Животных:'  + str(self._animals_count), True, (255, 255, 255, 255))
-        width = max(self._plants.get_width(), self._turtles.get_width(), self._wolves.get_width(), self._rabbits.get_width()) + 20
-        height = int(self._plants.get_height()) + int(self._turtles.get_height()) + int(self._wolves.get_height()) + int(self._rabbits.get_height()) + 10 + self._animals.get_height()
-        super().__init__(np.array([10, monitor_info.current_h - height - 10]), np.array([width, height]))
-        self.image.fill((0, 0, 0, 120)) #0x00000078
-        self.image.blit(self._animals, ((width - self._animals.get_width()) / 2, (height - self._animals.get_height()) / 10))
-        self.image.blit(self._plants, ((width - self._plants.get_width()) / 2, (height - self._plants.get_height()) / 3.3))
-        self.image.blit(self._turtles, ((width - self._turtles.get_width()) / 2, (height - self._turtles.get_height()) / 2))
-        self.image.blit(self._wolves, ((width - self._wolves.get_width()) / 2, (height - self._wolves.get_height()) / 1.4))
-        self.image.blit(self._rabbits, ((width - self._rabbits.get_width()) / 2, (height - self._rabbits.get_height()) / 1.1))
+        self.width = max(self._plants.get_width(), self._turtles.get_width(), self._wolves.get_width(), self._rabbits.get_width()) + 20
+        self.height = int(self._plants.get_height()) + int(self._turtles.get_height()) + int(self._wolves.get_height()) + int(self._rabbits.get_height()) + 10 + self._animals.get_height()
+        super().__init__(np.array([10, monitor_info.current_h - self.height - 10]), np.array([self.width, self.height]))
+        self.Refresh()
 
-        @property
-        def PlantsCount(self):
-            return self._plants_count
-        @PlantsCount.setter
-        def PlantsCount(self, value:int):
-            try:
-                value = int(value)
-            except:
-                print("AliveCountWindow.PlantsCount не является целым числом")
-                return
-
+    @property
+    def PlantsCount(self):
+        return self._plants_count
+    @PlantsCount.setter
+    def PlantsCount(self, value:int):
+        try:
+            value = int(value)
+        except:
+            print("AliveCountWindow.PlantsCount не является целым числом")
+            return
+        if self._plants_count != value:
             self._plants_count = value
-            self.image.fill((0, 0, 0, 120))
-            Label = Fonts.MainFont.render('Растений: ' + str(self._plants_count), True, (255, 255, 255, 255))
-            self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
+            self._plants = Fonts.MainFont.render('Растений: ' + str(self._plants_count), True, (255, 255, 255, 255))
+            self._NeedRefresh = True
 
-        @property
-        def AnimalsCount(self):
-            return self._animals_count
-        @AnimalsCount.setter
-        def AnimalsCount(self, value:int):
-            try:
-                value = int(value)
-            except:
-                print("AliveCountWindow.AnimalsCount не является целым числом")
-                return
 
+    @property
+    def AnimalsCount(self):
+        return self._animals_count
+    @AnimalsCount.setter
+    def AnimalsCount(self, value:int):
+        try:
+            value = int(value)
+        except:
+            print("AliveCountWindow.AnimalsCount не является целым числом")
+            return
+
+        if self._animals_count != value:
             self._animals_count = value
+            self._animals = Fonts.MainFont.render('Животных: ' + str(self._animals_count), True, (255, 255, 255, 255))
+            self._NeedRefresh = True
             
 
-        @property
-        def WolvesCount(self):
-            return self._wolves_count
-        @WolvesCount.setter
-        def WolvesCount(self, value:int):
-            try:
-                value = int(value)
-            except:
-                print("AliveCountWindow.WolvesCount не является целым числом")
-                return
+    @property
+    def WolvesCount(self):
+        return self._wolves_count
+    @WolvesCount.setter
+    def WolvesCount(self, value:int):
+        try:
+            value = int(value)
+        except:
+            print("AliveCountWindow.WolvesCount не является целым числом")
+            return
 
+        if self._wolves_count != value:
             self._wolves_count = value
-            self.image.fill((0, 0, 0, 120))
-            Label = Fonts.MainFont.render('Волков: '+str(self._wolves_count), True, (255, 255, 255, 255))
-            self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
+            self._wolves = Fonts.MainFont.render('Волков: ' + str(self._wolves_count), True, (255, 255, 255, 255))
+            self._NeedRefresh = True
 
-        @property
-        def RabbitsCount(self):
-            return self._rabbits_count
-        @RabbitsCount.setter
-        def PlantsCount(self, value:int):
-            try:
-                value = int(value)
-            except:
-                print("AliveCountWindow.RabbitsCount не является целым числом")
-                return
 
-            self._rabbits_count = value
+    @property
+    def RabbitsCount(self):
+        return self._rabbit_count
+    @RabbitsCount.setter
+    def RabbitsCount(self, value:int):
+        try:
+            value = int(value)
+        except:
+            print("AliveCountWindow.RabbitsCount не является целым числом")
+            return
+
+        if self._rabbit_count != value:
+            self._rabbit_count = value
+            self._rabbits = Fonts.MainFont.render('Кроликов: ' + str(self._rabbit_count), True, (255, 255, 255, 255))
+            self._NeedRefresh = True
             
 
-        @property
-        def TurtlesCount(self):
-            return self._turtles_count
-        @TurtlesCount.setter
-        def TurtlesCount(self, value:int):
-            try:
-                value = int(value)
-            except:
-                print("AliveCountWindow.TurtlesCount не является целым числом")
-                return
+    @property
+    def TurtlesCount(self):
+        return self._turtles_count
+    @TurtlesCount.setter
+    def TurtlesCount(self, value:int):
+        try:
+            value = int(value)
+        except:
+            print("AliveCountWindow.TurtlesCount не является целым числом")
+            return
 
+        if self._turtles_count != value:
             self._turtles_count = value
+            self._turtles = Fonts.MainFont.render('Черепах: ' + str(self._turtles_count), True, (255, 255, 255, 255))
+            self._NeedRefresh = True
+
+    def Refresh(self):
+        if self._NeedRefresh:
+            self.image.fill((0, 0, 0, 120)) #0x00000078
+            self.image.blit(self._animals, ((self.width - self._animals.get_width()) / 2, (self.height - self._animals.get_height()) / 10))
+            self.image.blit(self._plants, ((self.width - self._plants.get_width()) / 2, (self.height - self._plants.get_height()) / 3.3))
+            self.image.blit(self._turtles, ((self.width - self._turtles.get_width()) / 2, (self.height - self._turtles.get_height()) / 2))
+            self.image.blit(self._wolves, ((self.width - self._wolves.get_width()) / 2, (self.height - self._wolves.get_height()) / 1.4))
+            self.image.blit(self._rabbits, ((self.width - self._rabbits.get_width()) / 2, (self.height - self._rabbits.get_height()) / 1.1))
+            self.Border()
+        self._NeedRefresh = False
+
+    def SetValue(self, value, count, name):
+        Label = None
+        if count != value:
+            Lable = Fonts.MainFont.render(name + ': ' + str(value), True, (255, 255, 255, 255))
+            self._NeedRefresh = True
+        
+        return Lable
             
         
 
@@ -213,14 +238,28 @@ class StepsWindow(Window):
 class BiomassCount(Window):
     def __init__(self):
         self._all_bio_count = 0.
+        self._animals_bio_count = 0.
+        self._plants_bio_count = 0.
         monitor_info = pygame.display.Info()
-        Label = Fonts.MainFont.render('общ кол-во биомассы:', True, (255, 255, 255, 255))
+
+        self._total_label = Fonts.MainFont.render('общ кол-во биомассы:', True, (255, 255, 255, 255))
+        self._animals_label = Fonts.MainFont.render('общ кол-во биомассы животного:', True, (255, 255, 255, 255))
+        self._plants_label = Fonts.MainFont.render('общ кол-во биомассы растения: ' + str(self._plants_bio_count), True, (255, 255, 255, 255))
 
         self.width = 300
-        self.height = 20
+        self.height = 10 * 4 + self._total_label.get_height() + self._animals_label.get_height() + self._plants_label.get_height()
         super().__init__(np.array([monitor_info.current_w - self.width - 10, 10]), np.array([self.width, self.height]))
+        self.Refresh()
+
+    def Refresh(self):
+        self._total_label = Fonts.MainFont.render('общ кол-во биомассы: ' + str(self._all_bio_count), True, (255, 255, 255, 255))
+        self._animals_label = Fonts.MainFont.render('общ кол-во биомассы животного: ' + str(self._animals_bio_count), True, (255, 255, 255, 255))
+        self._plants_label = Fonts.MainFont.render('общ кол-во биомассы растения: ' + str(self._plants_bio_count), True, (255, 255, 255, 255))
         self.image.fill((0, 0, 0, 120))
-        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
+        self.image.blit(self._total_label, ((self.width - self._total_label.get_width()) / 2, 10))
+        self.image.blit(self._animals_label, ((self.width - self._animals_label.get_width()) / 2, 10 * 2 + self._total_label.get_height()))
+        self.image.blit(self._plants_label, ((self.width - self._plants_label.get_width()) / 2, 10 * 3 + self._total_label.get_height() + self._animals_label.get_height()))
+        self.Border()
 
     @property
     def All_Bio_Count(self):
@@ -236,19 +275,6 @@ class BiomassCount(Window):
         self._all_bio_count = int(value)
         self.image.fill((0, 0, 0, 120))
         Label = Fonts.MainFont.render('общ кол-во биомассы: ' + str(self._all_bio_count), True, (255, 255, 255, 255))
-        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
-
-
-
-class BiomassCountAnimal(Window):
-    def __init__(self):
-        self._animals_bio_count = 0.
-        monitor_info = pygame.display.Info()
-        Label = Fonts.MainFont.render('общ кол-во биомассы животного:', True, (255, 255, 255, 255))
-        self.width = 300
-        self.height = 20
-        super().__init__(np.array([monitor_info.current_w - self.width - 10, 30]),np.array([self.width, self.height]))
-        self.image.fill((0, 0, 0, 120))
         self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
 
     @property
@@ -268,17 +294,6 @@ class BiomassCountAnimal(Window):
                                       (255, 255, 255, 255))
         self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
 
-class BiomassCountPlants(Window):
-    def __init__(self):
-        self._plants_bio_count = 0.
-        monitor_info = pygame.display.Info()
-        Label = Fonts.MainFont.render('общ кол-во биомассы растения:', True, (255, 255, 255, 255))
-        self.width = 300
-        self.height = 20
-        super().__init__(np.array([monitor_info.current_w - self.width - 10, 50]), np.array([self.width, self.height]))
-        self.image.fill((0, 0, 0, 120))
-        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
-
     @property
     def Plants_Bio_Count(self):
         return int(self._plants_bio_count)
@@ -295,6 +310,34 @@ class BiomassCountPlants(Window):
         Label = Fonts.MainFont.render('общ кол-во биомассы растения: ' + str(self._plants_bio_count), True,
                                       (255, 255, 255, 255))
         self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
+
+
+
+class BiomassCountAnimal(Window):
+    def __init__(self):
+        self._animals_bio_count = 0.
+        monitor_info = pygame.display.Info()
+        Label = Fonts.MainFont.render('общ кол-во биомассы животного:', True, (255, 255, 255, 255))
+        self.width = 300
+        self.height = 20
+        super().__init__(np.array([monitor_info.current_w - self.width - 10, 30]),np.array([self.width, self.height]))
+        self.image.fill((0, 0, 0, 120))
+        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
+
+    
+
+class BiomassCountPlants(Window):
+    def __init__(self):
+        self._plants_bio_count = 0.
+        monitor_info = pygame.display.Info()
+        Label = Fonts.MainFont.render('общ кол-во биомассы растения:', True, (255, 255, 255, 255))
+        self.width = 300
+        self.height = 20
+        super().__init__(np.array([monitor_info.current_w - self.width - 10, 50]), np.array([self.width, self.height]))
+        self.image.fill((0, 0, 0, 120))
+        self.image.blit(Label, ((self.width - Label.get_width()) / 2, (self.height - Label.get_height()) / 2))
+
+    
 
 
 
