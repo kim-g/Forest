@@ -242,7 +242,16 @@ Ferhulst.Number = 23
 Ferhulst.Max = 100
 Ferhulst.A = 0.0000167
 
+<<<<<<< HEAD
 GrassRegion = 0
+=======
+Region = Regions.Ferhulst([500, 500], [100, 100])
+Region.A =0.0000167
+Region.Max =  100
+Region.Number = 10
+interface_sprites.add(Region)
+all_sprites.add(Region)
+>>>>>>> origin/Nikita1
 
 AliveCount = ProgramInterface.AliveCountWindow()
 AliveCount.Show = True

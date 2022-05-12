@@ -10,7 +10,11 @@ class Region(ProgramInterface.Window):
     '''Базовый класс области'''
     def __init__(self, position:np.array, size:np.array):
         super().__init__(position, size)
+<<<<<<< HEAD
         self.size = size
+=======
+        self._size = size
+>>>>>>> origin/Nikita1
         self._max:int = 0
         self._number:float = 0.
         self._a:float = 0.
@@ -18,6 +22,7 @@ class Region(ProgramInterface.Window):
         height = size[1]
         x = position[0]
         y = position[1]
+<<<<<<< HEAD
         self.object_img = pygame.image.load(pathlib.Path(AnimalDir, "Bunny16x16.png")).convert_alpha()
         self.pic = self.object_img
         object_count = self.Number
@@ -25,6 +30,13 @@ class Region(ProgramInterface.Window):
         self.pic_center = self.pic_rect.center
         
         
+=======
+        self._object_img = pygame.image.load(pathlib.Path(AnimalDir, "Bunny16x16.png")).convert_alpha()
+        self._object_count = self.Number
+        self.image.blit(self._object_img, ((width - self._object_img.get_width()) / 2, (height - self._object_img.get_height()) / 2))
+
+
+>>>>>>> origin/Nikita1
 
     @property
     def Max(self):
@@ -84,14 +96,25 @@ class Region(ProgramInterface.Window):
         self.region_rect = self.image.get_rect()
         self.reion_center = self.region_rect.center
         Label = Fonts.MainFont.render(str(self.Number), True, (255, 255, 255, 255))
+<<<<<<< HEAD
         self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2 + 16))
         self.image.blit(self.object_img, ((width - self.object_img.get_width()) / 2, (height - self.object_img.get_height()) / 2))
         self.Border()
+=======
+        self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
+        
+        self.image.blit(self._object_img, ((width - self._object_img.get_width()) / 2, (height - self._object_img.get_height()) / 2))
+        self.Border() 
+
+
+
+>>>>>>> origin/Nikita1
 
     def update(self):
         self.SetMax()
         self.Eat()
         self.Multiply()
+<<<<<<< HEAD
         self.Draw(self.size)
 
 class Ferhulst(Region):
@@ -111,3 +134,15 @@ class BunnyRegion(Ferhulst):
 class GrassRegion(Ferhulst):
     def __init__(self, position, size):
         super().__init__(position, size)
+=======
+        self.Draw(self._size)
+
+
+class Ferhulst(Region):
+    def __init__(self, position, size):
+        super().__init__(position,size)
+
+    def Multiply(self):
+        DN=self.A * (1-self.Number / self.Max)*self.Number
+
+>>>>>>> origin/Nikita1
