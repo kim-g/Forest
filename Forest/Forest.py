@@ -226,11 +226,23 @@ all_sprites.add(Pause)
 StepsCountWindow = ProgramInterface.StepsWindow()
 interface_sprites.add(StepsCountWindow)
 all_sprites.add(StepsCountWindow)
-StepsCountWindow.Count = 5326
+StepsCountWindow.Count = 0
 
-Region = Regions.Region([23, 23], [100, 100])
-interface_sprites.add(Region)
-all_sprites.add(Region)
+Ferhulst = Regions.Ferhulst([230, 230], [123, 132])
+#animals_sprites.add(Ferhulst)
+all_sprites.add(Ferhulst)
+Ferhulst.Number = 0
+Ferhulst.Max = 100
+Ferhulst.A = 0.0000167
+
+BunnyRegion = Regions.BunnyRegion([23, 23], [100, 100])
+animals_sprites.add(Ferhulst)
+all_sprites.add(Ferhulst)
+Ferhulst.Number = 23
+Ferhulst.Max = 100
+Ferhulst.A = 0.0000167
+
+GrassRegion = 0
 
 AliveCount = ProgramInterface.AliveCountWindow()
 AliveCount.Show = True
@@ -296,13 +308,6 @@ while running:
             # Проверяем кнопку P для паузы в симуляции
             if event.key == pygame.K_p:
                 SetPause()
-
-    #            if event.key == pygame.K_t:
-    #                CreateTurtle(23., 32., 0., 0.)
-    #            if event.key == pygame.K_f:
-    #                CreateFox(32., 23., 0., 0.)
-    #            if event.key == pygame.K_b:
-    #                CreateBeast(40., 15., 0., 0.)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             Buttons.MouseDown(event.pos)
