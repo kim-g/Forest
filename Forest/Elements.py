@@ -558,6 +558,15 @@ class Animal(Food):
                 self.HungryFlag = False
                 return
 
+    def EatFromRegion(self, region):
+        if self.rect.colliderect(region.rect):
+            if region.Number > self.EatPerStep:
+                pass 
+            if region.Number < self.EatPerStep and region.Number > 0:
+                pass
+            if region Number = 0:
+                pass
+
     # Метод Move. 
     def Move(self, force):
         '''Передвижение'''

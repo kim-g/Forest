@@ -258,6 +258,10 @@ BiomassCount = ProgramInterface.BiomassCount()
 interface_sprites.add(BiomassCount)
 all_sprites.add(BiomassCount)
 
+GrassRegion = Regions.GrassRegion([489, 300], [50, 50])
+plants_sprites.add(GrassRegion)
+all_sprites.add(GrassRegion)
+GrassRegion.Number = 20
 Buttons = ProgramInterface.Clickable()
 
 Button = ProgramInterface.Button(np.array([300,10]), np.array([100,40]))
@@ -352,6 +356,7 @@ while running:
         AliveCount.WolvesCount = len(wolves)
         AliveCount.RabbitsCount = len(rabbits)
         AliveCount.Refresh()
+
         
     #CreateGrass()
 
@@ -360,11 +365,12 @@ while running:
     screen.fill(0x00FF00)
     animals_sprites.draw(screen)
     plants_sprites.draw(screen)
-    if interface:
-        interface_sprites.draw(screen)
-        
-
-    # после отрисовки всего, переворачиваем экран
-    pygame.display.flip()
-
-pygame.quit()
+    if interface: 
+        interface_sprites.draw(screen) 
+         
+         
+    # после отрисовки всего, переворачиваем экран 
+    pygame.display.flip() 
+ 
+pygame.quit() 
+ 

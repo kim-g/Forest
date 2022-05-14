@@ -111,4 +111,13 @@ class BunnyRegion(Ferhulst):
 class GrassRegion(Ferhulst):
     def __init__(self, position, size):
         super().__init__(position, size)
+        self._square = size[0] * size[1] / (16**2)
+        self.Max = 440 * self._square
+        self._object_img = pygame.image.load(pathlib.Path(AnimalDir, "spider16x16.png")).convert_alpha() 
+        self.A = 1.2 * 10**(-9)
+        self.Number = 1 
+        self.Show = True
 
+    def update(self):
+        self.Multiply()     
+        self.Draw([50, 50])
