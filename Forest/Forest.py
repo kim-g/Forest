@@ -217,8 +217,13 @@ StepsCountWindow.Count = 5326
 Region = Regions.Ferhulst([500, 500], [100, 100])
 Region.A =0.0000167
 Region.Max =  100
-Region.Number = 10
-interface_sprites.add(Region)
+Region.Number = 100
+animals_sprites.add(Region)
+all_sprites.add(Region)
+
+Region = Regions.GrassRegion([300, 500], [100, 100])
+Region.Number = 5000000000
+animals_sprites.add(Region)
 all_sprites.add(Region)
 
 AliveCount = ProgramInterface.AliveCountWindow()

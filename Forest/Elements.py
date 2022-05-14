@@ -302,6 +302,7 @@ class Animal(Food):
         self._eaten_biomass_treshold:float = 0.
         self._hungry_flag:bool = True
         self._eaten_biomass_lower_treshold = 0
+        self._eatfromregion = 0
 
 
     # Свойство FoodType
@@ -478,7 +479,7 @@ class Animal(Food):
         except:
             print('Animal.Eaten_Biomass_Lower_Treshhold не входит \nв рамки от 0 до Animal.EatenBiomassTreshhold или не float')
 
-
+ 
 
     def Vector_Length(self, vector):
         return math.sqrt(vector[0]**2 + vector[1]**2) 
@@ -508,6 +509,11 @@ class Animal(Food):
         except:
             pass
 
+
+
+
+
+    def EatFromRegion(self,region):
     
 
     # Метод NormalVector. 
