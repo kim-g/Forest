@@ -1,3 +1,4 @@
+import random
 import ProgramInterface
 import numpy as np
 import pygame
@@ -16,12 +17,13 @@ class Region(ProgramInterface.Window):
         self._max: int = 0
         self._number: float = 0.
         self._a: float = 0.
-        width = size[0]
-        height = size[1]
-        x = position[0]
-        y = position[1]
+        self.width = size[0]
+        self.height = size[1]
+        self.x = position[0]
+        self.y = position[1]
         self._object_img = pygame.image.load(pathlib.Path(AnimalDir, "Bunny16x16.png")).convert_alpha()
-        self.image.blit(self._object_img,((width - self._object_img.get_width()) / 2, (height - self._object_img.get_height()) / 2))
+        self.image.blit(self._object_img,((self.width - self._object_img.get_width()) / 2, (self.height - self._object_img.get_height()) / 2))
+        self._isplant = True
 
     @property
     def Max(self):
@@ -92,6 +94,25 @@ class Region(ProgramInterface.Window):
         self.Multiply()
         self.Draw(self._size)
 
+    @property
+    def X(self):
+        return int(self.x + random.randint(0, self.width) / 16)
+
+    @property
+    def Y(self):
+        return int(self.y + random.randint(0, self.height) / 16)
+
+    @property
+    def IsPlant(self):
+        return self._isplant
+    @IsPlant.setter
+    def IsPlant(self, value):
+        self._isplant = bool(value)
+
+    @property
+    def Position(self):
+        return np.array([self.X, self.Y])
+
 
 class Ferhulst(Region):
     def __init__(self, position, size):
@@ -124,6 +145,7 @@ class Region_Grass(Ferhulst):
         self._size = size
         self._object_img = pygame.image.load(pathlib.Path(PlantDir, "grass.png")).convert_alpha()
         self.Max *= (self._size[0] * size[1]) / 16
+        print (self.__class__.__name__)
 
     def Multiply(self):
         self.Number += self.A * (1 - (self.Number-1) / self.Max) * self.Number
@@ -131,3 +153,7 @@ class Region_Grass(Ferhulst):
     def update(self):
         self.Multiply()
         self.Draw(self._size)
+
+    @property
+    def Biomass(self):
+        return self.Number

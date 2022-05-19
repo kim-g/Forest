@@ -223,6 +223,8 @@ Grass_Region.A = 0.0000167#в день с кв м
 Grass_Region.Number = 10
 plants_sprites.add(Grass_Region)
 all_sprites.add(Grass_Region)
+Env.Elements.append(Grass_Region)
+Env.Alive.append(Grass_Region)
 
 Rab_Region = Regions.Region_Rabit([100, 100], [100, 100])
 Rab_Region.A = 0.0000167

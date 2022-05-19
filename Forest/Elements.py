@@ -224,8 +224,8 @@ class Food(Unit):
     def Biomass(self, value:float):
         try:
             if value <= 0:
-                self.EcoSystem.Delete(self)
-                self.kill()
+                #self.EcoSystem.Delete(self)
+                #self.kill()
                 return
             
             self._biomass = float(value)

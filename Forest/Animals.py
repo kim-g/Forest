@@ -139,7 +139,7 @@ class Turtle(Elements.Animal):
 class Bunny(Elements.Animal):
     def __init__(self):
         super().__init__()
-        bunny_img = pygame.image.load(pathlib.Path(AnimalDir, "Bunny16x16.png")).convert_alpha()
+        bunny_img = pygame.image.load(pathlib.Path(AnimalDir, "Заяц 16.png")).convert_alpha()
         self.image = bunny_img
         self.Out_Image = bunny_img
         self.rect = self.image.get_rect()
@@ -165,7 +165,7 @@ class Bunny(Elements.Animal):
             self.Aim = self.Position
         else:
             self.image = self.Out_Image
-            Aims = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Region_Grass", self.EcoSystem.Alive))
+            Aims = list(filter(lambda x: self.Path(x)<1000 and x.__class__.__name__ == "Region_Grass", self.EcoSystem.Alive))
             AimsCount=len(Aims)
             if AimsCount ==0:
                 super().SetAim()
