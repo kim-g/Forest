@@ -165,7 +165,7 @@ class Bunny(Elements.Animal):
             self.Aim = self.Position
         else:
             self.image = self.Out_Image
-            Aims = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Grass", self.EcoSystem.Alive))
+            Aims = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Region_Grass", self.EcoSystem.Alive))
             AimsCount=len(Aims)
             if AimsCount ==0:
                 super().SetAim()
@@ -262,4 +262,7 @@ class Chameleon(Elements.Animal):
 
 def Eat_From_Region(self,Region,Eat):
     if Region.rect.colliderect(Eat.rect):
-        if Elements.Animal.EatPerStep <= Region.Number:
+        if self.EatPerStep <= Region.Number:
+            pass
+        if self.EatPerStep < Region.Number:
+            pass
