@@ -218,7 +218,7 @@ class Food(Unit):
     # Свойство Biomass. Определяет биомассу объекта
     @property
     def Biomass(self):
-        '''Определяет биомассу объекта'''
+        '''Определяет биомассу объекта в кг'''
         return self._biomass
     @Biomass.setter
     def Biomass(self, value:float):
@@ -230,7 +230,7 @@ class Food(Unit):
             
             self._biomass = float(value)
         except:
-            print("Недопустимое значение перменной в Food.Biomass")
+            print("Недопустимое значение перменн лиой в Food.Biomass")
 
     # Свойство TopTreshold. Определяет верхний порог энергии объекта
     @property

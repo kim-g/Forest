@@ -214,9 +214,21 @@ interface_sprites.add(StepsCountWindow)
 all_sprites.add(StepsCountWindow)
 StepsCountWindow.Count = 5326
 
-Region = Regions.Region([23, 23], [100, 100])
-interface_sprites.add(Region)
+Region = Regions.Ferhulst([500, 500], [100, 100])
+animals_sprites.add(Region)
 all_sprites.add(Region)
+
+Grass_Region = Regions.Region_Grass([200, 200], [100, 100])
+Grass_Region.A = 0.0000167#в день с кв м
+Grass_Region.Number = 10
+plants_sprites.add(Grass_Region)
+all_sprites.add(Grass_Region)
+
+Rab_Region = Regions.Region_Rabit([100, 100], [100, 100])
+Rab_Region.A = 0.0000167
+Rab_Region.Number = 10
+animals_sprites.add(Rab_Region)
+all_sprites.add(Rab_Region)
 
 AliveCount = ProgramInterface.AliveCountWindow()
 AliveCount.Show = True

@@ -9,7 +9,7 @@ class Window(pygame.sprite.Sprite):
     def __init__(self, position: np.array, size: np.array):
         """Инициализация окна"""
         super().__init__()
-        self.Size = size;
+        self.Size = size
         self.image = pygame.Surface((size[0], size[1]), pygame.SRCALPHA, 32).convert_alpha()
         self._top_border = pygame.Surface((size[0], 1), pygame.SRCALPHA, 32).convert_alpha()
         self._left_border = pygame.Surface((1, size[1]), pygame.SRCALPHA, 32).convert_alpha()#
@@ -269,7 +269,7 @@ class Button(Window):
         self._color = self._main_color
 
         # Состояния кнопки
-        self._pressed:bool = False;
+        self._pressed:bool = False
 
         self._text:str = ""
         self.width:int = size[0]
