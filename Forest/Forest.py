@@ -179,7 +179,7 @@ def CreateGrass(Parent=None):
 # Визуализация
 FPS = 15
 pygame.init()
-#pygame.mixer.init()  # для звука
+# pygame.mixer.init()  # для звука
 screen = pygame.display.set_mode((0, 0))
 pygame.display.set_caption("Forest")
 clock = pygame.time.Clock()
@@ -199,7 +199,6 @@ for i in range(0, 10):
     CreateTurtle(2., 3., 0., 0.)
     CreateBunny(2., 3., 3., 2.)
     CreateWolf(4., 4., 4., 4.)
-
 for i in range(0, 400):
     CreateGrass()
 
@@ -219,7 +218,7 @@ animals_sprites.add(Region)
 all_sprites.add(Region)
 
 Grass_Region = Regions.Region_Grass([200, 200], [100, 100])
-Grass_Region.A = 0.0000167#в день с кв м
+Grass_Region.A = 0.0000167  # в день с кв м
 Grass_Region.Number = 10
 plants_sprites.add(Grass_Region)
 all_sprites.add(Grass_Region)
@@ -249,10 +248,10 @@ BiomassCountPlants = ProgramInterface.BiomassCountPlants()
 interface_sprites.add(BiomassCountPlants)
 all_sprites.add(BiomassCountPlants)
 
-Button = ProgramInterface.Button(np.array([300,10]), np.array([100,40]))
-Button.Text = "Нажми меня!"
-interface_sprites.add(Button)
-all_sprites.add(Button)
+#Button = ProgramInterface.Button(np.array([300, 10]), np.array([100, 40]))
+#Button.Text = "Нажми меня!"
+#interface_sprites.add(Button)
+#all_sprites.add(Button)
 
 running = True
 interface = True
@@ -289,21 +288,21 @@ while running:
                 pause = not pause
                 Pause.Show = pause
 
-    #            if event.key == pygame.K_t:
-    #                CreateTurtle(23., 32., 0., 0.)
-    #            if event.key == pygame.K_f:
-    #                CreateFox(32., 23., 0., 0.)
-    #            if event.key == pygame.K_b:
-    #                CreateBeast(40., 15., 0., 0.)
+        #            if event.key == pygame.K_t:
+        #                CreateTurtle(23., 32., 0., 0.)
+        #            if event.key == pygame.K_f:
+        #                CreateFox(32., 23., 0., 0.)
+        #            if event.key == pygame.K_b:
+        #                CreateBeast(40., 15., 0., 0.)
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            Button.MouseDown(event.pos)
-
-        if event.type == pygame.MOUSEBUTTONUP:
-            Button.MouseUp(event.pos)
-
-        if event.type == pygame.MOUSEMOTION:
-            Button.MouseMotion(event.pos)
+        #if event.type == pygame.MOUSEBUTTONDOWN:
+        #    Button.MouseDown(event.pos)
+        #
+        #if event.type == pygame.MOUSEBUTTONUP:
+        #    Button.MouseUp(event.pos)
+        #
+        #if event.type == pygame.MOUSEMOTION:
+        #    Button.MouseMotion(event.pos)
 
     # Обновление
 
@@ -314,19 +313,19 @@ while running:
         StepsCountWindow.Count += 1
         for x in Env.Alive:
             biomas += x.Biomass
-            if str(type(x)) in ["<class 'Animals.Beast'>","<class 'Animals.Turtle'>","<class 'Animals.Fox'>","<class 'Animals.Wolf'>","<class 'Animals.Chameleon'>","<class 'Animals.Bunny'>"]:
+            if str(type(x)) in ["<class 'Animals.Beast'>", "<class 'Animals.Turtle'>", "<class 'Animals.Fox'>",
+                                "<class 'Animals.Wolf'>", "<class 'Animals.Chameleon'>", "<class 'Animals.Bunny'>"]:
                 anim_biomass += x.Biomass
             if str(type(x)) == "<class 'Plants.Grass'>":
-                plants_biomass+=x.Biomass
+                plants_biomass += x.Biomass
         BiomassCount.All_Bio_Count = biomas
         BiomassCountAnimal.Animal_Bio_Count = anim_biomass
         BiomassCountPlants.Plants_Bio_Count = plants_biomass
-        
+
         plants = filter(lambda x: x.IsPlant == True, Env.Alive)
         plants1 = list(plants)
         AliveCount.PlantsCount = len(plants1)
-    #CreateGrass()
-
+    # CreateGrass()
 
     # Визуализация (сборка)
     screen.fill(0x00FF00)
@@ -334,7 +333,6 @@ while running:
     plants_sprites.draw(screen)
     if interface:
         interface_sprites.draw(screen)
-        
 
     # после отрисовки всего, переворачиваем экран
     pygame.display.flip()

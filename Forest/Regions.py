@@ -96,11 +96,11 @@ class Region(ProgramInterface.Window):
 
     @property
     def X(self):
-        return int(self.x + random.randint(0, self.width) / 16)
+        return int((self.x + random.randint(0, self.width)) / 16)
 
     @property
     def Y(self):
-        return int(self.y + random.randint(0, self.height) / 16)
+        return int((self.y + random.randint(0, self.height)) / 16)
 
     @property
     def IsPlant(self):

@@ -7,6 +7,7 @@ import random
 
 AnimalDir = pathlib.Path("sprites", "animals")
 
+
 ######################################################################################################################
 # Класс абстрактного зверя
 # Всё время ходит.
@@ -14,7 +15,6 @@ AnimalDir = pathlib.Path("sprites", "animals")
 ######################################################################################################################
 class Beast(Elements.Animal):
     def __init__(self):
-
         super().__init__()
         beast_img = pygame.image.load(pathlib.Path(AnimalDir, "beast.png")).convert_alpha()
         self.image = beast_img
@@ -32,7 +32,6 @@ class Beast(Elements.Animal):
 
     def update(self):
         self.Step()
-
 
 
 ######################################################################################################################
@@ -53,7 +52,7 @@ class Fox(Elements.Animal):
         super().Move(force)
         self.rect.center = (int(self.X * 16 + 8), int(self.Y * 16 + 8))
 
-    def Step(self):#надо передать цель для движения
+    def Step(self):  # надо передать цель для движения
         super().Step()
         self._aim_sprite.Position = self.Aim
 
@@ -61,10 +60,10 @@ class Fox(Elements.Animal):
         self.Step()
 
     def SetAim(self):
-#        Aims = ["Fox", "Turtle", "Beast"]
-#        Elements.Animal().Aim_1_Atack(Aims)
+        #        Aims = ["Fox", "Turtle", "Beast"]
+        #        Elements.Animal().Aim_1_Atack(Aims)
 
-        angle = random.randint(0,360) / 180 * math.pi
+        angle = random.randint(0, 360) / 180 * math.pi
         self.Aim[0] += math.cos(angle) * 3
         self.Aim[1] += math.sin(angle) * 3
         if self.Aim[0] < 0:
@@ -75,6 +74,7 @@ class Fox(Elements.Animal):
             self.Aim[0] = self.EcoSystem.Width - 1
         if self.Aim[1] >= self.EcoSystem.Height:
             self.Aim[1] = self.EcoSystem.Height - 1
+
 
 ######################################################################################################################
 # Класс черпахи
@@ -104,16 +104,16 @@ class Turtle(Elements.Animal):
 
     def update(self):
         self.Step()
-    
+
     def SetAim(self):
         if not self.HungryFlag:
             self.Aim = self.Position
             self.image = self.Hole_Image
         else:
             self.image = self.Out_Image
-            Aims = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Grass", self.EcoSystem.Alive))
-            AimsCount=len(Aims)
-            if AimsCount ==0:
+            Aims = list(filter(lambda x: self.Path(x) < 10 and x.__class__.__name__ == "Grass", self.EcoSystem.Alive))
+            AimsCount = len(Aims)
+            if AimsCount == 0:
                 super().SetAim()
                 return
             if AimsCount == 1:
@@ -121,15 +121,16 @@ class Turtle(Elements.Animal):
                 self.AimObject = Aims[0]
                 return
             if AimsCount < 4:
-                self.AimObject = Aims[random.randint(0,AimsCount-1)]
-                self.Aim=self.AimObject.Position
+                self.AimObject = Aims[random.randint(0, AimsCount - 1)]
+                self.Aim = self.AimObject.Position
                 return
-            Aims.sort(key= lambda x: self.Path(x))
-            self.AimObject = Aims[random.randint(0,3)]
-            self.Aim=self.AimObject.Position
+            Aims.sort(key=lambda x: self.Path(x))
+            self.AimObject = Aims[random.randint(0, 3)]
+            self.Aim = self.AimObject.Position
 
     def OnAim(self, Aim):
         self.Eat(Aim)
+
 
 ######################################################################################################################
 # Класс кролика
@@ -139,7 +140,7 @@ class Turtle(Elements.Animal):
 class Bunny(Elements.Animal):
     def __init__(self):
         super().__init__()
-        bunny_img = pygame.image.load(pathlib.Path(AnimalDir, "Заяц 16.png")).convert_alpha()
+        bunny_img = pygame.image.load(pathlib.Path(AnimalDir, "Bunny16x16.png")).convert_alpha()
         self.image = bunny_img
         self.Out_Image = bunny_img
         self.rect = self.image.get_rect()
@@ -159,15 +160,16 @@ class Bunny(Elements.Animal):
 
     def SetAim(self):
         if not self.HungryFlag:
-            Dangers = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Wolf", self.EcoSystem.Alive))
+            Dangers = list(filter(lambda x: self.Path(x) < 10 and x.__class__.__name__ == "Wolf", self.EcoSystem.Alive))
             while Dangers != 0:
                 self.Aim = np.array([self.X + 1, self.Y + 1])
             self.Aim = self.Position
         else:
             self.image = self.Out_Image
-            Aims = list(filter(lambda x: self.Path(x)<1000 and x.__class__.__name__ == "Region_Grass", self.EcoSystem.Alive))
-            AimsCount=len(Aims)
-            if AimsCount ==0:
+            Aims = list(
+                filter(lambda x: self.Path(x) < 1000 and x.__class__.__name__ == "Region_Grass", self.EcoSystem.Alive))
+            AimsCount = len(Aims)
+            if AimsCount == 0:
                 super().SetAim()
                 return
             if AimsCount == 1:
@@ -175,12 +177,13 @@ class Bunny(Elements.Animal):
                 self.AimObject = Aims[0]
                 return
             if AimsCount < 4:
-                self.AimObject = Aims[random.randint(0,AimsCount-1)]
-                self.Aim=self.AimObject.Position
+                self.AimObject = Aims[random.randint(0, AimsCount - 1)]
+                self.Aim = self.AimObject.Position
                 return
-            Aims.sort(key= lambda x: self.Path(x))
-            self.AimObject = Aims[random.randint(0,3)]
-            self.Aim=self.AimObject.Position
+            Aims.sort(key=lambda x: self.Path(x))
+            self.AimObject = Aims[random.randint(0, 3)]
+            self.Aim = self.AimObject.Position
+
 
 ######################################################################################################################
 # Класс волка
@@ -212,13 +215,13 @@ class Wolf(Elements.Animal):
 
     def SetAim(self):
         '''Установка цели волка'''
-        if not self.HungryFlag:  
+        if not self.HungryFlag:
             self.image = self.wolf_pokushal_img
             self.Aim = self.Position
         else:
-            Aims = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Bunny", self.EcoSystem.Alive))
-            AimsCount=len(Aims)
-            if AimsCount ==0:
+            Aims = list(filter(lambda x: self.Path(x) < 10 and x.__class__.__name__ == "Bunny", self.EcoSystem.Alive))
+            AimsCount = len(Aims)
+            if AimsCount == 0:
                 super().SetAim()
                 return
             if AimsCount == 1:
@@ -226,16 +229,16 @@ class Wolf(Elements.Animal):
                 self.AimObject = Aims[0]
                 return
             if AimsCount < 4:
-                self.AimObject = Aims[random.randint(0,AimsCount-1)]
-                self.Aim=self.AimObject.Position
+                self.AimObject = Aims[random.randint(0, AimsCount - 1)]
+                self.Aim = self.AimObject.Position
                 return
-            Aims.sort(key= lambda x: self.Path(x))
-            self.AimObject = Aims[random.randint(0,3)]
-            self.Aim=self.AimObject.Position
+            Aims.sort(key=lambda x: self.Path(x))
+            self.AimObject = Aims[random.randint(0, 3)]
+            self.Aim = self.AimObject.Position
+
 
 class Chameleon(Elements.Animal):
     def __init__(self):
-
         super().__init__()
         chameleon_img = pygame.image.load(pathlib.Path(AnimalDir, "chameleon16x16.png")).convert_alpha()
         self.image = chameleon_img
@@ -254,15 +257,14 @@ class Chameleon(Elements.Animal):
     def update(self):
         self.Step()
 
+
 ######################################################################################################################
-# Класс кролика
-# Всё время ходит. Когда голоден ищет еду, когда сыт убегает от волков
-# Целью выбирается ближайшая трава. Если сыт, старается убежать от лисов
+# Класс поедания объекта
 ######################################################################################################################
 
-def Eat_From_Region(self,Region,Eat):
+def Eat_From_Region(self, Region, Eat):
     if Region.rect.colliderect(Eat.rect):
         if self.EatPerStep <= Region.Number:
             pass
-        if self.EatPerStep < Region.Number:
+        if self.EatPerStep < Region.Number :
             pass
