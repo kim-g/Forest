@@ -30,6 +30,9 @@ class Region(ProgramInterface.Window):
     @property
     def IsPlant(self):
         return self._isplant
+    @IsPlant.setter
+    def IsPlant(self, value):
+        self._isplant = bool(value) 
 
     @property
     def Biomass(self):
@@ -106,7 +109,7 @@ class Region(ProgramInterface.Window):
         self.reion_center = self.region_rect.center
         Label = Fonts.MainFont.render(str(self.Number), True, (255, 255, 255, 255))
         self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
-        self.image.blit(self._object_img, ((width - self._object_img.get_width()) / 2, (height - self._object_img.get_height()) / 2))
+        self.image.blit(self._object_img, ((width - self._object_img.get_width()) / 8, (height - self._object_img.get_height()) / 8))
         self.Border() 
 
 
@@ -141,6 +144,11 @@ class GrassRegion(Ferhulst):
         self.A = 1.2 * 10**(-9)
         self.Number = 1 
         self.Show = True
+        Label = Fonts.MainFont.render(str(self.Number), True, (255, 255, 255, 255))
+        width = size[0]
+        height = size[1]
+        self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2))
+        self.image.blit(self._object_img, ((width - self._object_img.get_width()) / 8, (height - self._object_img.get_height()) / 8))
 
     def update(self):
         self.Multiply()     

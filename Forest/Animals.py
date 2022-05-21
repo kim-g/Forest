@@ -154,7 +154,7 @@ class Bunny(Elements.Animal):
     def Step(self):
         super().Step()
         self._aim_sprite.Position = self.Aim
-
+        self.EatFromRegion(self.AimObject)
     def update(self):
         self.Step()
 

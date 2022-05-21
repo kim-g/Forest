@@ -189,6 +189,14 @@ def CloseWindow():
     running = False
     print("Closing")
 
+def CreateGrassRegion():
+    GrassRegion = Regions.GrassRegion([random.randint(1, 1000), random.randint(1, 1000)], [100, 100])
+    plants_sprites.add(GrassRegion)
+    all_sprites.add(GrassRegion)
+    GrassRegion.Number = 2000
+    Env.Elements.append(GrassRegion)
+    Env.Alive.append(GrassRegion)
+
 
 # Визуализация
 FPS = 15
@@ -208,6 +216,8 @@ Env = Environment.Field(monitor_info)
 
 # Создание объектов
 for i in range(0, 10):
+    if i % 2 == 0:
+        CreateGrassRegion()
     CreateBeast(0., 0., 10., 10.)
     CreateFox(0., 0., 9., 9.)
     CreateTurtle(2., 3., 0., 0.)
@@ -265,13 +275,7 @@ BiomassCount = ProgramInterface.BiomassCount()
 interface_sprites.add(BiomassCount)
 all_sprites.add(BiomassCount)
 
-GrassRegion = Regions.GrassRegion([489, 300], [500, 500])
-plants_sprites.add(GrassRegion)
-all_sprites.add(GrassRegion)
-GrassRegion.Number = 20
-Buttons = ProgramInterface.Clickable()
-Env.Elements.append(GrassRegion)
-Env.Alive.append(GrassRegion)
+Buttons = ProgramInterface.Clickable()  
 
 Button = ProgramInterface.Button(np.array([300,10]), np.array([100,40]))
 Button.Text = "Пауза"

@@ -559,13 +559,16 @@ class Animal(Food):
                 return
 
     def EatFromRegion(self, region):
+        if region == None:
+            self.SetAim
+            return
         if self.rect.colliderect(region.rect):
             if region.Number > self.EatPerStep:
                 self.EatenBiomass += self.EatPerStep
                 region.Number -= self.EatPerStep
-            if region.Number < self.EatPerStep:
+            if region.Number <= self.EatPerStep:
                 self.EatenBiomass += region.Number
-                self.EcoSystem.Delete(region)
+                region.kill()
 
     # Метод Move. 
     def Move(self, force):
