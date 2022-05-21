@@ -511,9 +511,29 @@ class Animal(Food):
 
 
 
+    def EatFromRegion(self,Region):
+        if Region ==None:
+            return
+        if self.rect.colliderect(Region.rect):
+            if Region.Number >= self.EatPerStep:
+                Region.Number = Region.Number - self.EatPerStep
+                self.EatenBiomass = self.EatenBiomass + self.EatPerStep
+            else:
+                self.EatenBiomass = self.EatenBiomass + Region.Number
+                Region.Number=0
 
 
-    def EatFromRegion(self,region):
+       
+
+             
+
+        
+
+
+
+
+
+   
     
 
     # Метод NormalVector. 

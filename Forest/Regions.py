@@ -1,8 +1,10 @@
+
 import ProgramInterface
 import numpy as np
 import pygame
 import pathlib
 import Fonts
+import random
 
 AnimalDir = pathlib.Path("sprites", "animals")
 
@@ -21,7 +23,15 @@ class Region(ProgramInterface.Window):
         self._object_img = pygame.image.load(pathlib.Path(AnimalDir, "Bunny16x16.png")).convert_alpha() 
         self._object_count = self.Number
         self.image.blit(self._object_img, ((width - self._object_img.get_width()) / 2, (height - self._object_img.get_height()) / 2))
-   
+        self._isplant=True
+
+
+    @property
+    def IsPlant(self):
+        return self._isplant
+    @IsPlant.setter
+    def IsPlant(self,value):
+        self._isplant=bool(value)
 
 
 
@@ -116,13 +126,42 @@ class GrassRegion(Ferhulst):
         self._max:int = (self._size[0]*self._size[1]) / 256 * 440
         self._number:float = 0.
         self._a:float = 1.2/1000000000.
+        self._isplant=True
         width = 20
         height = 20
-        x = 200
-        y = 500
+        self.x = 200
+        self.y = 500
+        self.position=0
         self._grass_img = pygame.image.load(pathlib.Path(PlantDir, "grass.png")).convert_alpha()
         self._grass_count = self.Number
         self.image.blit(self._grass_img, ((width - self._grass_img.get_width()) / 2, (height - self._grass_img.get_height()) / 2)) 
+        self._biomass = 0 
+
+
+
+    @property
+    def Biomass(self):
+        return self.Number
+
+
+
+       
+    @property
+    def X(self):
+        return random.randint(self.rect.left, self.rect.left+self.rect.width)/16
+    
+
+
+    @property
+    def Y(self):
+        return random.randint(self.rect.top, self.rect.top+self.rect.height)/16
+   
+
+
+    @property
+    def Position(self):
+        return np.array([self.X,self.Y])
+    
         
 
         
@@ -148,7 +187,6 @@ class GrassRegion(Ferhulst):
         self.Multiply()
         self.Draw(self._size)
 
+   
 
-
-    def EatFromRegion(self,region)
-    
+            

@@ -222,9 +222,37 @@ animals_sprites.add(Region)
 all_sprites.add(Region)
 
 Region = Regions.GrassRegion([300, 500], [100, 100])
-Region.Number = 5000000000
+Region.Number = 10000
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+animals_sprites.add(Region)
+all_sprites.add(Region) 
+Region = Regions.GrassRegion([400, 500], [100, 100])
+Region.Number = 10000
+Env.Elements.append(Region)
+Env.Alive.append(Region)
 animals_sprites.add(Region)
 all_sprites.add(Region)
+Region = Regions.GrassRegion([100, 500], [100, 100])
+Region.Number = 10000
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+animals_sprites.add(Region)
+all_sprites.add(Region)
+Region = Regions.GrassRegion([600, 500], [100, 100])
+Region.Number = 10000
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+animals_sprites.add(Region)
+all_sprites.add(Region)
+Region = Regions.GrassRegion([700, 500], [100, 100])
+Region.Number = 10000
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+animals_sprites.add(Region)
+all_sprites.add(Region)
+
+
 
 AliveCount = ProgramInterface.AliveCountWindow()
 AliveCount.Show = True
