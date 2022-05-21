@@ -234,6 +234,8 @@ all_sprites.add(Ferhulst)
 Ferhulst.Number = 0
 Ferhulst.Max = 100
 Ferhulst.A = 0.0000167
+Env.Elements.append(Ferhulst)
+Env.Alive.append(Ferhulst)
 
 BunnyRegion = Regions.BunnyRegion([23, 23], [100, 100])
 animals_sprites.add(Ferhulst)
@@ -241,6 +243,8 @@ all_sprites.add(Ferhulst)
 Ferhulst.Number = 23
 Ferhulst.Max = 100
 Ferhulst.A = 0.0000167
+Env.Elements.append(BunnyRegion)
+Env.Alive.append(BunnyRegion)
 
 Region = Regions.Ferhulst([500, 500], [100, 100])
 Region.A =0.0000167
@@ -248,6 +252,9 @@ Region.Max =  100
 Region.Number = 10
 interface_sprites.add(Region)
 all_sprites.add(Region)
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+
 
 AliveCount = ProgramInterface.AliveCountWindow()
 AliveCount.Show = True
@@ -258,11 +265,13 @@ BiomassCount = ProgramInterface.BiomassCount()
 interface_sprites.add(BiomassCount)
 all_sprites.add(BiomassCount)
 
-GrassRegion = Regions.GrassRegion([489, 300], [50, 50])
+GrassRegion = Regions.GrassRegion([489, 300], [500, 500])
 plants_sprites.add(GrassRegion)
 all_sprites.add(GrassRegion)
 GrassRegion.Number = 20
 Buttons = ProgramInterface.Clickable()
+Env.Elements.append(GrassRegion)
+Env.Alive.append(GrassRegion)
 
 Button = ProgramInterface.Button(np.array([300,10]), np.array([100,40]))
 Button.Text = "Пауза"
