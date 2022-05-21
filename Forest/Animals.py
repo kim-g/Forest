@@ -154,6 +154,7 @@ class Bunny(Elements.Animal):
     def Step(self):
         super().Step()
         self._aim_sprite.Position = self.Aim
+        self.Eat_From_Region(self.AimObject)
 
     def update(self):
         self.Step()
@@ -258,13 +259,4 @@ class Chameleon(Elements.Animal):
         self.Step()
 
 
-######################################################################################################################
-# Класс поедания объекта
-######################################################################################################################
 
-def Eat_From_Region(self, Region, Eat):
-    if Region.rect.colliderect(Eat.rect):
-        if self.EatPerStep <= Region.Number:
-            pass
-        if self.EatPerStep < Region.Number :
-            pass

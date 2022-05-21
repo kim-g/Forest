@@ -219,7 +219,7 @@ all_sprites.add(Region)
 
 Grass_Region = Regions.Region_Grass([200, 200], [100, 100])
 Grass_Region.A = 0.0000167  # в день с кв м
-Grass_Region.Number = 10
+Grass_Region.Number = 20000
 plants_sprites.add(Grass_Region)
 all_sprites.add(Grass_Region)
 Env.Elements.append(Grass_Region)
