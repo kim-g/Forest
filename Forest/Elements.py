@@ -544,16 +544,6 @@ class Animal(Food):
         except:
             pass
 
-    def Eat_From_Region(self, Region):
-        if Region != None and Region.rect.colliderect(Region.rect):
-            if self.EatPerStep <= Region.Number:
-                Region.Number -= self.EatPerStep
-            if self.EatPerStep > Region.Number:
-                Region.kill()
-
-        else:
-            self.SetAim()
-
     # Метод NormalVector.
     def NormalVector(self, Vect):
         '''Выдаёт единичный вектор от данного вектора'''
@@ -662,6 +652,14 @@ class Animal(Food):
     def OnAim(self, Aim):
         """Метод, вызываемый при достижении цели"""
         pass
+
+    def Eat_From_Region(self, Region):
+        if Region != None and Region.rect.colliderect(Region.rect):
+            if self.EatPerStep <= Region.Number:
+                Region.Number -= self.EatPerStep
+            if self.EatPerStep > Region.Number and Region.Number>0:
+                Region.Alive.remove
+                Region.kill()
 
 
 class Plants(Food):

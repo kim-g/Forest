@@ -132,13 +132,13 @@ class Region_Rabit(Ferhulst):
         self._size = size
         self.Max *= (self._size[0]*size[1])/16
 
+
     def Multiply(self):
         self.Number += self.A * (1 - (self.Number-1) / self.Max) * self.Number
 
     def update(self):
         self.Multiply()
         self.Draw(self._size)
-
 class Region_Grass(Ferhulst):
     def __init__(self, position, size):
         super().__init__(position, size)
