@@ -658,7 +658,10 @@ class Animal(Food):
             if self.EatPerStep <= Region.Number:
                 Region.Number -= self.EatPerStep
             if self.EatPerStep > Region.Number and Region.Number>0:
-                Region.Alive.remove
+                if self.EcoSystem.Alive.count(Region) > 0:
+                    self.EcoSystem.Alive.remove(Region)
+                if self.EcoSystem.Elements.count(Region) > 0:
+                    self.EcoSystem.Elements.remove(Region)
                 Region.kill()
 
 
