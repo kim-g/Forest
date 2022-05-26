@@ -155,6 +155,7 @@ class Bunny(Elements.Animal):
         super().Step()
         self._aim_sprite.Position = self.Aim
         self.EatFromRegion(self.AimObject)
+
     def update(self):
         self.Step()
 
@@ -166,7 +167,7 @@ class Bunny(Elements.Animal):
             self.Aim = self.Position
         else:
             self.image = self.Out_Image
-            Aims = list(filter(lambda x: x.__class__.__name__ == "GrassRegion", self.EcoSystem.Alive))
+            Aims = list(filter(lambda x: self.Path(x)<1000 and x.__class__.__name__ == "GrassRegion", self.EcoSystem.Alive))
             AimsCount=len(Aims)
             if AimsCount ==0:
                 super().SetAim()
@@ -182,6 +183,10 @@ class Bunny(Elements.Animal):
             Aims.sort(key= lambda x: self.Path(x))
             self.AimObject = Aims[random.randint(0,3)]
             self.Aim=self.AimObject.Position
+
+
+
+             
 
 ######################################################################################################################
 # Класс волка
