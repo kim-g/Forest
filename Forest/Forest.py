@@ -263,7 +263,7 @@ Env.Elements.append(Region)
 Env.Alive.append(Region)
 animals_sprites.add(Region)
 all_sprites.add(Region) 
-Region = Regions.GrassRegion([400, 500], [100, 100])
+Region = Regions.GrassRegion([400, 500], [300, 150])
 Region.Number = 10000
 Env.Elements.append(Region)
 Env.Alive.append(Region)

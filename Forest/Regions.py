@@ -108,6 +108,25 @@ class Region(ProgramInterface.Window):
     def Multiply(self):
         pass
 
+    def EatFromRegion(self, Region):
+        """Поедание региона из региона"""
+        if (self._position[0] > Region._position[0]):
+            MinLeft = Region
+            MaxLeft = self
+        else:
+            MinLeft = self
+            MaxLeft = Region
+        if (self._position[1] > Region._position[1]):
+            MinTop = Region
+            MaxTop = self
+        else:
+            MinTop = self
+            MaxTop = Region
+
+        width = MinLeft._size[0] - MaxLeft._position[0] + MinLeft._position[0]
+        height = MinTop._size[1] - MaxLeft._position[1] + MinLeft._position[1]
+
+
     def Draw(self, size:np.array):
         width = size[0]
         height = size[1]
