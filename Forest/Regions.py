@@ -15,7 +15,7 @@ class Region(ProgramInterface.Window):
         self._size = size
         self._max:int = 0
         self._number:float = 0.
-        self._a:float = 0.
+        self._a:float = 0.      
         width = size[0]
         height = size[1]
         x = position[0]
@@ -33,7 +33,16 @@ class Region(ProgramInterface.Window):
     def IsPlant(self,value):
         self._isplant=bool(value)
 
+    @property
+    def IsPlant(self):
+        return self._isplant
+    @IsPlant.setter
+    def IsPlant(self, value):
+        self._isplant = bool(value) 
 
+    @property
+    def Biomass(self):
+        return self._biomass 
 
     @property
     def Max(self):
@@ -77,6 +86,18 @@ class Region(ProgramInterface.Window):
         except:
             print('Недопустимое значение Regions.A')
 
+    @property
+    def X(self):
+        return random.randint(self._position[0], self._position[0] + self.Size[0]) / 16
+
+    @property
+    def Y(self):
+        return random.randint(self._position[1], self._position[1] + self.Size[1]) / 16
+
+    @property
+    def Position(self):
+        return np.array([self.X, self.Y])
+
     def SetMax(self):
         pass        
     
@@ -90,6 +111,8 @@ class Region(ProgramInterface.Window):
         width = size[0]
         height = size[1]
         self.image.fill((0, 0, 0, 120)) #0x00000078
+        self.region_rect = self.image.get_rect()
+        self.reion_center = self.region_rect.center
         Label = Fonts.MainFont.render(str(self.Number), True, (255, 255, 255, 255))
         self.image.blit(Label, ((width - Label.get_width()) / 2, (height - Label.get_height()) / 2 + 16))
         
@@ -105,16 +128,13 @@ class Region(ProgramInterface.Window):
         self.Multiply()
         self.Draw(self._size)
 
-
 class Ferhulst(Region):
     def __init__(self, position, size):
-        super().__init__(position,size)
+        super().__init__(position, size)
 
     def Multiply(self):
         self.Number = self._number + self.A*(1 - (self.Number /self.Max)) * self.Number
         print(self.Number, self.Max, self.A, self.A*(1 - (self.Number /self.Max)) * self.Number)
-
-
 
 
 PlantDir = pathlib.Path(pathlib.Path(__file__).parent, "sprites", "plants")
@@ -137,37 +157,21 @@ class GrassRegion(Ferhulst):
         self.image.blit(self._grass_img, ((width - self._grass_img.get_width()) / 2, (height - self._grass_img.get_height()) / 2)) 
         self._biomass = 0 
 
-
-
     @property
     def Biomass(self):
         return self.Number
 
-
-
-       
     @property
     def X(self):
         return random.randint(self.rect.left, self.rect.left+self.rect.width)/16
-    
-
-
+ 
     @property
     def Y(self):
         return random.randint(self.rect.top, self.rect.top+self.rect.height)/16
-   
-
-
+ 
     @property
     def Position(self):
         return np.array([self.X,self.Y])
-    
-        
-
-        
-
-
-    
 
     def Draw(self, size:np.array):
         width = size[0]
@@ -179,14 +183,9 @@ class GrassRegion(Ferhulst):
         self.image.blit(self._grass_img, ((width - self._grass_img.get_width()) / 2, (height - self._grass_img.get_height()) / 2))
         self.Border()  
 
-
-
     def update(self):
         self.SetMax()
         self.Eat()
         self.Multiply()
         self.Draw(self._size)
 
-   
-
-            

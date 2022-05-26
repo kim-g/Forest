@@ -584,6 +584,18 @@ class Animal(Food):
                 self.HungryFlag = False
                 return
 
+    def EatFromRegion(self, region):
+        if region == None:
+            self.SetAim
+            return
+        if self.rect.colliderect(region.rect):
+            if region.Number > self.EatPerStep:
+                self.EatenBiomass += self.EatPerStep
+                region.Number -= self.EatPerStep
+            if region.Number <= self.EatPerStep:
+                self.EatenBiomass += region.Number
+                region.kill()
+
     # Метод Move. 
     def Move(self, force):
         '''Передвижение'''
