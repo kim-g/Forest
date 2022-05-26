@@ -247,15 +247,6 @@ Ferhulst.A = 0.0000167
 Env.Elements.append(Ferhulst)
 Env.Alive.append(Ferhulst)
 
-BunnyRegion = Regions.BunnyRegion([23, 23], [100, 100])
-animals_sprites.add(Ferhulst)
-all_sprites.add(Ferhulst)
-Ferhulst.Number = 23
-Ferhulst.Max = 100
-Ferhulst.A = 0.0000167
-Env.Elements.append(BunnyRegion)
-Env.Alive.append(BunnyRegion)
-
 Region = Regions.Ferhulst([500, 500], [100, 100])
 Region.A =0.0000167
 Region.Max =  100

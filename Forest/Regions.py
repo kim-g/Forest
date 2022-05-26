@@ -20,6 +20,7 @@ class Region(ProgramInterface.Window):
         height = size[1]
         x = position[0]
         y = position[1]
+        self._position = position
         self._object_img = pygame.image.load(pathlib.Path(AnimalDir, "Bunny16x16.png")).convert_alpha() 
         self._object_count = self.Number
         self.image.blit(self._object_img, ((width - self._object_img.get_width()) / 2, (height - self._object_img.get_height()) / 2))
@@ -42,7 +43,7 @@ class Region(ProgramInterface.Window):
 
     @property
     def Biomass(self):
-        return self._biomass 
+        return self.Number 
 
     @property
     def Max(self):
