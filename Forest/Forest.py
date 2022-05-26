@@ -189,6 +189,14 @@ def CloseWindow():
     running = False
     print("Closing")
 
+def CreateGrassRegion():
+    GrassRegion = Regions.GrassRegion([random.randint(1, 1000), random.randint(1, 1000)], [100, 100])
+    plants_sprites.add(GrassRegion)
+    all_sprites.add(GrassRegion)
+    GrassRegion.Number = 2000
+    Env.Elements.append(GrassRegion)
+    Env.Alive.append(GrassRegion)
+
 
 # Визуализация
 FPS = 15
@@ -208,6 +216,8 @@ Env = Environment.Field(monitor_info)
 
 # Создание объектов
 for i in range(0, 10):
+    if i % 2 == 0:
+        CreateGrassRegion()
     CreateBeast(0., 0., 10., 10.)
     CreateFox(0., 0., 9., 9.)
     CreateTurtle(2., 3., 0., 0.)
@@ -234,6 +244,8 @@ all_sprites.add(Ferhulst)
 Ferhulst.Number = 0
 Ferhulst.Max = 100
 Ferhulst.A = 0.0000167
+Env.Elements.append(Ferhulst)
+Env.Alive.append(Ferhulst)
 
 BunnyRegion = Regions.BunnyRegion([23, 23], [100, 100])
 animals_sprites.add(Ferhulst)
@@ -241,6 +253,8 @@ all_sprites.add(Ferhulst)
 Ferhulst.Number = 23
 Ferhulst.Max = 100
 Ferhulst.A = 0.0000167
+Env.Elements.append(BunnyRegion)
+Env.Alive.append(BunnyRegion)
 
 Region = Regions.Ferhulst([500, 500], [100, 100])
 Region.A =0.0000167
@@ -248,6 +262,9 @@ Region.Max =  100
 Region.Number = 10
 interface_sprites.add(Region)
 all_sprites.add(Region)
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+
 
 AliveCount = ProgramInterface.AliveCountWindow()
 AliveCount.Show = True
@@ -258,7 +275,7 @@ BiomassCount = ProgramInterface.BiomassCount()
 interface_sprites.add(BiomassCount)
 all_sprites.add(BiomassCount)
 
-Buttons = ProgramInterface.Clickable()
+Buttons = ProgramInterface.Clickable()  
 
 Button = ProgramInterface.Button(np.array([300,10]), np.array([100,40]))
 Button.Text = "Пауза"
@@ -352,6 +369,7 @@ while running:
         AliveCount.WolvesCount = len(wolves)
         AliveCount.RabbitsCount = len(rabbits)
         AliveCount.Refresh()
+
         
     #CreateGrass()
 
@@ -360,11 +378,12 @@ while running:
     screen.fill(0x00FF00)
     animals_sprites.draw(screen)
     plants_sprites.draw(screen)
-    if interface:
-        interface_sprites.draw(screen)
-        
-
-    # после отрисовки всего, переворачиваем экран
-    pygame.display.flip()
-
-pygame.quit()
+    if interface: 
+        interface_sprites.draw(screen) 
+         
+         
+    # после отрисовки всего, переворачиваем экран 
+    pygame.display.flip() 
+ 
+pygame.quit() 
+ 

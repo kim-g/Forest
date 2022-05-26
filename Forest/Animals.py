@@ -154,7 +154,7 @@ class Bunny(Elements.Animal):
     def Step(self):
         super().Step()
         self._aim_sprite.Position = self.Aim
-
+        self.EatFromRegion(self.AimObject)
     def update(self):
         self.Step()
 
@@ -166,7 +166,7 @@ class Bunny(Elements.Animal):
             self.Aim = self.Position
         else:
             self.image = self.Out_Image
-            Aims = list(filter(lambda x: self.Path(x)<10 and x.__class__.__name__ == "Grass", self.EcoSystem.Alive))
+            Aims = list(filter(lambda x: x.__class__.__name__ == "GrassRegion", self.EcoSystem.Alive))
             AimsCount=len(Aims)
             if AimsCount ==0:
                 super().SetAim()
