@@ -16,6 +16,7 @@ class Grass(Elements.Plants):
             self.image = img
             self.rect = self.image.get_rect()
             self.rect.center = (self.X * 16 + 8, self.Y * 16 + 8)
+            
         except:
             pass
 

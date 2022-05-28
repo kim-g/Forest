@@ -247,15 +247,6 @@ Ferhulst.A = 0.0000167
 Env.Elements.append(Ferhulst)
 Env.Alive.append(Ferhulst)
 
-Region = Regions.Region([23, 23], [100, 100])
-animals_sprites.add(Ferhulst)
-all_sprites.add(Ferhulst)
-Ferhulst.Number = 23
-Ferhulst.Max = 100
-Ferhulst.A = 0.0000167
-Env.Elements.append(Region)
-Env.Alive.append(Region)
-
 Region = Regions.Ferhulst([500, 500], [100, 100])
 Region.A =0.0000167
 Region.Max =  100
@@ -272,7 +263,7 @@ Env.Elements.append(Region)
 Env.Alive.append(Region)
 animals_sprites.add(Region)
 all_sprites.add(Region) 
-Region = Regions.GrassRegion([400, 500], [100, 100])
+Region = Regions.GrassRegion([400, 500], [300, 150])
 Region.Number = 10000
 Env.Elements.append(Region)
 Env.Alive.append(Region)
