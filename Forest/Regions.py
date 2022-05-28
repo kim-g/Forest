@@ -5,6 +5,7 @@ import pygame
 import pathlib
 import Fonts
 import random
+#import Forest
 
 AnimalDir = pathlib.Path("sprites", "animals")
 
@@ -25,7 +26,23 @@ class Region(ProgramInterface.Window):
         self._object_count = self.Number
         self.image.blit(self._object_img, ((width - self._object_img.get_width()) / 2, (height - self._object_img.get_height()) / 2))
         self._isplant=True
+        self._eatperstep = 0.
+        self._eatenbiomass = 0.
 
+    @property
+    def EatenBiomass(self):
+        return self._eatenbiomass
+    @EatenBiomass.setter
+    def EatenBiomass(self, value):
+        self._eatenbiomass = value
+
+    @property
+    def EatPerStep(self):
+        return self._eatperstep
+    @EatPerStep.setter
+    def EatPerStep(self, value):
+        self._eatperstep = value 
+        
 
     @property
     def IsPlant(self):
@@ -126,6 +143,17 @@ class Region(ProgramInterface.Window):
         width = MinLeft._size[0] - MaxLeft._position[0] + MinLeft._position[0]
         height = MinTop._size[1] - MaxLeft._position[1] + MinLeft._position[1]
 
+        S_S = self._size[0] * self._size[1]
+        S_R = width * height
+        D = S_S / S_R
+        BiomassToEat = D * self.Number * self.EatPerStep
+
+        if Region.Number > BiommassToEat:
+            self.EatenBiomass += self.EatPerStep
+            region.Number -= self.EatPerStep
+        if Region.Number <= BiomassToEat:
+            self.EatenBiomass += Region.Number
+            Region.kill()
 
     def Draw(self, size:np.array):
         width = size[0]
@@ -209,3 +237,55 @@ class GrassRegion(Ferhulst):
         self.Multiply()
         self.Draw(self._size)
 
+class AnimalRegion(Ferhulst):
+    def __init__(self, position:np.array, size:np.array):
+        super().__init__(position, size)
+        self._size = size
+        self._max:int = (self._size[0]*self._size[1]) / 256 * 440
+        self._number:float = 0.
+        self._a:float = 0.0000167
+        self._isplant = False
+        width = 20
+        height = 20
+        self.x = 200
+        self.y = 500
+        self.position=0
+        self._animal_img = pygame.image.load(pathlib.Path(AnimalDir, "Заяц 16.png")).convert_alpha()
+        self._animal_count = self.Number      
+        self._biomass = 0 
+
+    @property
+    def Biomass(self):
+        return self.Number
+
+    @property
+    def X(self):
+        return random.randint(self.rect.left, self.rect.left+self.rect.width)/16
+ 
+    @property
+    def Y(self):
+        return random.randint(self.rect.top, self.rect.top+self.rect.height)/16
+ 
+    @property
+    def Position(self):
+        return np.array([self.X,self.Y])
+
+    def Step(self):
+        super().Step()
+        self.EatFromRegion(Forest.GrassRegion)
+
+    def Draw(self, size:np.array):
+        width = size[0]
+        height = size[1]
+        self.image.fill((0, 0, 0, 120)) #0x00000078
+        Label2 = Fonts.MainFont.render(str(self.Number), True, (255, 255, 255, 255))
+        self.image.blit(Label2, ((width - Label2.get_width()) / 2, (height - Label2.get_height()) / 2 + 20))
+        
+        self.image.blit(self._animal_img, (((width - self._animal_img.get_width()) / 2), ((height - self._animal_img.get_height()) / 2))) 
+        self.Border()  
+
+    def update(self):
+        self.SetMax()
+        self.Eat()
+        self.Multiply()
+        self.Draw(self._size)
