@@ -64,5 +64,7 @@ class Field(object):
             print("Field.Daytime не является булеевым значением")
 
     def Delete(self, obj):
-        self.Elements.remove(obj)
-        self.Alive.remove(obj)
+        if self.Alive.count(obj) > 0:
+            self.Alive.remove(obj)
+        if self.Elements.count(obj) > 0:
+            self.Elements.remove(obj)

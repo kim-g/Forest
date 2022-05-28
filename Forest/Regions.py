@@ -24,6 +24,8 @@ class Region(ProgramInterface.Window):
         self._object_img = pygame.image.load(pathlib.Path(AnimalDir, "Bunny16x16.png")).convert_alpha()
         self.image.blit(self._object_img,((self.width - self._object_img.get_width()) / 2, (self.height - self._object_img.get_height()) / 2))
         self._isplant = True
+        self.square_area1 = 0
+        self.square_area2 = 0
 
     @property
     def Max(self):
@@ -73,8 +75,28 @@ class Region(ProgramInterface.Window):
     def SetMax(self):
         pass
 
-    def Eat(self):
-        pass
+    def Crossing_of_regions(self, Region):
+        """количество занятой пересечением территории региона"""
+        if (self._position[0] > Region._position[0]):
+            MinLeft = Region
+            MaxLeft = self
+        else:
+            MinLeft = self
+            MaxLeft = Region
+        if (self._position[1] > Region._position[1]):
+            MinTop = Region
+            MaxTop = self
+        else:
+            MinTop = self
+            MaxTop = Region
+            self.square_area1 = MinLeft*MinTop
+            self.square_area2 = MaxLeft*MaxTop
+
+
+        width = MinLeft._size[0] - MaxLeft._position[0] + MinLeft._position[0]
+        height = MinTop._size[1] - MaxLeft._position[1] + MinLeft._position[1]
+        Percent_in_square1 = round((width*height)/self.square_area1, 2)
+        Percent_in_square2 = round((width*height)/self.square_area2, 2)
 
     def Multiply(self):
         pass
