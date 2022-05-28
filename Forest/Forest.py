@@ -7,6 +7,7 @@ import Animals
 import ProgramInterface
 import math
 import Regions
+import time
 
 
 def CreateBeast(x: float, y: float, ax: float, ay: float):
@@ -70,6 +71,8 @@ def CreateTurtle(x: float, y: float, ax: float, ay: float):
     Turtle.Eaten_Biomass_Lower_Treshold = 10.
     Turtle.EatPerStep = 10.
     Turtle.EnergyPerStep = 1.
+    Env.Elements.append(Turtle)
+    Env.Alive.append(Turtle)
 
     # Добавление спрайта в группу
     all_sprites.add(Turtle)
@@ -175,6 +178,25 @@ def CreateGrass(Parent=None):
     all_sprites.add(Grass)
     plants_sprites.add(Grass)
 
+def SetPause():
+    global pause
+    global Pause
+    pause = not pause
+    Pause.Show = pause
+
+def CloseWindow():
+    global running
+    running = False
+    print("Closing")
+
+def CreateGrassRegion():
+    GrassRegion = Regions.GrassRegion([random.randint(1, 1000), random.randint(1, 1000)], [100, 100])
+    plants_sprites.add(GrassRegion)
+    all_sprites.add(GrassRegion)
+    GrassRegion.Number = 2000
+    Env.Elements.append(GrassRegion)
+    Env.Alive.append(GrassRegion)
+
 
 # Визуализация
 FPS = 15
@@ -194,13 +216,15 @@ Env = Environment.Field(monitor_info)
 
 # Создание объектов
 for i in range(0, 10):
+    if i % 2 == 0:
+        CreateGrassRegion()
     CreateBeast(0., 0., 10., 10.)
     CreateFox(0., 0., 9., 9.)
     CreateTurtle(2., 3., 0., 0.)
     CreateBunny(2., 3., 3., 2.)
     CreateWolf(4., 4., 4., 4.)
 
-for i in range(0, 400):
+for i in range(0, 40):
     CreateGrass()
 
 # Создание окна интерфейса
@@ -212,11 +236,68 @@ all_sprites.add(Pause)
 StepsCountWindow = ProgramInterface.StepsWindow()
 interface_sprites.add(StepsCountWindow)
 all_sprites.add(StepsCountWindow)
-StepsCountWindow.Count = 5326
+StepsCountWindow.Count = 0
+
+Ferhulst = Regions.Ferhulst([230, 230], [123, 132])
+#animals_sprites.add(Ferhulst)
+all_sprites.add(Ferhulst)
+Ferhulst.Number = 0
+Ferhulst.Max = 100
+Ferhulst.A = 0.0000167
+Env.Elements.append(Ferhulst)
+Env.Alive.append(Ferhulst)
 
 Region = Regions.Region([23, 23], [100, 100])
-interface_sprites.add(Region)
+animals_sprites.add(Ferhulst)
+all_sprites.add(Ferhulst)
+Ferhulst.Number = 23
+Ferhulst.Max = 100
+Ferhulst.A = 0.0000167
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+
+Region = Regions.Ferhulst([500, 500], [100, 100])
+Region.A =0.0000167
+Region.Max =  100
+Region.Number = 100
+animals_sprites.add(Region)
 all_sprites.add(Region)
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+
+
+Region = Regions.GrassRegion([300, 500], [100, 100])
+Region.Number = 10000
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+animals_sprites.add(Region)
+all_sprites.add(Region) 
+Region = Regions.GrassRegion([400, 500], [100, 100])
+Region.Number = 10000
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+animals_sprites.add(Region)
+all_sprites.add(Region)
+Region = Regions.GrassRegion([100, 500], [100, 100])
+Region.Number = 10000
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+animals_sprites.add(Region)
+all_sprites.add(Region)
+Region = Regions.GrassRegion([600, 500], [100, 100])
+Region.Number = 10000
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+animals_sprites.add(Region)
+all_sprites.add(Region)
+Region = Regions.GrassRegion([700, 500], [100, 100])
+Region.Number = 10000
+Env.Elements.append(Region)
+Env.Alive.append(Region)
+animals_sprites.add(Region)
+all_sprites.add(Region)
+
+
 
 AliveCount = ProgramInterface.AliveCountWindow()
 AliveCount.Show = True
@@ -227,18 +308,21 @@ BiomassCount = ProgramInterface.BiomassCount()
 interface_sprites.add(BiomassCount)
 all_sprites.add(BiomassCount)
 
-BiomassCountAnimal = ProgramInterface.BiomassCountAnimal()
-interface_sprites.add(BiomassCountAnimal)
-all_sprites.add(BiomassCountAnimal)
-
-BiomassCountPlants = ProgramInterface.BiomassCountPlants()
-interface_sprites.add(BiomassCountPlants)
-all_sprites.add(BiomassCountPlants)
+Buttons = ProgramInterface.Clickable()  
 
 Button = ProgramInterface.Button(np.array([300,10]), np.array([100,40]))
-Button.Text = "Нажми меня!"
+Button.Text = "Пауза"
+Button.Click = SetPause
+Buttons.add(Button)
 interface_sprites.add(Button)
 all_sprites.add(Button)
+
+ExitButton = ProgramInterface.Button(np.array([monitor_info.current_w - 50, monitor_info.current_h - 50]), np.array([40,40]))
+ExitButton.Text = "X"
+ExitButton.Click = CloseWindow
+Buttons.add(ExitButton)
+interface_sprites.add(ExitButton)
+all_sprites.add(ExitButton)
 
 running = True
 interface = True
@@ -247,17 +331,23 @@ pause = False
 steps = 0
 
 while running:
+    StartTime = time.process_time_ns()/1000000
     # Ограничение FPS
     clock.tick(FPS)
     biomas = 0.
     anim_biomass = 0.
     plants_biomass = 0.
+    all_animals = 0
+    all_plants = 0
+    wolves = 0
+    rabbits = 0
+    turtles = 0
 
     # Ввод процесса (события)
     for event in pygame.event.get():
         # проверить закрытие окна
         if event.type == pygame.QUIT:
-            running = False
+            CloseWindow()
 
         # Проверка нажатия кнопки
         if event.type == pygame.KEYDOWN:
@@ -272,24 +362,16 @@ while running:
 
             # Проверяем кнопку P для паузы в симуляции
             if event.key == pygame.K_p:
-                pause = not pause
-                Pause.Show = pause
-
-    #            if event.key == pygame.K_t:
-    #                CreateTurtle(23., 32., 0., 0.)
-    #            if event.key == pygame.K_f:
-    #                CreateFox(32., 23., 0., 0.)
-    #            if event.key == pygame.K_b:
-    #                CreateBeast(40., 15., 0., 0.)
+                SetPause()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            Button.MouseDown(event.pos)
+            Buttons.MouseDown(event.pos)
 
         if event.type == pygame.MOUSEBUTTONUP:
-            Button.MouseUp(event.pos)
+            Buttons.MouseUp(event.pos)
 
         if event.type == pygame.MOUSEMOTION:
-            Button.MouseMotion(event.pos)
+            Buttons.MouseMove(event.pos)
 
     # Обновление
 
@@ -298,6 +380,11 @@ while running:
     else:
         all_sprites.update()
         StepsCountWindow.Count += 1
+        all_animals = list(filter(lambda x: x.IsPlant == False, Env.Alive))
+        all_plants = list(filter(lambda x: x.IsPlant == True, Env.Alive))
+        wolves = list(filter(lambda x: x.IsPlant == False and x.__class__.__name__ == "Wolf", Env.Alive))
+        rabbits = list(filter(lambda x: x.IsPlant == False and x.__class__.__name__ == "Bunny", Env.Alive))
+        turtles = list(filter(lambda x: x.IsPlant == False and x.__class__.__name__ == "Turtle", Env.Alive))
         for x in Env.Alive:
             biomas += x.Biomass
             if str(type(x)) in ["<class 'Animals.Beast'>","<class 'Animals.Turtle'>","<class 'Animals.Fox'>","<class 'Animals.Wolf'>","<class 'Animals.Chameleon'>","<class 'Animals.Bunny'>"]:
@@ -305,12 +392,18 @@ while running:
             if str(type(x)) == "<class 'Plants.Grass'>":
                 plants_biomass+=x.Biomass
         BiomassCount.All_Bio_Count = biomas
-        BiomassCountAnimal.Animal_Bio_Count = anim_biomass
-        BiomassCountPlants.Plants_Bio_Count = plants_biomass
+        BiomassCount.Animal_Bio_Count = anim_biomass
+        BiomassCount.Plants_Bio_Count = plants_biomass
+        BiomassCount.Refresh()
+
+        AliveCount.AnimalsCount = len(all_animals)
+        AliveCount.TurtlesCount = len(turtles)
+        AliveCount.PlantsCount = len(all_plants)
+        AliveCount.WolvesCount = len(wolves)
+        AliveCount.RabbitsCount = len(rabbits)
+        AliveCount.Refresh()
+
         
-        plants = filter(lambda x: x.IsPlant == True, Env.Alive)
-        plants1 = list(plants)
-        AliveCount.PlantsCount = len(plants1)
     #CreateGrass()
 
 
@@ -318,12 +411,12 @@ while running:
     screen.fill(0x00FF00)
     animals_sprites.draw(screen)
     plants_sprites.draw(screen)
-    if interface:
-        interface_sprites.draw(screen)
-        
-
-    # после отрисовки всего, переворачиваем экран
-    pygame.display.flip()
-    pass
-
-pygame.quit()
+    if interface: 
+        interface_sprites.draw(screen) 
+         
+         
+    # после отрисовки всего, переворачиваем экран 
+    pygame.display.flip() 
+ 
+pygame.quit() 
+ 
