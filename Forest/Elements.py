@@ -655,11 +655,8 @@ class Animal(Food):
 
     def Eat_From_Region(self, Region):
         if Region != None and Region.rect.colliderect(Region.rect):
-            if self.EatPerStep <= Region.Number:
-                Region.Number -= self.EatPerStep
-            if self.EatPerStep > Region.Number and Region.Number>0:
-                self.EcoSystem.Delete(Region)
-                Region.kill()
+            self.EcoSystem.Delete(Region)
+            Region.kill()
 
 
 class Plants(Food):

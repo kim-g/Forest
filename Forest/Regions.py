@@ -21,11 +21,16 @@ class Region(ProgramInterface.Window):
         self.height = size[1]
         self.x = position[0]
         self.y = position[1]
+        self.BiomassToEat = 0
         self._object_img = pygame.image.load(pathlib.Path(AnimalDir, "Bunny16x16.png")).convert_alpha()
         self.image.blit(self._object_img,((self.width - self._object_img.get_width()) / 2, (self.height - self._object_img.get_height()) / 2))
         self._isplant = True
-        self.square_area1 = 0
-        self.square_area2 = 0
+        self._square_area1 = 0
+        self._square_area2 = 0
+        self._percent_of_crossing_in_region1 = 0
+        self._percent_of_crossing_in_region2 = 0
+        self._crossnig = 0
+        self._eatperstep = 0
 
     @property
     def Max(self):
@@ -72,7 +77,21 @@ class Region(ProgramInterface.Window):
         except:
             print('Недопустимое значение Regions.A')
 
+    @property
+    def EatPerStep(self):
+        return self._eatperstep
+    @EatPerStep.setter
+    def EatPerStep(self,value: float):
+        try:
+            self._eatperstep = float(value)
+        except:
+            print('Недопустимое значение Regions.EatPerStep')
+
+
     def SetMax(self):
+        pass
+
+    def Eat(self):
         pass
 
     def Crossing_of_regions(self, Region):
@@ -86,17 +105,32 @@ class Region(ProgramInterface.Window):
         if (self._position[1] > Region._position[1]):
             MinTop = Region
             MaxTop = self
+            if (self._position[0] > Region._position[0]):
+                self._square_area1 = MaxLeft*MaxTop #у поедающего
+                self._square_area2 = MinLeft*MinTop #у съединного (Region)
+            else:
+                self._square_area1 = MaxLeft*MinTop #у поедающего
+                self._square_area2 = MinLeft*MaxTop #у съединного (Region)
         else:
             MinTop = self
             MaxTop = Region
-            self.square_area1 = MinLeft*MinTop
-            self.square_area2 = MaxLeft*MaxTop
-
+            if (self._position[0] > Region._position[0]):
+                self._square_area1 = MaxLeft*MinTop #у поедающего
+                self._square_area2 = MinLeft*MaxTop #у съединного (Region)
+            else:
+                self._square_area1 = MinLeft*MinTop #у поедающего
+                self._square_area2 = MaxLeft*MaxTop #у съединного (Region)
 
         width = MinLeft._size[0] - MaxLeft._position[0] + MinLeft._position[0]
         height = MinTop._size[1] - MaxLeft._position[1] + MinLeft._position[1]
-        Percent_in_square1 = round((width*height)/self.square_area1, 2)
-        Percent_in_square2 = round((width*height)/self.square_area2, 2)
+        self._crossnig = width*height
+        self._percent_of_crossing_in_region1 = round((self._crossnig)/self._square_area1, 2)  #у поедающего
+        self._percent_of_crossing_in_region2 = round((self._crossnig)/self._square_area2, 2)  #у съединного (Region)
+
+
+    def BiomassToEat(self):
+        self.BiomassToEat = self._percent_of_crossing_in_region1 * self.Number*self._eatperstep
+
 
     def Multiply(self):
         pass
@@ -112,8 +146,8 @@ class Region(ProgramInterface.Window):
 
     def update(self):
         self.SetMax()
-        self.Eat()
         self.Multiply()
+        self.Eat()
         self.Draw(self._size)
 
     @property
@@ -147,6 +181,25 @@ class Ferhulst(Region):
 
     def update(self):
         self.Multiply()
+
+class AnimalRegion(Ferhulst):
+    def Eat(self):
+        pass
+
+class Berry_bushes_Region(Ferhulst):
+    pass
+
+class Mosquitoes_Region(Ferhulst):
+    pass
+
+class Spiders_Region(Ferhulst):
+    pass
+
+class Fir_Region(Ferhulst):
+    pass
+
+class Vole_Region(Ferhulst):
+    pass
 
 class Region_Rabit(Ferhulst):
     def __init__(self, position, size):
